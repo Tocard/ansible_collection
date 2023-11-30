@@ -1,0 +1,38 @@
+---
+
+subspace_farmer_install_enabled: true
+subspace_farmer_binary_url: "{{ subspace_github_url }}/{{ subpsace_snapshot }}/subspace-farmer-{{ subspace_binary }}-{{ subpsace_snapshot}}"
+subspace_farmer_install_path: "{{ subspace_install_path }}/farmer"
+subspace_farmer_binary_path: "/usr/bin/{{ subspace_farmer_binary_name}}"
+
+
+subspace_farmer_binary_name: subspace_farmer
+subspace_farmer_logrotate_file: subspace_farmer
+subspace_farmer_templates:
+  - src: subspace_farmer.service.j2
+    dest: /etc/systemd/system/subspace_farmer.service
+    mode: "0640"
+  - src: subspace_farmer.j2
+    dest: "{{ subspace_logrotate_folder }}/{{ subspace_farmer_logrotate_file }}"
+subspace_farmer_log_file: farmer.log
+subspace_farmer_log_folder: /var/log/chimera/subspace_farmer
+subspace_farmer_wallet_adress: "{{ lookup('hashi_vault', hashi_subspace_path ~ '/wallet:moz ' ~ hashi_connect) }}"
+subspace_farmer_directories:
+  - path: "{{ subspace_farmer_install_path }}"
+  - path: "{{ subspace_farmer_log_folder }}"
+  - path: "{{ subspace_farmer_install_path }}/ssd"
+  - path: "{{ subspace_farmer_install_path }}/nvme"
+subpace_farmer_plot_size: 10g
+
+subspace_farmer_filesystem_list:
+  - lv: lv_subspace_farmer_log
+    vg: "{{ custom_vg_name }}"
+    size: 2g
+    path: "{{ subspace_farmer_log_folder }}"
+    owner: "{{ subspace_owner }}"
+    group: "{{ subspace_group }}"
+    mode: "0750"
+    fstype: xfs
+    force: false
+    shrink: false
+

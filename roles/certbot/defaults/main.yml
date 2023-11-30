@@ -1,0 +1,39 @@
+---
+certbot_owner: root
+certbot_group: certbot
+
+certbot_root_dir: /opt/certbot
+certbot_cred_path: "{{ certbot_root_dir }}/certbot.cred"
+
+certbot_force_renew: false
+certbot_clean_previous_install: false
+
+
+certbot_final_name_pattern: "{{ ansible_hostname }}"
+certbot_email_contact: contact@ether-source.fr
+certbot_main_domain: "{{ certbot_final_name_pattern }}.mythologic.fr"
+certbot_domain_to_claim:
+  - "{{ certbot_main_domain }}"
+  - "{{ certbot_final_name_pattern }}.ether-source.fr"
+
+
+certbot_directories:
+  - path: /opt/certbot
+
+certbot_templates:
+  - src: certbot.sh.j2
+    dest: "{{ certbot_root_dir }}/certbot.sh"
+  - src: certbot.cred.j2
+    dest: "{{ certbot_cred_path }}"
+
+certbot_credential: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/ovh ' ~ hashi_connect) }}"
+
+certbot_link_to_create:
+  - src: "/etc/letsencrypt/live/{{ certbot_main_domain }}/cert.pem"
+    dest: "/etc/ssl/certs/{{ certbot_final_name_pattern }}.cert.pem"
+  - src: "/etc/letsencrypt/live/{{ certbot_main_domain }}/chain.pem"
+    dest: "/etc/ssl/certs/{{ certbot_final_name_pattern }}.chain.pem"
+  - src: "/etc/letsencrypt/live/{{ certbot_main_domain }}/fullchain.pem"
+    dest: "/etc/ssl/certs/{{ certbot_final_name_pattern }}.fullchain.pem"
+  - src: "/etc/letsencrypt/live/{{ certbot_main_domain }}/privkey.pem"
+    dest: "/etc/ssl/certs/{{ certbot_final_name_pattern }}.privkey.pem"

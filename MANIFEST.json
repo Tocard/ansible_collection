@@ -1,0 +1,30 @@
+{
+ "collection_info": {
+  "namespace": "tocard",
+  "name": "utils",
+  "version": "1.0.17",
+  "authors": [
+   "Douceur <contact@ether-source.fr>"
+  ],
+  "readme": "README.md",
+  "tags": [],
+  "description": "just sharing code into the smart way",
+  "license": [
+   "GPL-2.0-or-later"
+  ],
+  "license_file": null,
+  "dependencies": {},
+  "repository": "http://example.com/repository",
+  "documentation": "http://docs.example.com",
+  "homepage": "http://example.com",
+  "issues": "http://example.com/issue/tracker"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "d3e7cb3b12243fdce4736fe9a0d00804ad3c56459967b84fe786c5c2025b91d2",
+  "format": 1
+ },
+ "format": 1
+}

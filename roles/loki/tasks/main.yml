@@ -1,0 +1,7 @@
+---
+- name: Install binaries for Loki
+  become: true
+  become_method: "{{ custom_become_method }}"
+  package:
+    name: "{{ loki_extra_package }}"
+    state: present

@@ -1,0 +1,10 @@
+---
+- name: Restart Promtail
+  become: true
+  become_method: "{{ custom_become_method }}"
+  systemd:
+    name: promtail
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: promtail_need_restart

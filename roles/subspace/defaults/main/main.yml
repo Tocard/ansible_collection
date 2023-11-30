@@ -1,0 +1,21 @@
+---
+
+subspace_owner: chimera
+subspace_group: chimera
+
+subspace_donwload_binary: true
+
+subspace_install_path: /opt/chimera
+subspace_github_url: https://github.com/subspace/subspace/releases/download
+subspace_chain_id: gemini-3g
+subpsace_snapshot: "{{ subspace_chain_id }}-2023-nov-21"
+subspace_binary: ubuntu-x86_64-skylake
+# subspace_binary: subspace-farmer-ubuntu-x86_64-v2
+
+subspace_logrotate_folder: /etc/logrotate.d
+
+
+subspace_extra_package:
+  - libgomp1
+  - nginx
+  - logrotate

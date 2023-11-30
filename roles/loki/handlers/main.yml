@@ -1,0 +1,20 @@
+---
+- name: Restart Subspace Node
+  become: true
+  become_method: "{{ custom_become_method }}"
+  systemd:
+    name: subspace_node
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: subspace_node_need_restart
+
+- name: Restart Subspace Farmer
+  become: true
+  become_method: "{{ custom_become_method }}"
+  systemd:
+    name: subspace_farmer
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: subspace_farmer_need_restart

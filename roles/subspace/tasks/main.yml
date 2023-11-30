@@ -1,0 +1,20 @@
+---
+
+- name: Install binaries for Subspace
+  become: true
+  become_method: "{{ custom_become_method }}"
+  package:
+    name: "{{ subspace_extra_package }}"
+    state: present
+
+- name: Run Node task
+  import_tasks: node.yml
+  when: subspace_node_install_enabled
+
+- name: Run Operator task
+  import_tasks: operator.yml
+  when: subspace_operator_install_enabled
+
+- name: Run Farmer task
+  import_tasks: farmer.yml
+  when: subspace_farmer_install_enabled

@@ -1,0 +1,10 @@
+---
+- name: Restart grafana
+  become: true
+  become_method: "{{ custom_become_method }}"
+  systemd:
+    name: grafana-server
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: grafana_need_restart

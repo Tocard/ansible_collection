@@ -1,0 +1,7 @@
+- job_name: babylon node
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: {{ ansible_hostname }}-node
+      __path__: {{ babylon_log_path }}/{{ babylon_log_file }}

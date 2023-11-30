@@ -1,0 +1,13 @@
+---
+promtail_owner: promtail
+promtail_group: promtail
+
+promtail_root_path: /opt/promtail
+promtail_log_path: /var/log/promtail
+promtail_directories:
+  - path: "{{ promtail_root_path }}"
+  - path: "{{ promtail_log_path }}"
+
+promtail_templates:
+  - src: config.yml.j2
+    dest: /etc/promtail/config.yml

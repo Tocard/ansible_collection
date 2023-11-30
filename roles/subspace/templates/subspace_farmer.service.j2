@@ -1,0 +1,19 @@
+
+[Unit]
+Description="subspace farmer"
+After=network-online.target
+
+[Service]
+User={{ subspace_owner}}
+Group={{ subspace_group }}
+WorkingDirectory={{ subspace_farmer_install_path }}/
+ExecStart={{ subspace_farmer_binary_name }} farm  --reward-address {{ subspace_farmer_wallet_adress }} path={{ subspace_farmer_install_path }}/ssd,size=800G path={{ subspace_farmer_install_path }}/nvme,size=900G
+StandardOutput=append:{{subspace_farmer_log_folder}}/{{ subspace_farmer_log_file }}
+StandardError=append:{{subspace_farmer_log_folder}}/{{ subspace_farmer_log_file }}
+LimitNOFILE=infinity
+
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

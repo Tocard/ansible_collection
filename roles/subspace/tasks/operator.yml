@@ -1,0 +1,39 @@
+---
+
+- name: Download Operator binary
+  become: true
+  become_method: "{{ custom_become_method }}"
+  ansible.builtin.get_url:
+    url: "{{ subspace_operator_binary_url }}"
+    dest: "{{ subspace_operator_binary_path }}"
+    owner: "{{ subspace_owner }}"
+    group: "{{ subspace_group }}"
+    mode: '0750'
+    force: true
+  notify:
+    - subspace_operator_need_restart
+  when: subspace_donwload_binary
+
+- name: Create operator directory
+  become: true
+  become_method: "{{ custom_become_method }}"
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(subspace_owner) }}"
+    group: "{{ item.group | default(subspace_group) }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+  loop: "{{ subspace_operator_directories }}"
+
+- name: Template Subspace operator file
+  become: true
+  become_method: "{{ custom_become_method }}"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(subspace_owner) }}"
+    group: "{{ item.group | default(subspace_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ subspace_operator_templates }}"
+  notify:
+    - subspace_operator_need_restart

@@ -1,0 +1,19 @@
+
+[Unit]
+Description="subspace node"
+After=network-online.target
+
+[Service]
+User={{ subspace_owner}}
+Group={{ subspace_group }}
+WorkingDirectory={{ subspace_node_install_path }}/
+ExecStart={{ subspace_node_binary_name }} --chain {{ subspace_chain_id }} --timekeeper  --timekeeper-cpu-cores 0-10 --no-private-ipv4 --validator --name {{ ansible_hostname }} --base-path {{ subspace_node_install_path }}/ --blocks-pruning archive --state-pruning archive --prometheus-external
+StandardOutput=append:{{subspace_node_log_folder}}/{{ subspace_node_log_file }}
+StandardError=append:{{subspace_node_log_folder}}/{{ subspace_node_log_file }}
+
+
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

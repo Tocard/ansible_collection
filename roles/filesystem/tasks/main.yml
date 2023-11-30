@@ -1,0 +1,36 @@
+---
+
+- name: Create the logical volume
+  become: true
+  become_method: "{{ custom_become_method }}"
+  lvol:
+    vg: "{{ item.vg }}"
+    lv: "{{ item.lv }}"
+    size: "{{ item.size }}"
+    shrink: "{{ item.shrink | default('false') }}"
+    force: "{{ item.force | default('false') }}"
+  loop: "{{ filesystem_list }}"
+  when: inventory_hostname not in groups["cyclops"]
+
+- name: Extend or format the fs
+  become: true
+  become_method: "{{ custom_become_method }}"
+  filesystem:
+    fstype: "{{ item.fstype }}"
+    dev: "/dev/{{ item.vg }}/{{ item.lv }}"
+    resizefs: "{{ item.resizefs | default('true') }}"
+    force: false
+  loop: "{{ filesystem_list }}"
+  when: inventory_hostname not in groups["cyclops"]
+
+- name: Mount the fs
+  become: true
+  become_method: "{{ custom_become_method }}"
+  mount:
+    name: "{{ item.path }}"
+    src: "/dev/{{ item.vg }}/{{ item.lv }}"
+    fstype: "{{ item.fstype }}"
+    opts: "{{ item.opts | default(omit) }}"
+    state: mounted
+  loop: "{{ filesystem_list }}"
+  when: inventory_hostname not in groups["cyclops"]

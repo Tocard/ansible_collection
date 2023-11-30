@@ -1,0 +1,39 @@
+---
+
+- name: Download Node binary
+  become: true
+  become_method: "{{ custom_become_method }}"
+  ansible.builtin.get_url:
+    url: "{{ subspace_node_binary_url }}"
+    dest: "{{ subspace_node_binary_path }}"
+    owner: "{{ subspace_owner }}"
+    group: "{{ subspace_group }}"
+    mode: '0750'
+    force: true
+  notify:
+    - subspace_node_need_restart
+  when: subspace_donwload_binary
+
+- name: Create node directory
+  become: true
+  become_method: "{{ custom_become_method }}"
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(subspace_owner) }}"
+    group: "{{ item.group | default(subspace_group) }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+  loop: "{{ subspace_node_directories }}"
+
+- name: Template Subspace Node file
+  become: true
+  become_method: "{{ custom_become_method }}"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(subspace_owner) }}"
+    group: "{{ item.group | default(subspace_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ subspace_node_templates }}"
+  notify:
+    - subspace_node_need_restart

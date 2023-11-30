@@ -1,0 +1,7 @@
+- job_name: streamr
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: {{ ansible_hostname }}
+      __path__: {{ streamr_log_path }}
