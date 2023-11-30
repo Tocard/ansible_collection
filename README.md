@@ -8,6 +8,6 @@ This collection provides utilities for who need simple ansible roles for simple 
 This is mainly oriented for
 
 - monitoring purpose
-- crypto nide installation
+- crypto node installation
 - utilities facility
 
