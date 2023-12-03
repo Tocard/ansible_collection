@@ -1,0 +1,45 @@
+galaxy_info:
+  author: Douceur
+  description: this role simply install streamr with npm
+
+  license: BSD-3-Clause
+
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: Fedora
+      versions:
+        - 37
+        - 38
+    - name: Ubuntu
+      versions:
+        - 22
+        - 23
+
+  galaxy_tags: ['streamr']
+
+dependencies:
+  - name: community.general
+    src: https://github.com/ansible-collections/community.general.git
+    version: "main"
+    scm: git
+
+  - name: tocard.utils.user
+    user_name: "{{ streamr_user }}"
+    user_group: "{{ streamr_group }}"
+
+  - name: tocard.utils.filesystem
+    filesystem_list: "{{ streamr_filesystem_list }}"
+    when: streamr_filesystem_enabled
+
+  - name: tocard.utils.metricbeat
+    when: streamr_supervision_enabled
+
+  - name: morgangraphics.nvm
+    src: morgangraphics.ansible_role_nvm
+    version: "v1.5.2"
+    become: true
+    become_user: "{{ streamr_user }}"
+    nodejs_version: "{{ streamr_nodejs_version}}"
+
+

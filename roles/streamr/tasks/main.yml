@@ -1,0 +1,37 @@
+---
+- name: Create streamr directories
+  become: true
+  become_method: "{{ streamr_sudo_method }}"
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(streamr_owner) }}"
+    group: "{{ item.group | default(streamr_group) }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+  loop: "{{ streamr_directories }}"
+
+- name: Template streamr file
+  become: true
+  become_method: "{{ streamr_sudo_method }}"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(streamr_owner) }}"
+    group: "{{ item.group | default(streamr_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ streamr_templates }}"
+  notify:
+    - streamr_need_restart
+
+- name: Install Streamr package
+  become_method: "{{ streamr_sudo_method }}"
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ streamr_package_list }}"
+
+- name: Install streamr-broker on target
+  community.general.npm:
+    name: streamr-broker
+    version: "{{ streamr_node_version }}"
+    path: "{{ streamr_npm_package_dir }}"

@@ -1,0 +1,20 @@
+{
+  "client": {
+    "network": {
+      "controlLayer": {
+        "websocketPortRange": {
+          "min": {{ streamr_node_port_min }},
+          "max": {{ streamr_node_port_max }}
+        }
+      }
+    },
+    "auth": {
+      "privateKey": "{{ streamr_node_priv_key }}"
+    }
+  },
+  "plugins": {
+    "operator": {
+      "operatorContractAddress": "{{ streamr_operator_contract_adress }}"
+    }
+  }
+}

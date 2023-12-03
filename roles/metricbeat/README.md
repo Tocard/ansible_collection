@@ -17,7 +17,11 @@ Role Variables
 Dependencies
 ------------
 
-None
+```
+dependencies:
+  - name: tocard.utils.filesystem
+    filesystem_list: "{{ metricbeat_filesystem_list }}"
+```
 
 Example Playbook
 ----------------
@@ -31,9 +35,7 @@ Example Playbook
   tags:
     - metricbeat
   roles:
-    - role: tocard.utils.filesystem
-      filesystem_list: "{{ metricbeat_filesystem_list }}"
-    - role: metricbeat
+    - role: tocard.utils.metricbeat
 
 
 

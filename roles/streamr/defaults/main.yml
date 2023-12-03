@@ -1,0 +1,72 @@
+---
+
+streamr_user: chimera
+streamr_group: chimera
+
+streamr_install_dir: /opt/chimera/streamr
+streamr_log_dir: /var/log/chimera
+streamr_npm_package_dir: "{{ streamr_install_dir }}/npm_package"
+
+streamr_run_script_name: run_streamr.sh
+streamr_install_script_name: run_streamr.sh
+streamr_log_filename_name: streamr.log
+
+
+streamr_exec_start_command: "sh {{ streamr_install_dir}}/{{ streamr_run_script_name }}"
+streamr_node_port_min: 32200
+streamr_node_port_max: 32200
+
+streamr_operator_contract_adress: 0x25f83066055bc49395ffa782325f1f19c59e1358
+streamr_node_priv_key: "{{ lookup('hashi_vault', hashi_streamr_path ~ '/streamr_node_privkey ' ~ hashi_connect) }}"
+
+streamr_node_version: v100.0.0-testnet-one.0
+
+streamr_directories:
+  - path: "{{ streamr_install_dir }}"
+  - path: "{{ streamr_log_dir }}"
+  - path: "{{ streamr_npm_package_dir }}"
+
+streamr_templates:
+  - src: default.json.j2
+    dest: "{{ streamr_install_dir }}/default.json"
+  - src: install_nodes.sh.j2
+    dest: "{{ streamr_install_dir }}/install_nodes.sh"
+  - src: run_node.sh.j2
+    dest: "{{ streamr_install_dir }}/run_node.sh"
+  - src: stream.services.j2
+    dest: /etc/systemd/system/streamr.service
+
+# some os need su or something else as sudo_method, but most os use sudo
+streamr_sudo_method: sudo
+
+streamr_filesystem_enabled: true
+streamr_virtual_group_name: data_virtual
+streamr_filesystem_list:
+  - lv: lv_streamr_data
+    vg: "{{ streamr_virtual_group_name }}"
+    size: 10G
+    path: "{{ streamr_install_dir }}"
+    owner: "{{ streamr_user }}"
+    group: "{{ streamr_group }}"
+    mode: "0750"
+    fstype: xfs
+    force: false
+    shrink: false
+  - lv: lv_streamr_log
+    vg: "{{ streamr_virtual_group_name }}"
+    size: 1G
+    path: "{{ streamr_log_dir }}"
+    owner: "{{ streamr_user }}"
+    group: "{{ streamr_group }}"
+    mode: "0750"
+    fstype: xfs
+    force: false
+    shrink: false
+
+streamr_package_list:
+  - git
+  - curl
+
+streamr_supervision_enabled: false
+
+streamr_nodejs_version: 20.10.0

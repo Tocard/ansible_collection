@@ -1,7 +1,7 @@
 ---
 - name: Create directory
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ metricbeat_custom_become_method }}"
   file:
     path: "{{ item.path }}"
     owner: "{{ item.owner | default(metricbeat_owner) }}"
@@ -12,7 +12,7 @@
 
 - name: Install binaries
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ metricbeat_custom_become_method }}"
   package:
     name: "metricbeat{{ metricbeat_version }}"
     state: "{{ metricbeat_install_mode }}"
@@ -21,7 +21,7 @@
 
 - name: Template config file
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ metricbeat_custom_become_method }}"
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -32,30 +32,11 @@
   notify:
     - metricbeat_need_restart
 
-- name: Template elasticsearch xpack
-  become: true
-  become_method: "{{ custom_become_method }}"
-  template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(metricbeat_owner) }}"
-    group: "{{ item.group | default(metricbeat_group) }}"
-    mode: "{{ item.mode | default('0640') }}"
-  loop: "{{ metricbeat_xpack_templates }}"
-  when: inventory_hostname in groups["cerberus"]
-  notify:
-    - metricbeat_need_restart
+- import_tasks: generic_ac.yml
+  when: metricbeat_use_generic_ac
 
-- name: Template centaur
-  become: true
-  become_method: "{{ custom_become_method }}"
-  template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(metricbeat_owner) }}"
-    group: "{{ item.group | default(metricbeat_group) }}"
-    mode: "{{ item.mode | default('0640') }}"
-  loop: "{{ metricbeat_centaur_templates }}"
-  when: inventory_hostname in groups["centaur"]
-  notify:
-    - metricbeat_need_restart
+- import_tasks: cerberus.yml
+  when: "cerberus in {{ groups }}"
+
+- import_tasks: centaur.yml
+  when: "centaur in {{ groups }}"

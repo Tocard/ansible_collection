@@ -1,0 +1,10 @@
+---
+- name: Restart StreamrNode
+  become: true
+  become_method: "{{ streamr_sudo_method }}"
+  systemd:
+    name: streamr
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: streamr_need_restart

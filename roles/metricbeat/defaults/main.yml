@@ -64,3 +64,6 @@ metricbeat_filesystem_list:
     shrink: false
 
 metricbeat_install_mode: latest
+metricbeat_custom_become_method: sudo
+
+metricbeat_use_generic_ac: false
