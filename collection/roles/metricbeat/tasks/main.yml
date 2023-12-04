@@ -1,0 +1,42 @@
+---
+- name: Create directory
+  become: true
+  become_method: "{{ metricbeat_custom_become_method }}"
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(metricbeat_owner) }}"
+    group: "{{ item.group | default(metricbeat_group) }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+  loop: "{{ metricbeat_custom_dirs }} "
+
+- name: Install binaries
+  become: true
+  become_method: "{{ metricbeat_custom_become_method }}"
+  package:
+    name: "metricbeat{{ metricbeat_version }}"
+    state: "{{ metricbeat_install_mode }}"
+  notify:
+    - metricbeat_need_restart
+
+- name: Template config file
+  become: true
+  become_method: "{{ metricbeat_custom_become_method }}"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(metricbeat_owner) }}"
+    group: "{{ item.group | default(metricbeat_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ metricbeat_custom_templates }}"
+  notify:
+    - metricbeat_need_restart
+
+- import_tasks: generic_ac.yml
+  when: metricbeat_use_generic_ac
+
+- import_tasks: cerberus.yml
+  when: "cerberus in {{ groups }}"
+
+- import_tasks: centaur.yml
+  when: "centaur in {{ groups }}"

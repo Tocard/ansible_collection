@@ -1,0 +1,12 @@
+---
+
+
+- name: Add Vault repository for CentOS
+  ansible.builtin.yum_repository:
+    name: hashicorp
+    description: HashiCorp Stable - $basearch
+    baseurl: "https://rpm.releases.hashicorp.com/{{ ansible_distribution_major_version }}/$basearch/stable/"
+    gpgcheck: true
+    gpgkey: "https://rpm.releases.hashicorp.com/hashicorp.gpg"
+    enabled: true
+
