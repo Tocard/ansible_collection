@@ -2,14 +2,14 @@
 
 - name: Create group certbot
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ certbot_custom_become_method }}"
   ansible.builtin.group:
     name: "{{ certbot_group }}"
     state: present
 
 - name: Create certbot directory
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ certbot_custom_become_method }}"
   file:
     path: "{{ item.path }}"
     owner: "{{ item.owner | default(certbot_owner) }}"
@@ -20,7 +20,7 @@
 
 - name: Template certbot files
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ certbot_custom_become_method }}"
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -31,7 +31,7 @@
 
 - name: Creates a cron file under /etc/cron.d to auto renew certificat
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ certbot_custom_become_method }}"
   ansible.builtin.cron:
     name: certbot auto renew
     weekday: "*"
@@ -43,7 +43,7 @@
 
 - name: Clean live cert
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ certbot_custom_become_method }}"
   ansible.builtin.file:
     path: /etc/letsencrypt/live/
     state: absent
@@ -51,20 +51,20 @@
 
 - name: Check if certbot has already been run at least once
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ certbot_custom_become_method }}"
   ansible.builtin.stat:
     path: "/etc/letsencrypt/live/{{ ansible_host }}/cert.pem"
   register: certbot_already_executed
 
 - name: Run at least once the shell script
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ certbot_custom_become_method }}"
   ansible.builtin.shell: "sh {{ certbot_root_dir }}/certbot.sh"
   when: not certbot_already_executed.stat.exists or certbot_force_renew
 
 - name: Create ssl symbolic link
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ certbot_custom_become_method }}"
   ansible.builtin.file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"

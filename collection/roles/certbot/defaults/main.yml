@@ -37,3 +37,5 @@ certbot_link_to_create:
     dest: "/etc/ssl/certs/{{ certbot_final_name_pattern }}.fullchain.pem"
   - src: "/etc/letsencrypt/live/{{ certbot_main_domain }}/privkey.pem"
     dest: "/etc/ssl/certs/{{ certbot_final_name_pattern }}.privkey.pem"
+
+certbot_custom_become_method: sudo
