@@ -18,10 +18,6 @@ Dependencies
 ------------
 ```yml
 dependencies:
-  - name: community.general
-    src: https://github.com/ansible-collections/community.general.git
-    version: "main"
-    scm: git
   - name: tocard.utils.user
   - name: tocard.utils.filesystem
   - name: morgangraphics.nvm

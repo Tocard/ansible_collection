@@ -19,11 +19,6 @@ galaxy_info:
   galaxy_tags: ['streamr']
 
 dependencies:
-  - name: community.general
-    src: https://github.com/ansible-collections/community.general.git
-    version: "main"
-    scm: git
-
   - name: tocard.utils.user
     user_name: "{{ streamr_user }}"
     user_group: "{{ streamr_group }}"
