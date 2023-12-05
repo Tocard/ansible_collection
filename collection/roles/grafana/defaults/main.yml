@@ -59,3 +59,5 @@ ssl_minimal_file:
   - src: "/etc/letsencrypt/live/{{ ansible_host }}/privkey.pem"
     dest: /etc/grafana/privkey.pem
     user: "{{ grafana_owner }}"
+
+grafana_custom_become_method: sudo

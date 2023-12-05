@@ -2,7 +2,7 @@
 
 - name: Create the logical volume
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ filesystem_custom_become_method }}"
   lvol:
     vg: "{{ item.vg }}"
     lv: "{{ item.lv }}"
@@ -14,7 +14,7 @@
 
 - name: Extend or format the fs
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ filesystem_custom_become_method }}"
   filesystem:
     fstype: "{{ item.fstype }}"
     dev: "/dev/{{ item.vg }}/{{ item.lv }}"
@@ -25,7 +25,7 @@
 
 - name: Mount the fs
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ filesystem_custom_become_method }}"
   mount:
     name: "{{ item.path }}"
     src: "/dev/{{ item.vg }}/{{ item.lv }}"
