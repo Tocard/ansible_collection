@@ -47,6 +47,5 @@
   community.general.npm:
     name: streamr-broker
     version: "{{ streamr_node_version }}"
-    path: "{{ streamr_npm_package_dir }}"
     executable: "/home/{{ streamr_user }}/.nvm/versions/node/v{{ streamr_nodejs_version }}/bin/npm"
   notify: streamr_need_restart
