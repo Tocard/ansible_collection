@@ -31,7 +31,7 @@ streamr_templates:
     dest: "{{ streamr_install_dir }}/default.json"
   - src: run_node.sh.j2
     dest: "{{ streamr_install_dir }}/run_node.sh"
-  - src: streamr.services.j2
+  - src: streamr.service.j2
     dest: /etc/systemd/system/streamr.service
 
 # some os need su or something else as sudo_method, but most os use sudo
