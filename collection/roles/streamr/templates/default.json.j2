@@ -9,12 +9,12 @@
       }
     },
     "auth": {
-      "privateKey": "{{ streamr_node_priv_key }}"
+      "privateKey": "{{ streamr_node_priv_key | str }}"
     }
   },
   "plugins": {
     "operator": {
-      "operatorContractAddress": "{{ streamr_operator_contract_adress }}"
+      "operatorContractAddress": "{{ streamr_operator_contract_adress | str }}"
     }
   }
 }
