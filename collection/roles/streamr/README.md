@@ -1,7 +1,7 @@
-StreamR Node
+Streamr Node
 =========
 
-Install StreamR on linux
+Install Streamr on linux
 
 Requirements
 ------------
