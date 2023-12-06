@@ -24,11 +24,22 @@
     - streamr_need_restart
 
 - name: Install Streamr package
+  become: true
   become_method: "{{ streamr_sudo_method }}"
   ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop: "{{ streamr_package_list }}"
+
+- name: Create a symbolic for node
+  become: true
+  become_method: "{{ streamr_sudo_method }}"
+  ansible.builtin.file:
+    src: "/home/{{ streamr_user }}/.nvm/versions/node/v{{ streamr_nodejs_version }}/bin/node"
+    dest: /usr/bin/node
+    owner: chimera
+    group: chimera
+    state: link
 
 - name: Install streamr-broker on target
   become: true
