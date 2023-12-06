@@ -2,9 +2,9 @@
 - name: Create streamr directories
   become: true
   become_method: "{{ streamr_sudo_method }}"
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(streamr_owner) }}"
+    owner: "{{ item.owner | default(streamr_user) }}"
     group: "{{ item.group | default(streamr_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
@@ -13,10 +13,10 @@
 - name: Template streamr file
   become: true
   become_method: "{{ streamr_sudo_method }}"
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(streamr_owner) }}"
+    owner: "{{ item.owner | default(streamr_user) }}"
     group: "{{ item.group | default(streamr_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ streamr_templates }}"
