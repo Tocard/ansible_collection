@@ -30,9 +30,7 @@ dependencies:
   - name: tocard.utils.metricbeat
     when: streamr_supervision_enabled
 
-  - name: morgangraphics.nvm
-    src: morgangraphics.ansible_role_nvm
-    version: "v1.5.2"
+  - name: morgangraphics.ansible_role_nvm
     become: true
     become_user: "{{ streamr_user }}"
     nodejs_version: "{{ streamr_nodejs_version}}"
