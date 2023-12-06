@@ -5,7 +5,6 @@ streamr_group: chimera
 
 streamr_install_dir: /opt/chimera/streamr
 streamr_log_dir: /var/log/chimera
-streamr_npm_package_dir: "{{ streamr_install_dir }}/npm_package"
 streamr_run_script_name: run_streamr.sh
 streamr_log_filename_name: streamr.log
 
@@ -22,7 +21,6 @@ streamr_node_version: v100.0.0-testnet-one.2
 streamr_directories:
   - path: "{{ streamr_install_dir }}"
   - path: "{{ streamr_log_dir }}"
-  - path: "{{ streamr_npm_package_dir }}"
 
 streamr_templates:
   - src: default.json.j2
