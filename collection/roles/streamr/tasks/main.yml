@@ -31,6 +31,8 @@
   loop: "{{ streamr_package_list }}"
 
 - name: Install streamr-broker on target
+  become: true
+  become_user: "{{ streamr_user }}"
   community.general.npm:
     name: streamr-broker
     version: "{{ streamr_node_version }}"
