@@ -2,7 +2,7 @@
 - name: Restart StreamrNode
   become: true
   become_method: "{{ streamr_sudo_method }}"
-  systemd:
+  ansible.builtin.systemd:
     name: streamr
     state: restarted
     enabled: true
