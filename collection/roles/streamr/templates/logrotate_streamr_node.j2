@@ -1,0 +1,10 @@
+{{ streamr_log_dir }}/{{ streamr_log_filename_name }} {
+    rotate 7
+    daily
+    missingok
+    notifempty
+    compress
+    delaycompress
+    create 644 chimera chimera
+    endscript
+}

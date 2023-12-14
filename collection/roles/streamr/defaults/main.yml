@@ -8,6 +8,8 @@ streamr_log_dir: /var/log/chimera
 streamr_run_script_name: run_streamr.sh
 streamr_log_filename_name: streamr.log
 
+streamr_logrotate_folder: /etc/logrotate.d
+
 
 streamr_exec_start_command: "sh {{ streamr_install_dir}}/{{ streamr_run_script_name }}"
 streamr_node_port_min: 32200
@@ -29,6 +31,8 @@ streamr_templates:
     dest: "{{ streamr_install_dir }}/{{ streamr_run_script_name}}"
   - src: streamr.service.j2
     dest: /etc/systemd/system/streamr.service
+  - src: logrotate_streamr_node.j2
+    dest: "{{ streamr_logrotate_folder }}/logrotate_streamr_node"
 
 # some os need su or something else as sudo_method, but most os use sudo
 streamr_sudo_method: sudo
