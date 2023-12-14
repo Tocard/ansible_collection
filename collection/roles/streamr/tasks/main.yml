@@ -39,6 +39,7 @@
     dest: /usr/bin/node
     owner: chimera
     group: chimera
+    force: true
     state: link
 
 - name: Install streamr-broker on target
