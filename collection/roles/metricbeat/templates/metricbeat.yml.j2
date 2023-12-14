@@ -29,7 +29,7 @@ setup.ilm.enabled: true
 
 # ---------------------------- Elasticsearch Output ----------------------------
 output.elasticsearch:
-  {% if metricbeat_use_generic_ac %}
+{% if metricbeat_use_generic_ac %}
   hosts: [ {{ free_metricbeat_elasticsearch_url }} ]
 {% else %}
   hosts: [ {{ metricbeat_elasticsearch_url }} ]
