@@ -1,0 +1,6 @@
+---
+
+- name: Add Vault repository for Debian
+  ansible.builtin.apt_repository:
+    repo: "deb https://apt.releases.hashicorp.com {{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+    state: present

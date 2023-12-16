@@ -1,0 +1,15 @@
+---
+
+- name: Template elasticsearch xpack
+  become: true
+  become_method: "{{ metricbeat_custom_become_method }}"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(metricbeat_owner) }}"
+    group: "{{ item.group | default(metricbeat_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ metricbeat_xpack_templates }}"
+  when: inventory_hostname in groups["cerberus"]
+  notify:
+    - metricbeat_need_restart

@@ -1,0 +1,48 @@
+---
+vault_package_list:
+  - "vault-{{ vault_version  }}"
+
+
+vault_version: 1.12.2
+vault_bind_adress: "0.0.0.0"
+vault_bind_port: 8200
+vault_ssl_full_chain_crt_path: /etc/vault.d/fullchain.pem
+vault_ssl_privkey_path: /etc/vault.d/privkey.pem
+
+vault_user: vault
+vault_group: vault
+
+vault_custom_templates:
+  - src: vault.hcl.j2
+    dest: /etc/vault.d/vault.hcl
+    mode: "0640"
+
+vault_ssl_enabled: true
+
+vault_path_data: /opt/vault/data
+
+vault_filesystem_list:
+  - lv: lv_vault_data
+    vg: "{{ custom_vg_name }}"
+    size: 5g
+    path: "{{ vault_path_data }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0750"
+    fstype: xfs
+    force: false
+    shrink: false
+
+ssl_minimal_file:
+  - src: "/etc/letsencrypt/live/{{ ansible_host }}/cert.pem"
+    dest: /etc/vault.d/cert.pem
+    user: vault
+  - src: "/etc/letsencrypt/live/{{ ansible_host }}/chain.pem"
+    dest: /etc/vault.d/chain.pem
+    user: vault
+  - src: "/etc/letsencrypt/live/{{ ansible_host }}/fullchain.pem"
+    dest: /etc/vault.d/fullchain.pem
+    user: vault
+  - src: "/etc/letsencrypt/live/{{ ansible_host }}/privkey.pem"
+    dest: /etc/vault.d/privkey.pem
+    user: vault

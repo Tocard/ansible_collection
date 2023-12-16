@@ -1,0 +1,10 @@
+---
+- name: Restart metricbeat
+  become: true
+  become_method: "{{ custom_become_method }}"
+  systemd:
+    name: metricbeat
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: metricbeat_need_restart

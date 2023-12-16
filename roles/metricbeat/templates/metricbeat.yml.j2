@@ -1,0 +1,57 @@
+###################### Metricbeat Configuration Example #######################
+
+# =========================== Modules configuration ============================
+
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: /var/log/metricbeat
+  name: metricbeat
+  keepfiles: 2
+  permissions: 0640
+  rotateeverybytes: 324288000
+
+metricbeat.config.modules:
+  # Glob pattern for configuration loading
+  path: ${path.config}/modules.d/*.yml
+
+  # Set to true to enable config reloading
+  reload.enabled: false
+
+# ======================= Elasticsearch templates setting =======================
+
+setup.template.settings:
+  index.number_of_shards: 1
+  index.codec: best_compression
+  #_source.enabled: false
+setup.ilm.enabled: true
+
+
+# ---------------------------- Elasticsearch Output ----------------------------
+output.elasticsearch:
+{% if metricbeat_use_generic_ac %}
+  hosts: [ {{ free_metricbeat_elasticsearch_url }} ]
+{% else %}
+  hosts: [ {{ metricbeat_elasticsearch_url }} ]
+{% endif %}
+  protocol: "https"
+
+{% if metricbeat_use_generic_ac %}
+  username: "{{ free_metricbeat_user }}"
+  password: "{{ free_metricbeat_password }}"
+{% else %}
+  username: "{{ metricbeat_user }}"
+  password: "{{ metricbeat_password }}"
+{% endif %}
+
+
+{% if metricbeat_use_generic_ac %}
+  ssl.certificate_authorities: [ "/etc/metricbeat/chain.pem" ]
+{% else %}
+  ssl.certificate_authorities: [ "/etc/letsencrypt/live/{{ ansible_host }}/fullchain.pem" ]
+{% endif %}
+  allow_older_versions: true
+
+{% if metricbeat_use_generic_ac %}
+{% else %}
+{% endif %}
