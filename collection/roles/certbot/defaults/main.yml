@@ -14,7 +14,6 @@ certbot_email_contact: contact@ether-source.fr
 certbot_main_domain: "{{ certbot_final_name_pattern }}.mythologic.fr"
 certbot_domain_to_claim:
   - "{{ certbot_main_domain }}"
-  - "{{ certbot_final_name_pattern }}.ether-source.fr"
 
 
 certbot_directories:
