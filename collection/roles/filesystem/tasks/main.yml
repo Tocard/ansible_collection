@@ -23,6 +23,17 @@
   loop: "{{ filesystem_list }}"
   when: inventory_hostname not in groups["cyclops"]
 
+- name: Create filesystem directory before mount
+  become: true
+  become_method: "{{ filesystem_custom_become_method }}"
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+  loop: "{{ filesystem_list }}"
+
 - name: Mount the fs
   become: true
   become_method: "{{ filesystem_custom_become_method }}"

@@ -1,2 +1,5 @@
 ---
+
+filesystem_list: []
 filesystem_custom_become_method: sudo
+
