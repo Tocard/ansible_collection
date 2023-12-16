@@ -1,0 +1,97 @@
+###################### Filebeat Configuration Example #########################
+
+# ============================== Filebeat inputs ===============================
+
+filebeat.inputs:
+- type: filestream
+  id: my-filestream-id
+  enabled: false
+  paths:
+    - /var/log/*.log
+
+# ============================== Filebeat modules ==============================
+
+filebeat.config.modules:
+  # Glob pattern for configuration loading
+  path: ${path.config}/modules.d/*.yml
+
+  # Set to true to enable config reloading
+  reload.enabled: false
+
+  # Period on which files under path should be checked for changes
+  #reload.period: 10s
+
+# ======================= Elasticsearch template setting =======================
+
+setup.template.settings:
+  index.number_of_shards: 2
+  index.codec: best_compression
+  #_source.enabled: false
+setup.ilm.enabled: true
+
+
+# ================================== General ===================================
+
+# The name of the shipper that publishes the network data. It can be used to group
+# all the transactions sent by a single shipper in the web interface.
+name: {{ ansible_hosntame }}
+
+# The tags of the shipper are included in their field with each
+# transaction published.
+#tags: ["service-X", "web-tier"]
+
+# Optional fields that you can specify to add additional information to the
+# output.
+#fields:
+#  env: staging
+
+
+
+# ---------------------------- Elasticsearch Output ----------------------------
+output.elasticsearch:
+{% if filebeat_use_generic_ac %}
+  hosts: [ {{ free_filebeat_elasticsearch_url }} ]
+{% else %}
+  hosts: [ {{ filebeat_elasticsearch_url }} ]
+{% endif %}
+  protocol: "https"
+
+{% if filebeat_use_generic_ac %}
+  username: "{{ free_filebeat_user }}"
+  password: "{{ free_filebeat_password }}"
+{% else %}
+  username: "{{ filebeat_user }}"
+  password: "{{ filebeat_password }}"
+{% endif %}
+
+
+{% if filebeat_use_generic_ac %}
+  ssl.certificate_authorities: [ "/etc/filebeat/chain.pem" ]
+{% else %}
+  ssl.certificate_authorities: [ "/etc/letsencrypt/live/{{ ansible_host }}/fullchain.pem" ]
+{% endif %}
+  allow_older_versions: true
+
+{% if filebeat_use_generic_ac %}
+{% else %}
+{% endif %}
+
+
+# ================================= Processors =================================
+processors:
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+
+
+# ================================== Logging ===================================
+
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: /var/log/filebeat
+  name: filebeat
+  keepfiles: 2
+  permissions: 0640
+  rotateeverybytes: 324288000
+
+

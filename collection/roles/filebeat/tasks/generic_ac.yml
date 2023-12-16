@@ -1,0 +1,11 @@
+---
+
+- name: Copy default ac to hosts
+  become: true
+  become_method: "{{ filebeat_custom_become_method }}"
+  ansible.builtin.copy:
+    src: chain.pem
+    dest: /etc/filebeat/chain.pem
+    owner: root
+    group: root
+    mode: '0644'

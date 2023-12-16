@@ -1,0 +1,43 @@
+---
+filebeat_version: ""
+
+filebeat_owner: root
+filebeat_group: root
+
+filebeat_user: filebeat
+filebeat_password: changeme
+
+filebeat_module_path: /etc/filebeat/modules.d
+
+filebeat_custom_templates:
+  - src: filebeat.yml.j2
+    dest: /etc/filebeat/filebeat.yml
+    owner: "{{ filebeat_owner }}"
+    group: "{{ filebeat_group }}"
+    mode: "0640"
+
+filebeat_log_dir: /var/log/filebeat
+
+filebeat_custom_dirs:
+  - path: "{{ filebeat_log_dir }}"
+    state: directory
+    owner: "{{ filebeat_owner }}"
+    group: "{{ filebeat_group }}"
+    mode: "0750"
+
+filebeat_filesystem_list:
+  - lv: lv_filebeat_log
+    vg: "{{ custom_vg_name }}"
+    size: 1g
+    path: "{{ filebeat_log_dir }}"
+    owner: "{{ filebeat_owner }}"
+    group: "{{ filebeat_group }}"
+    mode: "0750"
+    fstype: xfs
+    force: false
+    shrink: false
+
+filebeat_install_mode: latest
+filebeat_custom_become_method: sudo
+
+filebeat_use_generic_ac: false

@@ -1,0 +1,29 @@
+galaxy_info:
+  author: Douceur
+  description: this role simply install & configure filebeat
+  
+  license: BSD-3-Clause
+
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: Fedora
+      versions:
+        - 37
+        - 38
+    - name: Ubuntu
+      versions:
+        - 22
+        - 23
+    - name: Proxmox
+      versions:
+        - 7
+        - 8
+  
+  galaxy_tags: ['filebeat']
+
+dependencies:
+  - name: tocard.utils.filesystem
+    filesystem_list: "{{ filebeat_filesystem_list }}"
+
+

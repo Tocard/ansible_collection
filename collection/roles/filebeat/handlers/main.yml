@@ -1,0 +1,10 @@
+---
+- name: Restart filebeat
+  become: true
+  become_method: "{{ custom_become_method }}"
+  systemd:
+    name: filebeat
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: filebeat_need_restart
