@@ -1,5 +1,14 @@
 ---
 
+- name: Create Volume Group
+  become: true
+  become_method: "{{ filesystem_custom_become_method }}"
+  lvg:
+    vg: "{{ filesystem_volume_group_name }}"
+    pvs: "{{ filesystem_physical_volumes_list }}"
+    state: present
+  when: filesystem_volume_create_enabled
+
 - name: Create the logical volume
   become: true
   become_method: "{{ filesystem_custom_become_method }}"
@@ -10,18 +19,29 @@
     shrink: "{{ item.shrink | default('false') }}"
     force: "{{ item.force | default('false') }}"
   loop: "{{ filesystem_list }}"
-  when: inventory_hostname not in groups["cyclops"]
+  when: inventory_hostname not in groups["cyclops"] and item.vg is defined
 
-- name: Extend or format the fs
+- name: Extend or format the fs for volume group
   become: true
   become_method: "{{ filesystem_custom_become_method }}"
   filesystem:
-    fstype: "{{ item.fstype }}"
+    fstype: "{{ item.fstype | default('xfs') }}"
     dev: "/dev/{{ item.vg }}/{{ item.lv }}"
     resizefs: "{{ item.resizefs | default('true') }}"
     force: false
   loop: "{{ filesystem_list }}"
-  when: inventory_hostname not in groups["cyclops"]
+  when: inventory_hostname not in groups["cyclops"] and item.direct_mount is not defined
+
+- name: Extend or format the fs for raw mount
+  become: true
+  become_method: "{{ filesystem_custom_become_method }}"
+  filesystem:
+    fstype: "{{ item.fstype | default('xfs') }}"
+    dev: "/dev/{{ item.disk }}"
+    resizefs: "{{ item.resizefs | default('true') }}"
+    force: false
+  loop: "{{ filesystem_list }}"
+  when: item.direct_mount is defined and item.direct_mount
 
 - name: Create filesystem directory before mount
   become: true

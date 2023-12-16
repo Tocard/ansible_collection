@@ -1,5 +1,8 @@
 ---
-
 filesystem_list: []
 filesystem_custom_become_method: sudo
 
+filesystem_volume_create_enabled: false
+filesystem_volume_group_name: appli_vg
+filesystem_physical_volumes_list:
+  - /dev/sdb

@@ -31,10 +31,5 @@ subspace_farmer_filesystem_list:
     path: "{{ subspace_farmer_log_folder }}"
     owner: "{{ subspace_owner }}"
     group: "{{ subspace_group }}"
-    mode: "0750"
-    fstype: xfs
-    force: false
-    shrink: false
-
 
 subspace_farmer_node_rpc_url: ws://127.0.0.1:9944
