@@ -60,7 +60,7 @@
   mount:
     name: "{{ item.path }}"
     src: "/dev/{{ item.vg }}/{{ item.lv }}"
-    fstype: "{{ item.fstype }}"
+    fstype: "{{ item.fstype | default('xfs') }}"
     opts: "{{ item.opts | default(omit) }}"
     state: mounted
   loop: "{{ filesystem_list }}"
