@@ -1,0 +1,24 @@
+---
+
+- name: Extend or format the fs for raw mount
+  become: true
+  become_method: "{{ filesystem_custom_become_method }}"
+  filesystem:
+    fstype: "{{ item.fstype | default('xfs') }}"
+    dev: "/dev/{{ item.disk }}"
+    resizefs: "{{ item.resizefs | default('true') }}"
+    force: false
+  loop: "{{ filesystem_list }}"
+  when: item.direct_mount is defined and item.direct_mount
+
+- name: Mount the fs
+  become: true
+  become_method: "{{ filesystem_custom_become_method }}"
+  mount:
+    name: "{{ item.path }}"
+    src: "/dev/{{ item.disk }}"
+    fstype: "{{ item.fstype | default('xfs') }}"
+    opts: "{{ item.opts | default(omit) }}"
+    state: mounted
+  loop: "{{ filesystem_list }}"
+  when: item.direct_mount is defined and item.direct_mount
