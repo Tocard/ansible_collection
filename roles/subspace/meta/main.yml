@@ -40,4 +40,5 @@ dependencies:
     when: subspace_farmer_filesystem_enabled and subspace_farmer_install_enabled
 
   - name: tocard.utils.filebeat
-    when: subspace_filebeat_enabled
+    filebeat_log_path_to_watch: "{{ subspace_log_path_to_watch }}"
+    when: subspace_filebeat_enabled and subspace_log_path_to_watch is not []

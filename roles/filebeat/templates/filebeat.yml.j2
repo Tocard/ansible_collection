@@ -7,8 +7,9 @@ filebeat.inputs:
   id: my-filestream-id
   enabled: false
   paths:
-    - /var/log/*.log
-
+{% for path in filebeat_log_path_to_watch %}
+    - {{ path }}
+{% endfor %}
 # ============================== Filebeat modules ==============================
 
 filebeat.config.modules:
