@@ -22,5 +22,20 @@ galaxy_info:
   
   galaxy_tags: ['subspace']
 
-dependencies: []
+dependencies:
+  - name: tocard.utils.user
+    user_name: "{{ subspace_owner }}"
+    user_group: "{{ subspace_group }}"
+
+  - name: tocard.utils.filesystem
+    filesystem_list: "{{ subspace_node_filesystem_list }}"
+    when: subspace_node_filesystem_enabled
+
+  - name: tocard.utils.filesystem
+    filesystem_list: "{{ subspace_operator_filesystem_list }}"
+    when: subspace_operator_filesystem_enabled
+
+  - name: tocard.utils.filesystem
+    filesystem_list: "{{ subspace_farmer_filesystem_list }}"
+    when: subspace_farmer_filesystem_enabled
 

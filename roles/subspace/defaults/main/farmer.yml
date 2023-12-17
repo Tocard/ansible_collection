@@ -24,6 +24,7 @@ subspace_farmer_directories:
   - path: "{{ subspace_farmer_install_path }}/nvme"
 subpace_farmer_plot_size: 10g
 
+subspace_farmer_filesystem_enabled: true
 subspace_farmer_filesystem_list:
   - lv: lv_subspace_farmer_log
     vg: "{{ custom_vg_name }}"

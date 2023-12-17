@@ -17,6 +17,8 @@ subspace_operator_log_folder: /var/log/chimera/subspace_operator
 subspace_operator_directories:
   - path: "{{ subspace_operator_install_path }}"
   - path: "{{ subspace_operator_log_folder }}"
+
+subspace_operator_filesystem_enabled: true
 subspace_operator_filesystem_list:
   - lv: lv_chimera
     vg: "{{ custom_vg_name }}"

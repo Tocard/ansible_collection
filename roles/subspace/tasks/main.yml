@@ -2,7 +2,7 @@
 
 - name: Install binaries for Subspace
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ subspace_custom_become_method }}"
   package:
     name: "{{ subspace_extra_package }}"
     state: present

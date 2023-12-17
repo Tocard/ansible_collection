@@ -19,3 +19,5 @@ subspace_extra_package:
   - libgomp1
   - nginx
   - logrotate
+
+subspace_custom_become_method: sudo

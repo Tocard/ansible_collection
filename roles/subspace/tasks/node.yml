@@ -2,7 +2,7 @@
 
 - name: Download Node binary
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ subspace_custom_become_method }}"
   ansible.builtin.get_url:
     url: "{{ subspace_node_binary_url }}"
     dest: "{{ subspace_node_binary_path }}"
@@ -16,7 +16,7 @@
 
 - name: Create node directory
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ subspace_custom_become_method }}"
   file:
     path: "{{ item.path }}"
     owner: "{{ item.owner | default(subspace_owner) }}"
@@ -27,7 +27,7 @@
 
 - name: Template Subspace Node file
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ subspace_custom_become_method }}"
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"

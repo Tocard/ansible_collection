@@ -17,6 +17,8 @@ subspace_node_log_folder: /var/log/chimera/subspace_node
 subspace_node_directories:
   - path: "{{ subspace_node_install_path }}"
   - path: "{{ subspace_node_log_folder }}"
+
+subspace_node_filesystem_enabled: true
 subspace_node_filesystem_list:
   - lv: lv_chimera
     vg: "{{ custom_vg_name }}"
@@ -38,4 +40,5 @@ subspace_node_filesystem_list:
     fstype: xfs
     force: false
     shrink: false
+
 subspace_node_prometheus_port: 9615
