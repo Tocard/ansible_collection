@@ -41,4 +41,4 @@ dependencies:
 
   - name: tocard.utils.filebeat
     filebeat_log_path_to_watch: "{{ subspace_log_path_to_watch }}"
-    when: subspace_filebeat_enabled and subspace_log_path_to_watch is not []
+    when: subspace_filebeat_enabled and subspace_log_path_to_watch | length > 0
