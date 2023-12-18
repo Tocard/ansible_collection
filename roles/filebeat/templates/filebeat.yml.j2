@@ -5,7 +5,11 @@
 filebeat.inputs:
 - type: filestream
   id: my-filestream-id
+{% if filebeat_log_path_to_watch | length > 0 %}
+  enabled: true
+{% else %}
   enabled: false
+{% endif %}
   paths:
 {% for path in filebeat_log_path_to_watch %}
     - {{ path }}
@@ -93,6 +97,16 @@ logging.files:
   name: filebeat
   keepfiles: 2
   permissions: 0640
-  rotateeverybytes: 324288000
+  rotateeverybytes: 52428800  # 50 MB
+
+  # Rotate files with .log extension
+  rotateonstartup: false
+  extension: .log
+
+  # Enable file compression during rotation
+  compress: true
+
+  # Use rotation number as the extension
+  layout: '${[0-9]}'
 
 

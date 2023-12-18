@@ -2,6 +2,8 @@
 
 # =========================== Modules configuration ============================
 
+# ================================== Logging ===================================
+
 logging.level: info
 logging.to_files: true
 logging.files:
@@ -9,7 +11,17 @@ logging.files:
   name: metricbeat
   keepfiles: 2
   permissions: 0640
-  rotateeverybytes: 324288000
+  rotateeverybytes: 52428800  # 50 MB
+
+  # Rotate files with .log extension
+  rotateonstartup: false
+  extension: .log
+
+  # Enable file compression during rotation
+  compress: true
+
+  # Use rotation number as the extension
+  layout: '${[0-9]}'
 
 metricbeat.config.modules:
   # Glob pattern for configuration loading
