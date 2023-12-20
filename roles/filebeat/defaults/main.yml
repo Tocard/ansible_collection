@@ -41,3 +41,6 @@ filebeat_install_mode: latest
 filebeat_custom_become_method: sudo
 
 filebeat_use_generic_ac: false
+
+subspace_filebeat_enabled: false
+filebeat_log_path_to_watch: []

@@ -5,10 +5,15 @@
 filebeat.inputs:
 - type: filestream
   id: my-filestream-id
+{% if filebeat_log_path_to_watch | length > 0 %}
+  enabled: true
+{% else %}
   enabled: false
+{% endif %}
   paths:
-    - /var/log/*.log
-
+{% for path in filebeat_log_path_to_watch %}
+    - {{ path }}
+{% endfor %}
 # ============================== Filebeat modules ==============================
 
 filebeat.config.modules:
@@ -34,7 +39,7 @@ setup.ilm.enabled: true
 
 # The name of the shipper that publishes the network data. It can be used to group
 # all the transactions sent by a single shipper in the web interface.
-name: {{ ansible_hosntame }}
+name: {{ ansible_hostname }}
 
 # The tags of the shipper are included in their field with each
 # transaction published.
@@ -82,6 +87,23 @@ processors:
   - add_host_metadata:
       when.not.contains.tags: forwarded
 
+  # Extract timestamp from the log message
+  - dissect:
+      tokenizer: "[%{timestamp} %{+timestamp}] %{+timestamp} [%{log_level}] %{message}"
+      field: "message"
+      target_prefix: ""
+
+  # Parse the extracted timestamp into @timestamp
+  - date:
+      field: "timestamp"
+      target_field: "@timestamp"
+      formats:
+        - "ISO8601"
+      timezone: "UTC"
+      on_failure:
+        - drop_event: {}
+
+
 
 # ================================== Logging ===================================
 
@@ -92,6 +114,16 @@ logging.files:
   name: filebeat
   keepfiles: 2
   permissions: 0640
-  rotateeverybytes: 324288000
+  rotateeverybytes: 52428800  # 50 MB
+
+  # Rotate files with .log extension
+  rotateonstartup: false
+  extension: .log
+
+  # Enable file compression during rotation
+  compress: true
+
+  # Use rotation number as the extension
+  layout: '${[0-9]}'
 
 

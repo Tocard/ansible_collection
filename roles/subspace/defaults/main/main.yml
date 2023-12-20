@@ -21,3 +21,5 @@ subspace_extra_package:
   - logrotate
 
 subspace_custom_become_method: sudo
+
+subspace_log_path_to_watch: []

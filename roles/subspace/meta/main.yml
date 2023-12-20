@@ -7,18 +7,18 @@ galaxy_info:
   min_ansible_version: 2.9
 
   platforms:
-   - name: Fedora
-     versions:
-      - 37
-      - 38
-   - name: Ubuntu
-     versions:
-     - 22
-     - 23
-   - name: Proxmox
-     versions:
-     - 7
-     - 8
+    - name: Fedora
+      versions:
+        - 37
+        - 38
+    - name: Ubuntu
+      versions:
+        - 22
+        - 23
+    - name: Proxmox
+      versions:
+        - 7
+        - 8
   
   galaxy_tags: ['subspace']
 
@@ -29,13 +29,16 @@ dependencies:
 
   - name: tocard.utils.filesystem
     filesystem_list: "{{ subspace_node_filesystem_list }}"
-    when: subspace_node_filesystem_enabled
+    when: subspace_node_filesystem_enabled and subspace_node_install_enabled
 
   - name: tocard.utils.filesystem
     filesystem_list: "{{ subspace_operator_filesystem_list }}"
-    when: subspace_operator_filesystem_enabled
+    when: subspace_operator_filesystem_enabled and subspace_operator_install_enabled
 
   - name: tocard.utils.filesystem
     filesystem_list: "{{ subspace_farmer_filesystem_list }}"
-    when: subspace_farmer_filesystem_enabled
+    when: subspace_farmer_filesystem_enabled and subspace_farmer_install_enabled
 
+  - name: tocard.utils.filebeat
+    filebeat_log_path_to_watch: "{{ subspace_log_path_to_watch }}"
+    when: subspace_filebeat_enabled and subspace_log_path_to_watch | length > 0
