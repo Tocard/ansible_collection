@@ -70,3 +70,6 @@ streamr_package_list:
 streamr_supervision_enabled: false
 
 streamr_nodejs_version: 20.10.0
+
+streamr_serial_mode_enabled: false
+streamr_serial_sleep: 240

@@ -51,3 +51,9 @@
     global: true
     executable: "/home/{{ streamr_user }}/.nvm/versions/node/v{{ streamr_nodejs_version }}/bin/npm"
   notify: streamr_need_restart
+
+- name: wait some time to ensure node is up
+  ansible.builtin.wait_for:
+    timeout: "{{ streamr_serial_sleep }}"
+  delegate_to: localhost
+  when: streamr_serial_mode_enabled
