@@ -19,7 +19,9 @@ ExecStart={{ subspace_node_binary_name }} \
     --state-pruning archive \
     --prometheus-external \
     --port {{ subspace_node_p2p_port }} \
-    --dsn-listen-on /ip4/0.0.0.0/udp/{{ subspace_node_dsn_port }}/quic-v1 /ip4/0.0.0.0/tcp/{{ subspace_node_dsn_port }}
+    --listen-addr /ip4/0.0.0.0/tcp/{{ subspace_node_p2p_port }} \
+    --dsn-listen-on /ip4/0.0.0.0/udp/{{ subspace_node_dsn_port }}/quic-v1 \
+    --dsn-listen-on /ip4/0.0.0.0/tcp/{{ subspace_node_dsn_port }}
 
 StandardOutput=append:{{subspace_node_log_folder}}/{{ subspace_node_log_file }}
 StandardError=append:{{subspace_node_log_folder}}/{{ subspace_node_log_file }}
