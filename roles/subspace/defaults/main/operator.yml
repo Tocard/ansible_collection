@@ -40,7 +40,7 @@ subspace_operator_filesystem_list:
     fstype: xfs
     force: false
     shrink: false
+
 subspace_operator_prometheus_port: 9615
 subspace_operator_p2p_port: 30333
 subspace_operator_dsn_port: 30433
-subspace_operator_farmer_port: 30533

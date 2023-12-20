@@ -34,3 +34,5 @@ subspace_farmer_filesystem_list:
     group: "{{ subspace_group }}"
 
 subspace_farmer_node_rpc_url: ws://127.0.0.1:9944
+
+subspace_farmer_port: 30533

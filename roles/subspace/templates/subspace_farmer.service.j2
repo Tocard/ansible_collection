@@ -7,10 +7,12 @@ After=network-online.target
 User={{ subspace_owner}}
 Group={{ subspace_group }}
 WorkingDirectory={{ subspace_farmer_install_path }}/
-ExecStart={{ subspace_farmer_binary_name }} farm --node-rpc-url {{ subspace_farmer_node_rpc_url }} \
+ExecStart={{ subspace_farmer_binary_name }} farm \
+    --node-rpc-url {{ subspace_farmer_node_rpc_url }} \
      {% for disk in subspace_farmer_disks %}{{ disk }} \
      {% endfor -%}
-    --reward-address {{ subspace_farmer_wallet_adress }}
+    --reward-address {{ subspace_farmer_wallet_adress }} \
+    --listen-on /ip4/0.0.0.0/udp/{{ subspace_farmer_port }}/quic-v1 /ip4/0.0.0.0/tcp/{{ subspace_farmer_port }}
 
 StandardOutput=append:{{subspace_farmer_log_folder}}/{{ subspace_farmer_log_file }}
 StandardError=append:{{subspace_farmer_log_folder}}/{{ subspace_farmer_log_file }}

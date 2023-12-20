@@ -42,3 +42,6 @@ subspace_node_filesystem_list:
     shrink: false
 
 subspace_node_prometheus_port: 9615
+
+subspace_node_p2p_port: 30333
+subspace_node_dsn_port: 30433

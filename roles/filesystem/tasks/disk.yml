@@ -1,6 +1,6 @@
 ---
 
-- name: Extend or format the fs for raw mount
+- name: Extend or format the fs for whole disk
   become: true
   become_method: "{{ filesystem_custom_become_method }}"
   filesystem:
