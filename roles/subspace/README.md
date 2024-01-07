@@ -1,4 +1,4 @@
-Subsoace
+Subspace
 =========
 
 Install subspace on linux
