@@ -1,13 +1,5 @@
 ---
 
-- name: Install Streamr requiered packages
-  become: true
-  become_method: "{{ custom_become_method }}"
-  ansible.builtin.package:
-    name: "{{ item }}"
-    state: present
-  loop: "{{ streamr_requiered_packages }}"
-
 - name: Create streamr directories
   become: true
   become_method: "{{ streamr_sudo_method }}"

@@ -28,7 +28,10 @@ dependencies:
     when: streamr_filesystem_enabled
 
   - name: tocard.utils.metricbeat
-    when: streamr_supervision_enabled
+    when: streamr_supervision_metric_enabled
+
+  - name: tocard.utils.filebeat
+    when: streamr_supervision__logenabled
 
   - name: morgangraphics.ansible_role_nvm
     become: true

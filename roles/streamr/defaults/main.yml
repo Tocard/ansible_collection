@@ -66,13 +66,12 @@ streamr_filesystem_list:
 streamr_package_list:
   - git
   - curl
+  - acl
 
-streamr_supervision_enabled: false
+streamr_supervision_metric_enabled: false
+streamr_supervision_log_enabled: false
 
 streamr_nodejs_version: 20.10.0
 
 streamr_serial_mode_enabled: false
 streamr_serial_sleep: 240
-
-streamr_requiered_packages:
-  - acl
