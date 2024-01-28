@@ -32,5 +32,18 @@
   notify:
     - filebeat_need_restart
 
+- name: Template input file
+  become: true
+  become_method: "{{ filebeat_custom_become_method }}"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(filebeat_owner) }}"
+    group: "{{ item.group | default(filebeat_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ filebeat_input_templates }}"
+  notify:
+    - filebeat_need_restart
+
 - import_tasks: generic_ac.yml
   when: filebeat_use_generic_ac

@@ -2,18 +2,10 @@
 
 # ============================== Filebeat inputs ===============================
 
-filebeat.inputs:
-- type: filestream
-  id: my-filestream-id
-{% if filebeat_log_path_to_watch | length > 0 %}
+filebeat.config.inputs:
   enabled: true
-{% else %}
-  enabled: false
-{% endif %}
-  paths:
-{% for path in filebeat_log_path_to_watch %}
-    - {{ path }}
-{% endfor %}
+  path: inputs.d/*.yml
+
 # ============================== Filebeat modules ==============================
 
 filebeat.config.modules:
@@ -80,30 +72,6 @@ output.elasticsearch:
 {% if filebeat_use_generic_ac %}
 {% else %}
 {% endif %}
-
-
-# ================================= Processors =================================
-processors:
-  - add_host_metadata:
-      when.not.contains.tags: forwarded
-
-  # Extract timestamp from the log message
-  - dissect:
-      tokenizer: "[%{timestamp} %{+timestamp}] %{+timestamp} [%{log_level}] %{message}"
-      field: "message"
-      target_prefix: ""
-
-  # Parse the extracted timestamp into @timestamp
-  - date:
-      field: "timestamp"
-      target_field: "@timestamp"
-      formats:
-        - "ISO8601"
-      timezone: "UTC"
-      on_failure:
-        - drop_event: {}
-
-
 
 # ================================== Logging ===================================
 

@@ -16,10 +16,19 @@ filebeat_custom_templates:
     group: "{{ filebeat_group }}"
     mode: "0640"
 
+filebeat_input_templates: []
+
 filebeat_log_dir: /var/log/filebeat
+filebeat_input_dir: /etc/filebeat/inputs.d
+
 
 filebeat_custom_dirs:
   - path: "{{ filebeat_log_dir }}"
+    state: directory
+    owner: "{{ filebeat_owner }}"
+    group: "{{ filebeat_group }}"
+    mode: "0750"
+  - path: "{{ filebeat_input_dir }}"
     state: directory
     owner: "{{ filebeat_owner }}"
     group: "{{ filebeat_group }}"
