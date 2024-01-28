@@ -10,6 +10,8 @@
     state: "{{ item.state | default('directory') }}"
   loop: "{{ filebeat_custom_dirs }} "
 
+- ansible.builtin.import_tasks: gpg.yml
+
 - name: Install binaries
   become: true
   become_method: "{{ filebeat_custom_become_method }}"

@@ -1,0 +1,38 @@
+---
+- name: Import elastic gpg key
+  become: true
+  become_method: "{{ metricbeat_custom_become_method }}"
+  ansible.builtin.apt_key:
+    url: "{{ item }}"
+    state: present
+  loop: "{{ metricbeat_gpg_key }}"
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Add repo for elk
+  become: true
+  become_method: "{{ metricbeat_custom_become_method }}"
+  ansible.builtin.apt_repository:
+    repo: "deb {{ item }}"
+    state: present
+  loop: "{{ metricbeat_deb }}"
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Import gpg key
+  become: true
+  become_method: "{{ metricbeat_custom_become_method }}"
+  ansible.builtin.rpm_key:
+    state: present
+    key: "{{ item  }}"
+  loop: "{{ metricbeat_gpg_key }}"
+  when: ansible_distribution == 'Fedora'
+
+- name: Add custom yum repo
+  become: true
+  become_method: "{{ metricbeat_custom_become_method }}"
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+  loop: "{{ metricbeat_yum_repo }}"
+  when: ansible_distribution == 'Fedora'

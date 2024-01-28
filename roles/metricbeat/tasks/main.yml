@@ -10,6 +10,8 @@
     state: "{{ item.state | default('directory') }}"
   loop: "{{ metricbeat_custom_dirs }} "
 
+- ansible.builtin.import_tasks: gpg.yml
+
 - name: Install binaries
   become: true
   become_method: "{{ metricbeat_custom_become_method }}"

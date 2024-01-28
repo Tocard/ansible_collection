@@ -67,3 +67,14 @@ metricbeat_install_mode: latest
 metricbeat_custom_become_method: sudo
 
 metricbeat_use_generic_ac: false
+
+metricbeat_gpg_key:
+  - https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+metricbeat_yum_repo:
+  - src: elastic.repo
+    dest: /etc/yum.repos.d/elastic.repo
+
+metricbeat_deb:
+  - https://artifacts.elastic.co/packages/8.x/apt stable main
+
