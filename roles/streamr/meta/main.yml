@@ -31,6 +31,8 @@ dependencies:
     when: streamr_supervision_metric_enabled
 
   - name: tocard.utils.filebeat
+    filebeat_input_templates:
+      - src: filebeat_input.yml.j2
     when: streamr_supervision_log_enabled
 
   - name: morgangraphics.ansible_role_nvm

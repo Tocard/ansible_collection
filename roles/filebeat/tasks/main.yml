@@ -37,7 +37,7 @@
   become_method: "{{ filebeat_custom_become_method }}"
   template:
     src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    dest: "{{ filebeat_input_dir }}/ {{ item.src }}"
     owner: "{{ item.owner | default(filebeat_owner) }}"
     group: "{{ item.group | default(filebeat_group) }}"
     mode: "{{ item.mode | default('0640') }}"

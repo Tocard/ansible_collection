@@ -1,0 +1,8 @@
+---
+- type: log
+  paths:
+    - {{ streamr_log_dir }}/{{ streamr_log_filename_name }}
+  scan_frequency: 10s
+  json.keys_under_root: true
+  json.add_error_key: true
+
