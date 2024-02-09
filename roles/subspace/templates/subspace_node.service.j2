@@ -7,18 +7,15 @@ After=network-online.target
 User={{ subspace_owner}}
 Group={{ subspace_group }}
 WorkingDirectory={{ subspace_node_install_path }}/
-ExecStart={{ subspace_node_binary_name }} \
+ExecStart={{ subspace_node_binary_name }} run \
     --chain {{ subspace_chain_id }} \
     --timekeeper \
     --timekeeper-cpu-cores 0-10 \
-    --no-private-ipv4 \
-    --validator \
     --name {{ ansible_hostname }} \
     --base-path {{ subspace_node_install_path }}/ \
     --blocks-pruning archive \
     --state-pruning archive \
-    --prometheus-external \
-    --listen-addr /ip4/0.0.0.0/tcp/{{ subspace_node_p2p_port }} \
+    --listen-on /ip4/0.0.0.0/tcp/{{ subspace_node_p2p_port }} \
     --dsn-listen-on /ip4/0.0.0.0/udp/{{ subspace_node_dsn_port }}/quic-v1 \
     --dsn-listen-on /ip4/0.0.0.0/tcp/{{ subspace_node_dsn_port }}
 
