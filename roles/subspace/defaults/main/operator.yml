@@ -2,7 +2,7 @@
 
 subspace_operator_install_enabled: true
 subspace_operator_install_path: "{{ subspace_install_path }}/node"
-subspace_operator_binary_url: "{{ subspace_github_url }}/{{ subpsace_snapshot }}/subspace-node-{{ subspace_binary }}-{{ subpsace_snapshot}}"
+subspace_operator_binary_url: "{{ subspace_github_url }}/{{ subspace_snapshot }}/subspace-node-{{ subspace_binary }}-{{ subspace_snapshot}}"
 subspace_operator_binary_path: "/usr/bin/{{ subspace_operator_binary_name}}"
 subspace_operator_binary_name: subspace_operator
 subspace_operator_logrotate_file: subspace_operator

@@ -8,6 +8,7 @@ User={{ subspace_owner}}
 Group={{ subspace_group }}
 WorkingDirectory={{ subspace_node_install_path }}/
 ExecStart={{ subspace_node_binary_name }} run \
+    --farmer \
     --chain {{ subspace_chain_id }} \
     --timekeeper \
     --timekeeper-cpu-cores 0-10 \
