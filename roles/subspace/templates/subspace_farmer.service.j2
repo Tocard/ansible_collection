@@ -12,7 +12,8 @@ ExecStart={{ subspace_farmer_binary_name }} farm \
      {% for disk in subspace_farmer_disks %}{{ disk }} \
      {% endfor -%}
     --reward-address {{ subspace_farmer_wallet_adress }} \
-    --listen-on /ip4/0.0.0.0/tcp/{{ subspace_farmer_port }}
+    --listen-on /ip4/0.0.0.0/tcp/{{ subspace_farmer_port }} \
+    --prometheus-listen-on 127.0.0.1:9081
 
 StandardOutput=append:{{subspace_farmer_log_folder}}/{{ subspace_farmer_log_file }}
 StandardError=append:{{subspace_farmer_log_folder}}/{{ subspace_farmer_log_file }}

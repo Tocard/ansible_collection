@@ -19,6 +19,7 @@ ExecStart={{ subspace_node_binary_name }} run \
     --listen-on /ip4/0.0.0.0/tcp/{{ subspace_node_p2p_port }} \
     --dsn-listen-on /ip4/0.0.0.0/udp/{{ subspace_node_dsn_port }}/quic-v1 \
     --dsn-listen-on /ip4/0.0.0.0/tcp/{{ subspace_node_dsn_port }}
+    --prometheus-listen-on 127.0.0.1:9080 \
 
 StandardOutput=append:{{subspace_node_log_folder}}/{{ subspace_node_log_file }}
 StandardError=append:{{subspace_node_log_folder}}/{{ subspace_node_log_file }}
