@@ -1,7 +1,7 @@
-Loki
+prometheus
 =========
 
-Install Loki on linux
+Install Prometheus on linux
 
 Requirements
 ------------
@@ -26,16 +26,16 @@ Example Playbook
 ---
 ---
 #==================================================================
-# Loki
+# prometheus
 #==================================================================
 - hosts: gorgons
   roles:
     - role: tocard.utils.user
-      user_name: "{{ loki_owner }}"
-      user_group: "{{ loki_group }}"
-    - role: loki
+      user_name: "{{ prometheus_owner }}"
+      user_group: "{{ prometheus_group }}"
+    - role: prometheus
       tags:
-        - loki
+        - prometheus
 ```
 
 License

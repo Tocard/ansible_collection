@@ -1,6 +1,0 @@
----
-loki_owner: loki
-loki_group: loki
-
-loki_extra_package:
-  - loki

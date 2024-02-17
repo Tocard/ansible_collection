@@ -1,0 +1,49 @@
+---
+prometheus_owner: prometheus
+prometheus_group: prometheus
+
+prometheus_custom_become_method: sudo
+
+prometheus_github_url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version}}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+prometheus_version: 2.49.1
+
+prometheus_config_directory: /etc/prometheus
+prometheus_storage_directory: /var/lib/prometheus
+prometheus_log_directory: /var/log/prometheus
+
+prometheus_config_path: "{{ prometheus_config_directory }}/prometheus.yml"
+prometheus_binary_path: /usr/bin/prometheus
+prometheus_log_filename: prometheus.log
+prometheus_log_service_filename: prometheus_service.log
+
+prometheus_directories:
+  - path: "{{ prometheus_config_directory }}"
+  - path: "{{ prometheus_storage_directory }}"
+  - path: "{{ prometheus_log_directory }}"
+
+prometheus_templates:
+  - src: prometheus.yml.j2
+    dest: "{{ prometheus_config_path }}"
+  - src: prometheus.services.j2
+    dest: "{{ prometheus_config_directory }}/prometheus.service"
+
+prometheus_listen_address: ":8090"
+
+prometheus_filesystem_enabled: false
+prometheus_virtual_group_name:
+
+prometheus_filesystem_log_size: 2G
+prometheus_filesystem_storage_size: 10g
+prometheus_filesystem_list:
+  - lv: lv_prometheus_storage
+    vg: "{{ prometheus_virtual_group_name }}"
+    size: "{{ prometheus_filesystem_storage_size }}"
+    path: "{{ prometheus_storage_directory }}"
+    owner: "{{ prometheus_owner }}"
+    group: "{{ prometheus_group }}"
+  - lv: lv_prometheus_log
+    vg: "{{ prometheus_virtual_group_name }}"
+    size: "{{ prometheus_filesystem_log_size}}"
+    path: "{{ prometheus_log_directory }}"
+    owner: "{{ prometheus_owner }}"
+    group: "{{ prometheus_group }}"

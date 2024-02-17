@@ -1,0 +1,21 @@
+[Unit]
+Description=Prometheus
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+ExecStart={{ prometheus_binary_path }} \
+    --config.file {{ prometheus_config_path }} \
+    --storage.tsdb.path {{ prometheus_storage_directory }} \
+    --web.listen-address="{{ prometheus_listen_address }}" \
+    --log.file={{ prometheus_log_directory }}/{{ prometheus_log_filename }}
+
+StandardOutput=append:{{ prometheus_log_directory }}/{{ prometheus_log_service_filename }}
+StandardError=append:{{ prometheus_log_directory }}/{{ prometheus_log_service_filename }}
+
+
+[Install]
+WantedBy=multi-user.target

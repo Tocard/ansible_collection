@@ -1,0 +1,35 @@
+galaxy_info:
+  author: Douceur
+  description: this role simply install & configure prometheus
+  
+  license: BSD-3-Clause
+
+  min_ansible_version: 2.9
+
+  platforms:
+   - name: Fedora
+     versions:
+      - 37
+      - 38
+   - name: Ubuntu
+     versions:
+     - 22
+     - 23
+   - name: Proxmox
+     versions:
+     - 7
+     - 8
+  
+  galaxy_tags: ['prometheus']
+
+dependencies:
+  - name: tocard.utils.user
+    user_name: "{{ prometheus_owner }}"
+    user_group: "{{ prometheus_group }}"
+    tags: ['user']
+
+  - name: tocard.utils.filesystem
+    filesystem_list: "{{ prometheus_filesystem_list }}"
+    when: prometheus_filesystem_enabled
+    tags: ['filesystem']
+

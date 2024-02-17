@@ -1,0 +1,11 @@
+---
+
+- name: Restart Prometheus
+  become: true
+  become_method: "{{ prometheus_custom_become_method }}"
+  systemd:
+    name: prometheus
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: prometheus_need_restart
