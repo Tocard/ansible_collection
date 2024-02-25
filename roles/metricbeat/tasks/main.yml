@@ -39,6 +39,3 @@
 
 - import_tasks: cerberus.yml
   when: "'cerberus' in groups"
-
-- import_tasks: centaur.yml
-  when: "'centaur' in groups"

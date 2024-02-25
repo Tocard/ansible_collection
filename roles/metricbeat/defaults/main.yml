@@ -28,13 +28,6 @@ metricbeat_xpack_templates:
     group: "{{ metricbeat_group }}"
     mode: "0640"
 
-metricbeat_centaur_templates:
-  - src: centaur.yml.j2
-    dest: "{{ metricbeat_module_path }}/chia.yml"
-    owner: "{{ metricbeat_owner }}"
-    group: "{{ metricbeat_group }}"
-    mode: "0640"
-
 metricbeat_hddtemp_templates:
   - src: hddtemp.yml.j2
     dest: "{{ metricbeat_module_path }}/hddtemp.yml"
