@@ -76,4 +76,10 @@ metricbeat_deb:
 metricbeat_cosmos_chain_name:
 metricbeat_cosmos_node_port:
 metricbeat_cosmos_node_host: localhost
-
+metricbeat_cosmos_node_enabled: false
+metricbeat_cosmos_template:
+  - src: cosmos.yml.j2
+    dest: "{{ metricbeat_module_path }}/cosmos.yml"
+    owner: "{{ metricbeat_owner }}"
+    group: "{{ metricbeat_group }}"
+    mode: "0640"

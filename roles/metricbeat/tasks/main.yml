@@ -39,3 +39,6 @@
 
 - import_tasks: cerberus.yml
   when: "'cerberus' in groups"
+
+- import_tasks: cosmos.yml
+  when: metricbeat_cosmos_node_enabled
