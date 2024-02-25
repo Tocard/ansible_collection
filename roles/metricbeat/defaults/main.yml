@@ -71,3 +71,9 @@ metricbeat_yum_repo:
 metricbeat_deb:
   - https://artifacts.elastic.co/packages/8.x/apt stable main
 
+
+
+metricbeat_cosmos_chain_name:
+metricbeat_cosmos_node_port:
+metricbeat_cosmos_node_host: localhost
+

@@ -1,0 +1,47 @@
+- module: http
+  metricsets:
+    - json
+  period: 10s
+  hosts: ["{{ metricbeat_cosmos_node_host }}:{{ metricbeat_cosmos_node_port }}"]
+  namespace: "{{ metricbeat_cosmos_chain_name }}_status"
+  setup:
+    template.name: "status"
+    template.pattern: "status-*"
+    data_stream.enabled: true
+  path: "/status"
+
+- module: http
+  metricsets:
+    - json
+  period: 10s
+  hosts: ["{{ metricbeat_cosmos_node_host }}:{{ metricbeat_cosmos_node_port }}"]
+  namespace: "{{ metricbeat_cosmos_chain_name }}_net_info"
+  setup:
+    template.name: "net_info"
+    template.pattern: "net_info-*"
+    data_stream.enabled: true
+  path: "/net_info"
+
+- module: http
+  metricsets:
+    - json
+  period: 2s
+  hosts: ["{{ metricbeat_cosmos_node_host }}:{{ metricbeat_cosmos_node_port }}"]
+  namespace: "{{ metricbeat_cosmos_chain_name }}_validators"
+  setup:
+    template.name: "validators"
+    template.pattern: "validators-*"
+    data_stream.enabled: true
+  path: "/validators"
+
+- module: http
+  metricsets:
+    - json
+  period: 2s
+  hosts: ["{{ metricbeat_cosmos_node_host }}:{{ metricbeat_cosmos_node_port }}"]
+  namespace: "{{ metricbeat_cosmos_chain_name }}_block"
+  setup:
+    template.name: "block"
+    template.pattern: "block-*"
+    data_stream.enabled: true
+  path: "/block"
