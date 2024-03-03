@@ -42,8 +42,3 @@ dependencies:
     filesystem_list: "{{ subspace_farmer_filesystem_list }}"
     when: subspace_farmer_filesystem_enabled and subspace_farmer_install_enabled
     tags: ['filesystem']
-
-  - name: tocard.utils.filebeat
-    filebeat_log_path_to_watch: "{{ subspace_log_path_to_watch }}"
-    when: subspace_filebeat_enabled and subspace_log_path_to_watch | length > 0
-    tags: ['filebeat']
