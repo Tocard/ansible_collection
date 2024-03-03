@@ -27,9 +27,6 @@ dependencies:
     filesystem_list: "{{ streamr_filesystem_list }}"
     when: streamr_filesystem_enabled
 
-  - name: tocard.utils.metricbeat
-    when: streamr_supervision_metric_enabled
-
   - name: morgangraphics.ansible_role_nvm
     become: true
     become_user: "{{ streamr_user }}"
