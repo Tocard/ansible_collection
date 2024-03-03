@@ -20,7 +20,7 @@ Role Variables
 streamr_operator_contract_adress: "0x25f83066055bc49395ffa782325f1f19c59e1358"
 streamr_node_priv_key: "0xreplace_with_your_own_key_but_consider_about_using_vault"
 
-streamr_node_version: v100.0.0-testnet-one.2
+streamr_node_version: v100.0.0-rc.0
 
 streamr_node_port_min: 32200 # change if you want to change port
 streamr_node_port_max: 32200
