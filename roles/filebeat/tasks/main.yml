@@ -2,7 +2,7 @@
 - name: Create directory
   become: true
   become_method: "{{ filebeat_custom_become_method }}"
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     owner: "{{ item.owner | default(filebeat_owner) }}"
     group: "{{ item.group | default(filebeat_group) }}"
@@ -15,7 +15,7 @@
 - name: Install binaries
   become: true
   become_method: "{{ filebeat_custom_become_method }}"
-  package:
+  ansible.builtin.package:
     name: "filebeat{{ filebeat_version }}"
     state: "{{ filebeat_install_mode }}"
   notify:
@@ -24,7 +24,7 @@
 - name: Template config file
   become: true
   become_method: "{{ filebeat_custom_become_method }}"
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ item.owner | default(filebeat_owner) }}"
@@ -37,7 +37,7 @@
 - name: Template input file
   become: true
   become_method: "{{ filebeat_custom_become_method }}"
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ filebeat_input_dir }}/{{ item.src | basename }}.yml"
     owner: "{{ item.owner | default(filebeat_owner) }}"
@@ -47,5 +47,5 @@
   notify:
     - filebeat_need_restart
 
-- import_tasks: generic_ac.yml
+- ansible.builtin.import_tasks: generic_ac.yml
   when: filebeat_use_generic_ac
