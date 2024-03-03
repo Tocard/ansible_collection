@@ -47,7 +47,7 @@
   become: true
   become_user: "{{ streamr_user }}"
   community.general.npm:
-    name: @streamr/node
+    name: "@streamr/node"
     version: "{{ streamr_node_version }}"
     global: true
     executable: "/home/{{ streamr_user }}/.nvm/versions/node/v{{ streamr_nodejs_version }}/bin/npm"
