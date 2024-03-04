@@ -43,7 +43,7 @@
     force: true
     state: link
 
-- name: Install streamr-broker on target
+- name: Install @streamr/node on target
   become: true
   become_user: "{{ streamr_user }}"
   community.general.npm:
