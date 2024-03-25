@@ -1,7 +1,7 @@
 Filesystem
 =========
 
-Install filesystem on linux
+This role will allow you to create filesystem with lvm or create filesystem for the whole disk.
 
 Requirements
 ------------
