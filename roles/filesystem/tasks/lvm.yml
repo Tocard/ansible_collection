@@ -21,7 +21,8 @@
   loop: "{{ filesystem_list }}"
   when:
     - item.vg is defined
-    - 'cyclops' in groups and inventory_hostname not in groups["cyclops"]
+    - not (inventory_hostname | match('.*cyclops.*'))
+
 
 - name: Extend or format the fs for volume group
   become: true
@@ -33,7 +34,7 @@
     force: false
   loop: "{{ filesystem_list }}"
   when:
-    - 'cyclops' in groups and inventory_hostname not in groups["cyclops"]
+    - not (inventory_hostname | match('.*cyclops.*'))
     - item.direct_mount is not defined
 
 - name: Mount the fs
@@ -47,5 +48,5 @@
     state: mounted
   loop: "{{ filesystem_list }}"
   when:
-    - 'cyclops' in groups and inventory_hostname not in groups["cyclops"]
+    - not (inventory_hostname | match('.*cyclops.*'))
     - item.direct_mount is not defined
