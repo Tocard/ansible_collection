@@ -19,7 +19,9 @@
     shrink: "{{ item.shrink | default('false') }}"
     force: "{{ item.force | default('false') }}"
   loop: "{{ filesystem_list }}"
-  when: inventory_hostname not in groups["cyclops"] and item.vg is defined
+  when:
+    - item.vg is defined
+    - 'cyclops' in groups and inventory_hostname not in groups["cyclops"]
 
 - name: Extend or format the fs for volume group
   become: true
@@ -30,7 +32,9 @@
     resizefs: "{{ item.resizefs | default('true') }}"
     force: false
   loop: "{{ filesystem_list }}"
-  when: inventory_hostname not in groups["cyclops"] and item.direct_mount is not defined
+  when:
+    - 'cyclops' in groups and inventory_hostname not in groups["cyclops"]
+    - item.direct_mount is not defined
 
 - name: Mount the fs
   become: true
@@ -42,4 +46,6 @@
     opts: "{{ item.opts | default(omit) }}"
     state: mounted
   loop: "{{ filesystem_list }}"
-  when: inventory_hostname not in groups["cyclops"] and item.direct_mount is not defined
+  when:
+    - 'cyclops' in groups and inventory_hostname not in groups["cyclops"]
+    - item.direct_mount is not defined
