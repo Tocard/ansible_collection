@@ -15,7 +15,7 @@ ExecStart={{ ternoa_node_binary_name }} \
     --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0' \
     --validator \
 {% if ternoa_prometheus_enabled %}
-    --prometheus-port {{ ternoa_prometheus_port }}
+    --prometheus-port {{ ternoa_prometheus_port }} \
 {% endif %}
     --state-pruning archive
 
