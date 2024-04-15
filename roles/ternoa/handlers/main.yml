@@ -3,7 +3,7 @@
   become: true
   become_method: "{{ ternoa_custom_become_method }}"
   ansible.builtin.systemd:
-    name: subspace_node
+    name: ternoa_node
     state: restarted
     enabled: true
     daemon_reload: true
