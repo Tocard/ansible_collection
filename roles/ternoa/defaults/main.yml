@@ -55,7 +55,7 @@ ternoa_extra_package:
 ternoa_custom_become_method: sudo
 
 ternoa_node_name: "{{ ansible_hostname }}"
-ternoa_node_chain: mainet
+ternoa_node_chain: mainnet
 ternoa_prometheus_enabled: true
 ternoa_prometheus_port: 9615
 
