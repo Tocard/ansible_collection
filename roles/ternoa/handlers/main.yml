@@ -1,0 +1,10 @@
+---
+- name: Restart Ternoa Node
+  become: true
+  become_method: "{{ ternoa_custom_become_method }}"
+  ansible.builtin.systemd:
+    name: subspace_node
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: ternoa_node_need_restart

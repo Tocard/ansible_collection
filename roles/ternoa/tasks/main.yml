@@ -1,0 +1,46 @@
+---
+
+- name: Install linux packages for ternoa
+  become: true
+  become_method: "{{ ternoa_custom_become_method }}"
+  ansible.builtin.package:
+    name: "{{ ternoa_extra_package }}"
+    state: present
+
+- name: Download Node binary
+  become: true
+  become_method: "{{ ternoa_custom_become_method }}"
+  ansible.builtin.get_url:
+    url: "{{ ternoa_node_binary_url }}"
+    dest: "{{ ternoa_node_binary_path }}"
+    owner: "{{ ternoa_owner }}"
+    group: "{{ ternoa_group }}"
+    mode: '0750'
+    force: true
+  notify:
+    - ternoa_node_need_restart
+  when: ternoa_donwload_binary
+
+- name: Create node directory
+  become: true
+  become_method: "{{ ternoa_custom_become_method }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(ternoa_owner) }}"
+    group: "{{ item.group | default(ternoa_group) }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+  loop: "{{ ternoa_node_directories }}"
+
+- name: Template ternoa Node file
+  become: true
+  become_method: "{{ ternoa_custom_become_method }}"
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(ternoa_owner) }}"
+    group: "{{ item.group | default(ternoa_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ ternoa_node_templates }}"
+  notify:
+    - ternoa_node_need_restart

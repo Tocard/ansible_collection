@@ -1,0 +1,61 @@
+---
+
+ternoa_owner: chimera
+ternoa_group: chimera
+
+ternoa_donwload_binary: true
+
+ternoa_github_url: https://github.com/capsule-corp-ternoa/ternoa-node/releases/download
+ternoa_node_binary_url: "{{ ternoa_github_url }}/v{{ ternoa_version }}/ternoa"
+ternoa_node_binary_path: "/usr/bin/{{ ternoa_node_binary_name}}"
+ternoa_node_binary_name: ternoa_node
+ternoa_version: 1.3.2
+
+ternoa_node_install_enabled: true
+ternoa_node_install_path: /opt/chimera/ternoa
+ternoa_node_log_folder: /var/log/chimera/ternoa_node
+ternoa_node_directories:
+  - path: "{{ ternoa_node_install_path }}"
+  - path: "{{ ternoa_node_log_folder }}"
+
+
+ternoa_logrotate_folder: /etc/logrotate.d
+ternoa_node_logrotate_file: ternoa_node
+ternoa_node_templates:
+  - src: ternoa_node.service.j2
+    dest: /etc/systemd/system/ternoa_node.service
+    mode: "0640"
+  - src: ternoa_node.j2
+    dest: "{{ ternoa_logrotate_folder }}/{{ ternoa_node_logrotate_file }}"
+ternoa_node_log_file: node.log
+
+ternoa_node_filesystem_enabled: true
+ternoa_lv_node_name: lv_ternoa_node
+ternoa_lv_node_size: 10g
+ternoa_lv_log_name: lv_ternoa_node_log
+ternoa_lv_log_size: 1g
+ternoa_vg_name: olympus
+ternoa_node_filesystem_list:
+  - lv: "{{ ternoa_lv_node_name }}"
+    vg: "{{ ternoa_vg_name }}"
+    size: "{{ ternoa_lv_node_size }}"
+    path: "{{ ternoa_node_install_path }}"
+    owner: "{{ ternoa_owner }}"
+    group: "{{ ternoa_group }}"
+  - lv: "{{ ternoa_lv_log_name }}"
+    vg: "{{ ternoa_vg_name }}"
+    size: "{{ ternoa_lv_log_size }}"
+    path: "{{ ternoa_node_log_folder }}"
+    owner: "{{ ternoa_owner }}"
+    group: "{{ ternoa_group }}"
+
+ternoa_extra_package:
+  - logrotate
+
+ternoa_custom_become_method: sudo
+
+ternoa_node_name: "{{ ansible_hostname }}"
+ternoa_node_chain: mainet
+ternoa_prometheus_enabled: true
+ternoa_prometheus_port: 9615
+

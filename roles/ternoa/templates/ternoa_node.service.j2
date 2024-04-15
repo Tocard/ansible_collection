@@ -1,0 +1,31 @@
+
+[Unit]
+Description="ternoa node"
+After=network-online.target
+
+[Service]
+User={{ ternoa_owner}}
+Group={{ ternoa_group }}
+WorkingDirectory={{ ternoa_node_install_path }}/
+ExecStart={{ ternoa_node_binary_name }} \
+    --name {{ ternoa_node_name }}
+    --chain {{ ternoa_node_chain }}
+    --base-path {{ ternoa_node_install_path }}
+    --ws-max-connections 1000 \
+    --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0' \
+    --validator \
+{% if ternoa_prometheus_enabled %}
+    --prometheus-port {{ ternoa_prometheus_port }}
+{% endif %}
+    --state-pruning archive
+
+
+StandardOutput=append:{{ ternoa_node_log_folder}}/{{ ternoa_node_log_file }}
+StandardError=append:{{ ternoa_node_log_folder}}/{{ ternoa_node_log_file }}
+
+
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
