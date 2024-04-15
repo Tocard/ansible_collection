@@ -8,9 +8,9 @@ User={{ ternoa_owner}}
 Group={{ ternoa_group }}
 WorkingDirectory={{ ternoa_node_install_path }}/
 ExecStart={{ ternoa_node_binary_name }} \
-    --name {{ ternoa_node_name }}
-    --chain {{ ternoa_node_chain }}
-    --base-path {{ ternoa_node_install_path }}
+    --name {{ ternoa_node_name }} \
+    --chain {{ ternoa_node_chain }} \
+    --base-path {{ ternoa_node_install_path }} \
     --ws-max-connections 1000 \
     --telemetry-url 'wss://telemetry.polkadot.io/submit/ 0' \
     --validator \
