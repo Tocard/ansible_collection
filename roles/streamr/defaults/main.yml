@@ -18,7 +18,7 @@ streamr_node_port_max: 32200
 streamr_operator_contract_adress: "0x25f83066055bc49395ffa782325f1f19c59e1358"
 streamr_node_priv_key: "{{ lookup('hashi_vault', hashi_streamr_path ~ '/streamr_node_privkey ' ~ hashi_connect) }}"
 
-streamr_node_version: 100.1.2
+streamr_node_version: 100.2.3
 
 streamr_directories:
   - path: "{{ streamr_install_dir }}"
