@@ -105,6 +105,7 @@ class VaultWrapper:
             data = self.client.secrets.kv.v2.read_secret_version(
                 path=self.path, mount_point=self.mount_point)
             secret = data["data"]["data"]
+            display.warning(secret)
             return secret
         except InvalidPath:
             display.warning("path {} does not exist yet".format(self.path))
@@ -164,7 +165,7 @@ class Freebox(VaultWrapper):
         resp = requests.post(endpoint, json=data)
         self.track_id = resp.json()['result']['track_id']
         secrets = self.read_path()
-        display.warning(secrets)
+        display.warning('{}'.format(secrets))
         self.check_if_app_is_ok(resp.json())
         if resp.status_code == 200:
             self.app_token = resp.json()['result']['app_token']
