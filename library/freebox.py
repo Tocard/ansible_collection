@@ -106,7 +106,7 @@ class VaultWrapper:
             display.warning(secret)
             return secret
         except InvalidPath:
-            display.warning("path {} does not exist yet".format(self.path))
+            display.warning("path {}/{} does not exist yet".format(self.mount_point, self.path))
             return {}
         except VaultError as e:
             display.warning("{}".format(e))
@@ -149,13 +149,13 @@ class Freebox(VaultWrapper):
             resp = requests.get(endpoint)
             status = resp.json()['result']['status']
 
-    def create_or_get_token(self) -> None:
+    def create_or_get_token(self):
         secrets = self.read_path()
         if 'token' in secrets:
             self.app_token = secrets['token']
-            return None
+            return
         elif self.app_token is not None:
-            return None
+            return
         endpoint = '{}/login/authorize/'.format(self.freebox_url)
         data = {
             'app_id': self.app_id,
@@ -182,6 +182,7 @@ class Freebox(VaultWrapper):
         self.challenge = resp.json()['result']['challenge']
 
     def create_session(self):
+        display.warning(self.app_token)
         token_bytes = bytes(self.app_token, 'latin-1')
         challenge_bytes = bytes(self.challenge, 'latin-1')
         password = hmac.new(token_bytes, challenge_bytes, hashlib.sha1).hexdigest()
