@@ -412,7 +412,7 @@ def run_module():
                      freebox_url=module.params['freebox_url'],
                      app_token=module.params['app_token'], username=module.params["vault_username"],
                      password=module.params["vault_password"],
-                     vault_addr=module.params["vault_url"], vault_mount_point=module.params["vault_url"],
+                     vault_addr=module.params["vault_url"], vault_mount_point=module.params["vault_mount_point"],
                      vault_path=module.params["vault_path"])
 
     client.create_or_get_token()
