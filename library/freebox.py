@@ -138,11 +138,6 @@ class Freebox(VaultWrapper):
         self.device_name = device_name
         self.freebox_url = freebox_url
 
-        app_token = None
-        challenge = None
-        session_token = None
-        track_id = None
-
         ##### AUTH #####
 
 
