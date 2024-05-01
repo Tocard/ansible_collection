@@ -77,15 +77,14 @@ RETURN = r'''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.utils.display import Display
 from ansible.errors import AnsibleError, AnsibleParserError
+from ansible.module_utils.common import yaml
 from hvac.exceptions import VaultError, InvalidPath, InvalidRequest
 
 import requests
-import yaml
 import hashlib
 import hmac
 import hvac
 import os
-import time
 
 display = Display()
 
