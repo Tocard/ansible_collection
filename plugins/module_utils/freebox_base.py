@@ -79,7 +79,6 @@ from hvac_wrapper import VaultWrapper
 import requests
 import hashlib
 import hmac
-import os
 
 display = Display()
 
