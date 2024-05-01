@@ -91,20 +91,18 @@ class VaultWrapper:
         self.password = password
         self.mount_point = vault_mount_point
         self.path = vault_path
-        self.client = self.init_hvac_client()
+        self.init_hvac_client()
+    client = None
 
     def init_hvac_client(self):
-        try:
-            self.client = hvac.Client(url=self.vault_addr)
-            self.client.auth.userpass.login(username=self.username, password=self.password)
-        except VaultError as e:
-            raise AnsibleError("Unable to init hvac client for address {}", self.vault_addr, e)
+        self.client = hvac.Client(url=self.vault_addr)
+        self.client.auth.userpass.login(username=self.username, password=self.password)
 
     def read_path(self) -> dict:
         try:
             data = self.client.secrets.kv.v2.read_secret_version(
                 path=self.path, mount_point=self.mount_point)
-            secret = data["data"]["data"]
+            secret = data['data']['data']
             display.warning(secret)
             return secret
         except InvalidPath:
@@ -142,8 +140,8 @@ class Freebox(VaultWrapper):
         ##### AUTH #####
 
 
-    def check_if_app_is_ok(self, track_id: int):
-        endpoint = '{}/login/authorize/{}'.format(self.freebox_url, track_id)
+    def check_if_app_is_ok(self):
+        endpoint = '{}/login/authorize/{}'.format(self.freebox_url, self.track_id)
         resp = requests.get(endpoint)
         status = resp.json()['result']['status']
         while status == 'pending':
@@ -166,7 +164,7 @@ class Freebox(VaultWrapper):
         self.track_id = resp.json()['result']['track_id']
         secrets = self.read_path()
         display.warning('{}'.format(secrets))
-        self.check_if_app_is_ok(resp.json())
+        self.check_if_app_is_ok()
         if resp.status_code == 200:
             self.app_token = resp.json()['result']['app_token']
             return None
@@ -200,7 +198,7 @@ class Freebox(VaultWrapper):
     def get_static_lease(self):
         endpoint = '{}/dhcp/static_lease/'.format(self.freebox_url)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.get(endpoint, headers=headers)
         lan = resp.json()['result']
@@ -209,18 +207,18 @@ class Freebox(VaultWrapper):
 
     def update_static_lease(self, mac: str, data: dict):
         # {
-        #     "comment": "",
-        #  "hostname": "Pc de r0ro",
-        #  "id": "00:DE:AD:B0:0B:55",
-        #  "host": {
+        #     'comment': '',
+        #  'hostname': 'Pc de r0ro',
+        #  'id': '00:DE:AD:B0:0B:55',
+        #  'host': {
         #      [...]
         #  },
-        #  "ip": "192.168.1.1"
+        #  'ip': '192.168.1.1'
         #
         #  }
         endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.put(endpoint, headers=headers, json=data)
         # TODO: end it
@@ -229,12 +227,12 @@ class Freebox(VaultWrapper):
 
     def create_static_lease(self, mac: str, data: dict):
         # {
-        #    "ip": "192.168.1.222",
-        #    "mac": "00:00:00:11:11:11"
+        #    'ip': '192.168.1.222',
+        #    'mac': '00:00:00:11:11:11'
         # }
         endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.post(endpoint, headers=headers, json=data)
         lease = resp.json()['result']
@@ -243,7 +241,7 @@ class Freebox(VaultWrapper):
     def delete_static_lease(self, mac: str):
         endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.delete(endpoint, headers=headers)
         # TODO: end it
@@ -253,7 +251,7 @@ class Freebox(VaultWrapper):
     def get_dynamic_lease(self):
         endpoint = '{}/dhcp/dynamic_lease/'.format(self.freebox_url)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.get(endpoint, headers=headers)
         lan = resp.json()['result']
@@ -264,7 +262,7 @@ class Freebox(VaultWrapper):
     def get_all_port_forwarding(self):
         endpoint = '{}/fw/redir/'.format(self.freebox_url)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.get(endpoint, headers=headers)
         ports = resp.json()['result']
@@ -273,7 +271,7 @@ class Freebox(VaultWrapper):
     def get_port_forwarding(self, port_id: int):
         endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.get(endpoint, headers=headers)
         port = resp.json()['result']
@@ -282,7 +280,7 @@ class Freebox(VaultWrapper):
     def update_port_forwarding(self, port_id: int):
         endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.get(endpoint, headers=headers)
         port = resp.json()['result']
@@ -291,7 +289,7 @@ class Freebox(VaultWrapper):
     def delete_port_forwarding(self, port_id: int):
         endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.delete(endpoint, headers=headers)
         port = resp.json()['result']
@@ -299,18 +297,18 @@ class Freebox(VaultWrapper):
 
     def create_port_forwarding(self, data: int):
         # {
-        #     "enabled": true,
-        #     "comment": "test",
-        #     "lan_port": 4242,
-        #     "wan_port_end": 4242,
-        #     "wan_port_start": 4242,
-        #     "lan_ip": "192.168.1.42",
-        #     "ip_proto": "tcp",
-        #     "src_ip": "0.0.0.0"
+        #     'enabled': true,
+        #     'comment': 'test',
+        #     'lan_port': 4242,
+        #     'wan_port_end': 4242,
+        #     'wan_port_start': 4242,
+        #     'lan_ip': '192.168.1.42',
+        #     'ip_proto': 'tcp',
+        #     'src_ip': '0.0.0.0'
         # }
         endpoint = '{}/fw/redir/'.format(self.freebox_url)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
 
         }
         resp = requests.post(endpoint, headers=headers)
@@ -322,7 +320,7 @@ class Freebox(VaultWrapper):
     def get_all_port_incoming(self):
         endpoint = '{}/fw/incoming/'.format(self.freebox_url)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.get(endpoint, headers=headers)
         ports = resp.json()['result']
@@ -331,7 +329,7 @@ class Freebox(VaultWrapper):
     def get_port_incoming(self, port_id: int):
         endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.get(endpoint, headers=headers)
         port = resp.json()['result']
@@ -340,7 +338,7 @@ class Freebox(VaultWrapper):
     def update_port_incoming(self, port_id: int):
         endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.get(endpoint, headers=headers)
         port = resp.json()['result']
@@ -349,7 +347,7 @@ class Freebox(VaultWrapper):
     def delete_port_incoming(self, port_id: int):
         endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.delete(endpoint, headers=headers)
         port = resp.json()['result']
@@ -357,18 +355,18 @@ class Freebox(VaultWrapper):
 
     def create_port_incoming(self, data: int):
         # {
-        #     "enabled": true,
-        #     "comment": "test",
-        #     "lan_port": 4242,
-        #     "wan_port_end": 4242,
-        #     "wan_port_start": 4242,
-        #     "lan_ip": "192.168.1.42",
-        #     "ip_proto": "tcp",
-        #     "src_ip": "0.0.0.0"
+        #     'enabled': true,
+        #     'comment': 'test',
+        #     'lan_port': 4242,
+        #     'wan_port_end': 4242,
+        #     'wan_port_start': 4242,
+        #     'lan_ip': '192.168.1.42',
+        #     'ip_proto': 'tcp',
+        #     'src_ip': '0.0.0.0'
         # }
         endpoint = '{}/fw/incoming/'.format(self.freebox_url)
         headers = {
-            "X-Fbx-App-Auth": self.session_token
+            'X-Fbx-App-Auth': self.session_token
         }
         resp = requests.post(endpoint, headers=headers)
         port = resp.json()['result']
