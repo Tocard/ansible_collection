@@ -73,8 +73,7 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible.utils.display import Display
 from ansible.errors import AnsibleError, AnsibleParserError
 from ansible.module_utils.common import yaml
-
-from hvac_wrapper import VaultWrapper
+from ansible.module_utils import hvac_wrapper
 
 import requests
 import hashlib
@@ -83,7 +82,7 @@ import hmac
 display = Display()
 
 
-class Freebox(VaultWrapper):
+class Freebox(hvac_wrapper.VaultWrapper):
     def __init__(self, app_id, app_name, app_version, device_name, freebox_url, username, password,
                  vault_addr, vault_mount_point, vault_path, app_token=None):
         super().__init__(username, password, vault_addr, vault_mount_point, vault_path)

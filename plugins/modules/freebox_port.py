@@ -71,7 +71,7 @@ RETURN = r'''
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible.utils.display import Display
-from freebox_base import Freebox
+from ansible.module_utils import freebox_base
 from ansible.module_utils.common import yaml
 
 import requests
@@ -79,7 +79,7 @@ import requests
 display = Display()
 
 
-class FreeboxPort(Freebox):
+class FreeboxPort(freebox_base.Freebox):
     def __init__(self, app_id, app_name, app_version, device_name, freebox_url, username, password,
                  vault_addr, vault_mount_point, vault_path, app_token=None):
         super().__init__(app_id, app_name, app_version, device_name, freebox_url, app_token, username, password,
