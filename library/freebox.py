@@ -391,9 +391,6 @@ def run_module():
     if module.check_mode:
         module.exit_json(**result)
 
-    result['original_message'] = 'orginal_message'
-    result['message'] = 'goodbye'
-
     client = Freebox(app_id=module.params['app_id'], app_name=module.params['app_name'],
                      app_version=module.params['app_version'], device_name=module.params['device_name'],
                      freebox_url=module.params['freebox_url'],
@@ -405,8 +402,8 @@ def run_module():
     client.create_or_get_token()
     client.get_challenge()
     client.create_session()
-    sample = client.get_static_lease()
-    display.warning(sample)
+    result['original_message'] = client.get_static_lease()
+    result['message'] = client.get_static_lease()
 
     module.exit_json(**result)
 
