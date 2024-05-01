@@ -136,6 +136,7 @@ class Freebox(VaultWrapper):
         self.app_version = app_version
         self.device_name = device_name
         self.freebox_url = freebox_url
+    track_id = None
 
         ##### AUTH #####
 
@@ -162,7 +163,7 @@ class Freebox(VaultWrapper):
 
         resp = requests.post(endpoint, json=data)
         self.track_id = resp.json()['result']['track_id']
-        secrets = self.read_path(self.mount_point, self.path)
+        secrets = self.read_path()
         display.warning(secrets)
         self.check_if_app_is_ok(resp.json())
         if resp.status_code == 200:
