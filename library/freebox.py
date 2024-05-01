@@ -60,10 +60,6 @@ options:
         description: vault secret path to read/set
         required: true
         type: str
-      vault_key:
-        description: key under vault path to use
-        required: true
-        type: str
       vault_mount_point:
         description: vault mountpoint to use
         required: true
@@ -89,33 +85,78 @@ import hashlib
 import hmac
 import hvac
 import os
+import time
 
 display = Display()
 
 
-class Freebox:
-    def __init__(self, app_id, app_name, app_version, device_name, freebox_url, hvac_client, app_token=None):
+class VaultWrapper:
+    def __init__(self, username, password, vault_addr, vault_mount_point, vault_path):
+        self.cacerts = os.getenv("REQUESTS_CA_BUNDLE")
+        self.vault_addr = vault_addr
+        self.username = username
+        self.password = password
+        self.mount_point = vault_mount_point
+        self.path = vault_path
+        self.client = self.init_hvac_client()
+
+    def init_hvac_client(self):
+        try:
+            self.client = hvac.Client(url=self.vault_addr, username=self.username, password=self.password,
+                                      verify=self.cacerts)
+        except VaultError as e:
+            raise AnsibleError("Unable to init hvac client for address {}", self.vault_addr, e)
+
+    def read_path(self) -> dict:
+        try:
+            data = self.client.secrets.kv.v2.read_secret_version(
+                path=self.path, mount_point=self.mount_point)
+            secret = data["data"]["data"]
+            return secret
+        except InvalidPath:
+            display.warning("path {} does not exist yet".format(self.path))
+            return {}
+        except VaultError as e:
+            display.warning("{}".format(e))
+            raise AnsibleError("Unable to read vault path {} at mount point {}".format(self.path, self.mount_point), e)
+
+    def create_or_update_secret(self, secret: dict):
+        try:
+            self.client.secrets.kv.v2.create_or_update_secret(
+                path=self.path, secret=secret, mount_point=self.mount_point)
+            display.vvv("secrets have been created or updated in path {}".format(self.path))
+            return True
+        except InvalidRequest as e:
+            display.warning(f"secrets not updated in path {self.path} because of invalid request {e}")
+            return False
+        except AnsibleParserError as e:
+            raise AnsibleError("{}, {}, {}, {}".format(self.mount_point, self.path, secret, e))
+
+
+class Freebox(VaultWrapper):
+    def __init__(self, app_id, app_name, app_version, device_name, freebox_url, app_token=None, **kwargs):
+        super().__init__(**kwargs)
         self.app_token = app_token
         self.app_id = app_id
         self.app_name = app_name
         self.app_version = app_version
         self.device_name = device_name
         self.freebox_url = freebox_url
-        self.hav_client = hvac_client
 
     app_token = None
     challenge = None
     session_token = None
+    track_id = None
 
     ##### AUTH #####
 
-    def check_if_app_is_ok(self, response_json: dict):
-        track_id = response_json['result']['track_id']
+    def check_if_app_is_ok(self, track_id: int):
         endpoint = '{}/login/authorize/{}'.format(self.freebox_url, track_id)
-        while True:
-            auth_response = requests.get(endpoint)
-            self.check_if_app_is_ok(auth_response.json())
-            # TODO: definitly not working
+        resp = requests.get(endpoint)
+        status = resp.json()['result']['status']
+        while status == 'pending':
+            resp = requests.get(endpoint)
+            status = resp.json()['result']['status']
 
     def create_or_get_token(self) -> None:
         if self.app_token is not None:
@@ -129,6 +170,9 @@ class Freebox:
         }
 
         resp = requests.post(endpoint, json=data)
+        self.track_id = resp.json()['result']['track_id']
+        secrets = self.read_path(self.mount_point, self.path)
+        display.warning(secrets)
         self.check_if_app_is_ok(resp.json())
         if resp.status_code == 200:
             self.app_token = resp.json()['result']['app_token']
@@ -320,50 +364,6 @@ class Freebox:
         port = resp.json()['result']
 
 
-class VaultWrapper:
-    def __init__(self, username, password, vault_addr, vault_mount_point, vault_path, vault_key):
-        self.cacerts = os.getenv("REQUESTS_CA_BUNDLE")
-        self.vault_addr = vault_addr
-        self.username = username
-        self.password = password
-        self.mount_point = vault_mount_point
-        self.path = vault_path
-        self.key = vault_key
-        self.client = self.init_hvac_client()
-
-    def init_hvac_client(self):
-        try:
-            self.client = hvac.Client(url=self.vault_addr, username=self.username, password=self.password,
-                                      verify=self.cacerts)
-        except VaultError as e:
-            raise AnsibleError("Unable to init hvac client for address {}", self.vault_addr, e)
-
-    def read_path(self, mount_point: str, path: str) -> dict:
-        try:
-            data = self.client.secrets.kv.v2.read_secret_version(
-                path=path, mount_point=mount_point)
-            secret = data["data"]["data"]
-            return secret
-        except InvalidPath:
-            display.warning("path {} does not exist yet".format(path))
-            return {}
-        except VaultError as e:
-            display.warning("{}".format(e))
-            raise AnsibleError("Unable to read vault path {} at mount point {}".format(path, mount_point), e)
-
-    def create_or_update_secret(self, mount_point: str, path: str, secret: dict):
-        try:
-            self.client.secrets.kv.v2.create_or_update_secret(
-                path=path, secret=secret, mount_point=mount_point)
-            display.vvv("secrets have been created or updated in path {}".format(path))
-            return True
-        except InvalidRequest as e:
-            display.warning(f"secrets not updated in path {path} because of invalid request {e}")
-            return False
-        except AnsibleParserError as e:
-            raise AnsibleError("{}, {}, {}, {}".format(mount_point, path, secret, e))
-
-
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
@@ -377,7 +377,6 @@ def run_module():
         vault_password=dict(type='str', required=True),
         vault_url=dict(type='str', required=True),
         vault_path=dict(type='str', required=True),
-        vault_key=dict(type='str', required=True),
         vault_mount_point=dict(type='str', required=True),
 
     )
@@ -414,13 +413,13 @@ def run_module():
 
     # use whatever logic you need to determine whether or not this module
     # made any modifications to your target
-    hvac_wrapper = VaultWrapper(username=module.params["vault_username"], password=module.params["vault_password"],
-                                vault_addr=module.params["vault_url"], vault_mount_point=module.params["vault_url"],
-                                vault_path=module.params["vault_path"], vault_key=module.params["vault_key"])
     client = Freebox(app_id=module.params['app_id'], app_name=module.params['app_name'],
                      app_version=module.params['app_version'], device_name=module.params['device_name'],
-                     freebox_url=module.params['freebox_url'], hvac_client=hvac_wrapper,
-                     app_token=module.params['app_token'])
+                     freebox_url=module.params['freebox_url'],
+                     app_token=module.params['app_token'], username=module.params["vault_username"],
+                     password=module.params["vault_password"],
+                     vault_addr=module.params["vault_url"], vault_mount_point=module.params["vault_url"],
+                     vault_path=module.params["vault_path"])
 
     client.create_or_get_token()
     client.get_challenge()
