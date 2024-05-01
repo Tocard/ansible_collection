@@ -96,8 +96,8 @@ class VaultWrapper:
 
     def init_hvac_client(self):
         try:
-            self.client = hvac.Client(url=self.vault_addr, username=self.username, password=self.password,
-                                      verify=self.cacerts)
+            self.client = hvac.Client(url=self.vault_addr, verify=self.cacerts)
+            self.client.auth.userpass.login(username=self.username, password=self.password)
         except VaultError as e:
             raise AnsibleError("Unable to init hvac client for address {}", self.vault_addr, e)
 
