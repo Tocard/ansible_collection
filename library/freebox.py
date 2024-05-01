@@ -18,12 +18,10 @@ description: It will allow you to handle static lease, dynamic, & port forwardin
 options:
       app_id:
         description: The app id (display & identifiaction purpose only)
-        required: true
         type: str
         default: fr.freebox.integration
       app_name:
         description: The app Name (display & identifiaction purpose only)
-        required: true
         type: str
         default: freebox_ansible
       app_token:
@@ -31,17 +29,14 @@ options:
         type: str
       app_version:
         description: The app version (used for modification should be updated anytime you change something)
-        required: true
         type: str
         default: 0.1
       device_name:
         description: This is the device name (display & identifiaction purpose only)
-        required: true
         type: str
         default: ansible_integration
       freebox_url:
         description: Change it if you use a custom freebox url
-        required: true
         type: str
         default: http://mafreebox.freebox.fr/api/v8
       vault_username:
@@ -366,12 +361,12 @@ class Freebox(VaultWrapper):
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
-        app_id=dict(type='str', required=True, default='fr.freebox.integration'),
-        app_name=dict(type='str', required=True, default='freebox_ansible)'),
+        app_id=dict(type='str', default='fr.freebox.integration'),
+        app_name=dict(type='str', default='freebox_ansible)'),
         app_token=dict(type='str'),
-        app_version=dict(type='str', required=True, default='0.1'),
-        device_name=dict(type='str', required=True, default='ansible_integration'),
-        freebox_url=dict(type='str', required=True, default='http://mafreebox.freebox.fr/api/v8'),
+        app_version=dict(type='str', default='0.1'),
+        device_name=dict(type='str', default='ansible_integration'),
+        freebox_url=dict(type='str', default='http://mafreebox.freebox.fr/api/v8'),
         vault_username=dict(type='str', required=True),
         vault_password=dict(type='str', required=True),
         vault_url=dict(type='str', required=True),
