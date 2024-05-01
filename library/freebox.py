@@ -154,8 +154,7 @@ class Freebox(VaultWrapper):
         if 'token' in secrets:
             self.app_token = secrets['token']
             return None
-        elif self.app_token is not None or self.app_token != '':
-            self.app_token
+        elif self.app_token is not None:
             return None
         endpoint = '{}/login/authorize/'.format(self.freebox_url)
         data = {
