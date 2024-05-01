@@ -130,7 +130,7 @@ class VaultWrapper:
 class Freebox(VaultWrapper):
     def __init__(self, app_id, app_name, app_version, device_name, freebox_url, username, password,
                  vault_addr, vault_mount_point, vault_path, app_token=None):
-        super().VaultWrapper.__init__(username, password, vault_addr, vault_mount_point, vault_path)
+        super().__init__(username, password, vault_addr, vault_mount_point, vault_path)
         self.app_token = app_token
         self.app_id = app_id
         self.app_name = app_name
