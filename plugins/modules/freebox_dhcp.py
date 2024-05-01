@@ -71,9 +71,7 @@ RETURN = r'''
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible.utils.display import Display
-from ansible.errors import AnsibleError, AnsibleParserError
-from ansible.module_utils.common import yaml
-from freebox_base import Freebox
+from plugins.module_utils.freebox_base import Freebox
 
 import requests
 
