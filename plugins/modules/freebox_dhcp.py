@@ -94,7 +94,10 @@ class FreeboxDhcp(freebox_base.Freebox):
         }
         resp = requests.get(endpoint, headers=headers)
         lan = resp.json()['result']
-        return lan
+        res = []
+        for raw in lan:
+            res.append({'hostname': raw['hostname'], 'ip': raw['ip']})
+        return res
 
     def update_static_lease(self, mac: str, data: dict):
         # {
