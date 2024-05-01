@@ -84,8 +84,8 @@ display = Display()
 class FreeboxDhcp(freebox_base.Freebox):
     def __init__(self, app_id, app_name, app_version, device_name, freebox_url, username, password,
                  vault_addr, vault_mount_point, vault_path, app_token=None):
-        super().__init__(app_id, app_name, app_version, device_name, freebox_url, app_token, username, password,
-                         vault_addr, vault_mount_point, vault_path)
+        super().__init__(app_id, app_name, app_version, device_name, freebox_url, username, password,
+                         vault_addr, vault_mount_point, vault_path, app_token)
 
     def get_static_lease(self):
         endpoint = '{}/dhcp/static_lease/'.format(self.freebox_url)

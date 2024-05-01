@@ -82,8 +82,8 @@ display = Display()
 class FreeboxPort(freebox_base.Freebox):
     def __init__(self, app_id, app_name, app_version, device_name, freebox_url, username, password,
                  vault_addr, vault_mount_point, vault_path, app_token=None):
-        super().__init__(app_id, app_name, app_version, device_name, freebox_url, app_token, username, password,
-                         vault_addr, vault_mount_point, vault_path)
+        super().__init__(app_id, app_name, app_version, device_name, freebox_url, username, password,
+                         vault_addr, vault_mount_point, vault_path, app_token)
 
     def get_all_port_forwarding(self):
         endpoint = '{}/fw/redir/'.format(self.freebox_url)

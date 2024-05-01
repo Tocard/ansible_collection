@@ -7,6 +7,8 @@ from ansible.errors import AnsibleError, AnsibleParserError
 from ansible.module_utils.common import yaml
 
 display = Display()
+
+
 class VaultWrapper:
     def __init__(self, username, password, vault_addr, vault_mount_point, vault_path):
         self.vault_addr = vault_addr
