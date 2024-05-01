@@ -1,0 +1,449 @@
+#!/usr/bin/python
+
+# Copyright: (c) 2018, Terry Jones <terry.jones@example.org>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+from __future__ import (absolute_import, division, print_function)
+
+__metaclass__ = type
+
+DOCUMENTATION = r'''
+---
+module: freebox
+
+short_description: This module wrap some endpoint of freebox (illiad internet provider)
+version_added: "2.9"
+
+description: It will allow you to handle static lease, dynamic, & port forwarding
+
+options:
+      app_id:
+        description: The app id (display & identifiaction purpose only)
+        required: true
+        type: str
+        default: fr.freebox.integration
+      app_name:
+        description: The app Name (display & identifiaction purpose only)
+        required: true
+        type: str
+        default: freebox_ansible
+      app_token:
+        description: Token get at the first connexion & approval, if not present it will be harvested and set to vault
+        type: str
+      app_version:
+        description: The app version (used for modification should be updated anytime you change something)
+        required: true
+        type: str
+        default: 0.1
+      device_name:
+        description: This is the device name (display & identifiaction purpose only)
+        required: true
+        type: str
+        default: ansible_integration
+      freebox_url:
+        description: Change it if you use a custom freebox url
+        required: true
+        type: str
+        default: http://mafreebox.freebox.fr/api/v8
+      vault_username:
+        description: Vault user to connect on hashicorp vault (app_token storage)
+        required: true
+        type: str
+      vault_password:
+        description: Vault password to connect on hashicorp vault (app_token storage)
+        required: true
+        type: str
+      vault_url:
+        description: Vault url to connect on hashicorp vault (app_token storage)
+        required: true
+        type: str
+      vault_path:
+        description: vault secret path to read/set
+        required: true
+        type: str
+      vault_key:
+        description: key under vault path to use
+        required: true
+        type: str
+      vault_mount_point:
+        description: vault mountpoint to use
+        required: true
+        type: str
+author:
+    - Douceur (@Tocard)
+'''
+
+EXAMPLES = r'''
+'''
+
+RETURN = r'''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
+from ansible.utils.display import Display
+from ansible.errors import AnsibleError, AnsibleParserError
+from hvac.exceptions import VaultError, InvalidPath, InvalidRequest
+
+import requests
+import yaml
+import hashlib
+import hmac
+import hvac
+import os
+
+display = Display()
+
+
+class Freebox:
+    def __init__(self, app_id, app_name, app_version, device_name, freebox_url, hvac_client, app_token=None):
+        self.app_token = app_token
+        self.app_id = app_id
+        self.app_name = app_name
+        self.app_version = app_version
+        self.device_name = device_name
+        self.freebox_url = freebox_url
+        self.hav_client = hvac_client
+
+    app_token = None
+    challenge = None
+    session_token = None
+
+    ##### AUTH #####
+
+    def check_if_app_is_ok(self, response_json: dict):
+        track_id = response_json['result']['track_id']
+        endpoint = '{}/login/authorize/{}'.format(self.freebox_url, track_id)
+        while True:
+            auth_response = requests.get(endpoint)
+            self.check_if_app_is_ok(auth_response.json())
+            # TODO: definitly not working
+
+    def create_or_get_token(self) -> None:
+        if self.app_token is not None:
+            return None
+        endpoint = '{}/login/authorize/'.format(self.freebox_url)
+        data = {
+            'app_id': self.app_id,
+            'app_name': self.app_name,
+            'app_version': self.app_version,
+            'device_name': self.device_name
+        }
+
+        resp = requests.post(endpoint, json=data)
+        self.check_if_app_is_ok(resp.json())
+        if resp.status_code == 200:
+            self.app_token = resp.json()['result']['app_token']
+            return None
+        else:
+            raise AnsibleError('Authorization Error:', resp.status_code, resp.text)
+
+    def get_challenge(self):
+        endpoint = '{}/login/'.format(self.freebox_url)
+        resp = requests.get(endpoint)
+        self.challenge = resp.json()['result']['challenge']
+
+    def create_session(self):
+        token_bytes = bytes(self.app_token, 'latin-1')
+        challenge_bytes = bytes(self.challenge, 'latin-1')
+        password = hmac.new(token_bytes, challenge_bytes, hashlib.sha1).hexdigest()
+        endpoint = '{}/login/session/'.format(self.freebox_url)
+        data = {
+            'app_id': self.app_id,
+            'password': password,
+            'app_version': self.app_version
+        }
+
+        resp = requests.Session().post(endpoint, json=data).json()
+        self.session_token = resp['result']['session_token']
+
+        ##### DHCP #####
+
+    def get_static_lease(self):
+        endpoint = '{}/dhcp/static_lease/'.format(self.freebox_url)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        lan = resp.json()['result']
+        return lan
+
+    def update_static_lease(self, mac: str, data: dict):
+        # {
+        #     "comment": "",
+        #  "hostname": "Pc de r0ro",
+        #  "id": "00:DE:AD:B0:0B:55",
+        #  "host": {
+        #      [...]
+        #  },
+        #  "ip": "192.168.1.1"
+        #
+        #  }
+        endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.put(endpoint, headers=headers, json=data)
+        # TODO: end it
+        lan = resp.json()['result']
+
+    def create_static_lease(self, mac: str, data: dict):
+        # {
+        #    "ip": "192.168.1.222",
+        #    "mac": "00:00:00:11:11:11"
+        # }
+        endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.post(endpoint, headers=headers, json=data)
+        lease = resp.json()['result']
+
+    def delete_static_lease(self, mac: str):
+        endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.delete(endpoint, headers=headers)
+        # TODO: end it
+        lan = resp.json()['result']
+
+    def get_dynamic_lease(self):
+        endpoint = '{}/dhcp/dynamic_lease/'.format(self.freebox_url)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        lan = resp.json()['result']
+
+    ##### PORT FORWARDING #####
+
+    def get_all_port_forwarding(self):
+        endpoint = '{}/fw/redir/'.format(self.freebox_url)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        ports = resp.json()['result']
+
+    def get_port_forwarding(self, port_id: int):
+        endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        port = resp.json()['result']
+
+    def update_port_forwarding(self, port_id: int):
+        endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        port = resp.json()['result']
+
+    def delete_port_forwarding(self, port_id: int):
+        endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.delete(endpoint, headers=headers)
+        port = resp.json()['result']
+
+    def create_port_forwarding(self, data: int):
+        # {
+        #     "enabled": true,
+        #     "comment": "test",
+        #     "lan_port": 4242,
+        #     "wan_port_end": 4242,
+        #     "wan_port_start": 4242,
+        #     "lan_ip": "192.168.1.42",
+        #     "ip_proto": "tcp",
+        #     "src_ip": "0.0.0.0"
+        # }
+        endpoint = '{}/fw/redir/'.format(self.freebox_url)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+
+        }
+        resp = requests.post(endpoint, headers=headers)
+        port = resp.json()['result']
+
+    ##### PORT INCOMING #####
+
+    def get_all_port_incoming(self):
+        endpoint = '{}/fw/incoming/'.format(self.freebox_url)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        ports = resp.json()['result']
+
+    def get_port_incoming(self, port_id: int):
+        endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        port = resp.json()['result']
+
+    def update_port_incoming(self, port_id: int):
+        endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        port = resp.json()['result']
+
+    def delete_port_incoming(self, port_id: int):
+        endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.delete(endpoint, headers=headers)
+        port = resp.json()['result']
+
+    def create_port_incoming(self, data: int):
+        # {
+        #     "enabled": true,
+        #     "comment": "test",
+        #     "lan_port": 4242,
+        #     "wan_port_end": 4242,
+        #     "wan_port_start": 4242,
+        #     "lan_ip": "192.168.1.42",
+        #     "ip_proto": "tcp",
+        #     "src_ip": "0.0.0.0"
+        # }
+        endpoint = '{}/fw/incoming/'.format(self.freebox_url)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.post(endpoint, headers=headers)
+        port = resp.json()['result']
+
+
+class VaultWrapper:
+    def __init__(self, username, password, vault_addr, vault_mount_point, vault_path, vault_key):
+        self.cacerts = os.getenv("REQUESTS_CA_BUNDLE")
+        self.vault_addr = vault_addr
+        self.username = username
+        self.password = password
+        self.mount_point = vault_mount_point
+        self.path = vault_path
+        self.key = vault_key
+        self.client = self.init_hvac_client()
+
+    def init_hvac_client(self):
+        try:
+            self.client = hvac.Client(url=self.vault_addr, username=self.username, password=self.password,
+                                      verify=self.cacerts)
+        except VaultError as e:
+            raise AnsibleError("Unable to init hvac client for address {}", self.vault_addr, e)
+
+    def read_path(self, mount_point: str, path: str) -> dict:
+        try:
+            data = self.client.secrets.kv.v2.read_secret_version(
+                path=path, mount_point=mount_point)
+            secret = data["data"]["data"]
+            return secret
+        except InvalidPath:
+            display.warning("path {} does not exist yet".format(path))
+            return {}
+        except VaultError as e:
+            display.warning("{}".format(e))
+            raise AnsibleError("Unable to read vault path {} at mount point {}".format(path, mount_point), e)
+
+    def create_or_update_secret(self, mount_point: str, path: str, secret: dict):
+        try:
+            self.client.secrets.kv.v2.create_or_update_secret(
+                path=path, secret=secret, mount_point=mount_point)
+            display.vvv("secrets have been created or updated in path {}".format(path))
+            return True
+        except InvalidRequest as e:
+            display.warning(f"secrets not updated in path {path} because of invalid request {e}")
+            return False
+        except AnsibleParserError as e:
+            raise AnsibleError("{}, {}, {}, {}".format(mount_point, path, secret, e))
+
+
+def run_module():
+    # define available arguments/parameters a user can pass to the module
+    module_args = dict(
+        app_id=dict(type='str', required=True, default='fr.freebox.integration'),
+        app_name=dict(type='str', required=True, default='freebox_ansible)'),
+        app_token=dict(type='str'),
+        app_version=dict(type='str', required=True, default='0.1'),
+        device_name=dict(type='str', required=True, default='ansible_integration'),
+        freebox_url=dict(type='str', required=True, default='http://mafreebox.freebox.fr/api/v8'),
+        vault_username=dict(type='str', required=True),
+        vault_password=dict(type='str', required=True),
+        vault_url=dict(type='str', required=True),
+        vault_path=dict(type='str', required=True),
+        vault_key=dict(type='str', required=True),
+        vault_mount_point=dict(type='str', required=True),
+
+    )
+    # seed the result dict in the object
+    # we primarily care about changed and state
+    # changed is if this module effectively modified the target
+    # state will include any data that you want your module to pass back
+    # for consumption, for example, in a subsequent task
+    result = dict(
+        changed=False,
+        original_message='',
+        message=''
+    )
+
+    # the AnsibleModule object will be our abstraction working with Ansible
+    # this includes instantiation, a couple of common attr would be the
+    # args/params passed to the execution, as well as if the module
+    # supports check mode
+    module = AnsibleModule(
+        argument_spec=module_args,
+        supports_check_mode=True
+    )
+
+    # if the user is working with this module in only check mode we do not
+    # want to make any changes to the environment, just return the current
+    # state with no modifications
+    if module.check_mode:
+        module.exit_json(**result)
+
+    # manipulate or modify the state as needed (this is going to be the
+    # part where your module will do what it needs to do)
+    result['original_message'] = module.params['name']
+    result['message'] = 'goodbye'
+
+    # use whatever logic you need to determine whether or not this module
+    # made any modifications to your target
+    hvac_wrapper = VaultWrapper(username=module.params["vault_username"], password=module.params["vault_password"],
+                                vault_addr=module.params["vault_url"], vault_mount_point=module.params["vault_url"],
+                                vault_path=module.params["vault_path"], vault_key=module.params["vault_key"])
+    client = Freebox(app_id=module.params['app_id'], app_name=module.params['app_name'],
+                     app_version=module.params['app_version'], device_name=module.params['device_name'],
+                     freebox_url=module.params['freebox_url'], hvac_client=hvac_wrapper,
+                     app_token=module.params['app_token'])
+
+    client.create_or_get_token()
+    client.get_challenge()
+    client.create_session()
+    sample = client.get_static_lease()
+    display.warning(sample)
+    # if module.params['new']:
+    #    result['changed'] = True
+
+    # during the execution of the module, if there is an exception or a
+    # conditional state that effectively causes a failure, run
+    # AnsibleModule.fail_json() to pass in the message and the result
+    # if module.params['name'] == 'fail me':
+    #    module.fail_json(msg='You requested this to fail', **result)
+
+    # in the event of a successful module execution, you will want to
+    # simple AnsibleModule.exit_json(), passing the key/value results
+    module.exit_json(**result)
+
+
+def main():
+    run_module()
+
+
+if __name__ == '__main__':
+    main()
