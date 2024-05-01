@@ -86,7 +86,6 @@ display = Display()
 
 class VaultWrapper:
     def __init__(self, username, password, vault_addr, vault_mount_point, vault_path):
-        self.cacerts = os.getenv("REQUESTS_CA_BUNDLE")
         self.vault_addr = vault_addr
         self.username = username
         self.password = password
@@ -96,7 +95,7 @@ class VaultWrapper:
 
     def init_hvac_client(self):
         try:
-            self.client = hvac.Client(url=self.vault_addr, verify=self.cacerts)
+            self.client = hvac.Client(url=self.vault_addr)
             self.client.auth.userpass.login(username=self.username, password=self.password)
         except VaultError as e:
             raise AnsibleError("Unable to init hvac client for address {}", self.vault_addr, e)
