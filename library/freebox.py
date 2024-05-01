@@ -136,9 +136,10 @@ class Freebox(VaultWrapper):
         self.device_name = device_name
         self.freebox_url = freebox_url
     track_id = None
+    session_token = None
+    challenge = None
 
         ##### AUTH #####
-
 
     def check_if_app_is_ok(self):
         endpoint = '{}/login/authorize/{}'.format(self.freebox_url, self.track_id)
@@ -148,9 +149,13 @@ class Freebox(VaultWrapper):
             resp = requests.get(endpoint)
             status = resp.json()['result']['status']
 
-
     def create_or_get_token(self) -> None:
-        if self.app_token is not None:
+        secrets = self.read_path()
+        if 'token' in secrets:
+            self.app_token = secrets['token']
+            return None
+        elif self.app_token is not None or self.app_token != '':
+            self.app_token
             return None
         endpoint = '{}/login/authorize/'.format(self.freebox_url)
         data = {
@@ -167,16 +172,15 @@ class Freebox(VaultWrapper):
         self.check_if_app_is_ok()
         if resp.status_code == 200:
             self.app_token = resp.json()['result']['app_token']
+            self.create_or_update_secret({'token': self.app_token})
             return None
         else:
             raise AnsibleError('Authorization Error:', resp.status_code, resp.text)
-
 
     def get_challenge(self):
         endpoint = '{}/login/'.format(self.freebox_url)
         resp = requests.get(endpoint)
         self.challenge = resp.json()['result']['challenge']
-
 
     def create_session(self):
         token_bytes = bytes(self.app_token, 'latin-1')
@@ -194,7 +198,6 @@ class Freebox(VaultWrapper):
 
         ##### DHCP #####
 
-
     def get_static_lease(self):
         endpoint = '{}/dhcp/static_lease/'.format(self.freebox_url)
         headers = {
@@ -203,7 +206,6 @@ class Freebox(VaultWrapper):
         resp = requests.get(endpoint, headers=headers)
         lan = resp.json()['result']
         return lan
-
 
     def update_static_lease(self, mac: str, data: dict):
         # {
@@ -224,7 +226,6 @@ class Freebox(VaultWrapper):
         # TODO: end it
         lan = resp.json()['result']
 
-
     def create_static_lease(self, mac: str, data: dict):
         # {
         #    'ip': '192.168.1.222',
@@ -237,7 +238,6 @@ class Freebox(VaultWrapper):
         resp = requests.post(endpoint, headers=headers, json=data)
         lease = resp.json()['result']
 
-
     def delete_static_lease(self, mac: str):
         endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
         headers = {
@@ -247,7 +247,6 @@ class Freebox(VaultWrapper):
         # TODO: end it
         lan = resp.json()['result']
 
-
     def get_dynamic_lease(self):
         endpoint = '{}/dhcp/dynamic_lease/'.format(self.freebox_url)
         headers = {
@@ -255,7 +254,6 @@ class Freebox(VaultWrapper):
         }
         resp = requests.get(endpoint, headers=headers)
         lan = resp.json()['result']
-
 
     ##### PORT FORWARDING #####
 
@@ -267,7 +265,6 @@ class Freebox(VaultWrapper):
         resp = requests.get(endpoint, headers=headers)
         ports = resp.json()['result']
 
-
     def get_port_forwarding(self, port_id: int):
         endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
         headers = {
@@ -275,7 +272,6 @@ class Freebox(VaultWrapper):
         }
         resp = requests.get(endpoint, headers=headers)
         port = resp.json()['result']
-
 
     def update_port_forwarding(self, port_id: int):
         endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
@@ -285,7 +281,6 @@ class Freebox(VaultWrapper):
         resp = requests.get(endpoint, headers=headers)
         port = resp.json()['result']
 
-
     def delete_port_forwarding(self, port_id: int):
         endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
         headers = {
@@ -293,7 +288,6 @@ class Freebox(VaultWrapper):
         }
         resp = requests.delete(endpoint, headers=headers)
         port = resp.json()['result']
-
 
     def create_port_forwarding(self, data: int):
         # {
@@ -314,7 +308,6 @@ class Freebox(VaultWrapper):
         resp = requests.post(endpoint, headers=headers)
         port = resp.json()['result']
 
-
     ##### PORT INCOMING #####
 
     def get_all_port_incoming(self):
@@ -325,7 +318,6 @@ class Freebox(VaultWrapper):
         resp = requests.get(endpoint, headers=headers)
         ports = resp.json()['result']
 
-
     def get_port_incoming(self, port_id: int):
         endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
         headers = {
@@ -333,7 +325,6 @@ class Freebox(VaultWrapper):
         }
         resp = requests.get(endpoint, headers=headers)
         port = resp.json()['result']
-
 
     def update_port_incoming(self, port_id: int):
         endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
@@ -343,7 +334,6 @@ class Freebox(VaultWrapper):
         resp = requests.get(endpoint, headers=headers)
         port = resp.json()['result']
 
-
     def delete_port_incoming(self, port_id: int):
         endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
         headers = {
@@ -351,7 +341,6 @@ class Freebox(VaultWrapper):
         }
         resp = requests.delete(endpoint, headers=headers)
         port = resp.json()['result']
-
 
     def create_port_incoming(self, data: int):
         # {
