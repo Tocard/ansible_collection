@@ -141,236 +141,236 @@ class Freebox(VaultWrapper):
         ##### AUTH #####
 
 
-def check_if_app_is_ok(self, track_id: int):
-    endpoint = '{}/login/authorize/{}'.format(self.freebox_url, track_id)
-    resp = requests.get(endpoint)
-    status = resp.json()['result']['status']
-    while status == 'pending':
+    def check_if_app_is_ok(self, track_id: int):
+        endpoint = '{}/login/authorize/{}'.format(self.freebox_url, track_id)
         resp = requests.get(endpoint)
         status = resp.json()['result']['status']
+        while status == 'pending':
+            resp = requests.get(endpoint)
+            status = resp.json()['result']['status']
 
 
-def create_or_get_token(self) -> None:
-    if self.app_token is not None:
-        return None
-    endpoint = '{}/login/authorize/'.format(self.freebox_url)
-    data = {
-        'app_id': self.app_id,
-        'app_name': self.app_name,
-        'app_version': self.app_version,
-        'device_name': self.device_name
-    }
+    def create_or_get_token(self) -> None:
+        if self.app_token is not None:
+            return None
+        endpoint = '{}/login/authorize/'.format(self.freebox_url)
+        data = {
+            'app_id': self.app_id,
+            'app_name': self.app_name,
+            'app_version': self.app_version,
+            'device_name': self.device_name
+        }
 
-    resp = requests.post(endpoint, json=data)
-    self.track_id = resp.json()['result']['track_id']
-    secrets = self.read_path(self.mount_point, self.path)
-    display.warning(secrets)
-    self.check_if_app_is_ok(resp.json())
-    if resp.status_code == 200:
-        self.app_token = resp.json()['result']['app_token']
-        return None
-    else:
-        raise AnsibleError('Authorization Error:', resp.status_code, resp.text)
-
-
-def get_challenge(self):
-    endpoint = '{}/login/'.format(self.freebox_url)
-    resp = requests.get(endpoint)
-    self.challenge = resp.json()['result']['challenge']
+        resp = requests.post(endpoint, json=data)
+        self.track_id = resp.json()['result']['track_id']
+        secrets = self.read_path(self.mount_point, self.path)
+        display.warning(secrets)
+        self.check_if_app_is_ok(resp.json())
+        if resp.status_code == 200:
+            self.app_token = resp.json()['result']['app_token']
+            return None
+        else:
+            raise AnsibleError('Authorization Error:', resp.status_code, resp.text)
 
 
-def create_session(self):
-    token_bytes = bytes(self.app_token, 'latin-1')
-    challenge_bytes = bytes(self.challenge, 'latin-1')
-    password = hmac.new(token_bytes, challenge_bytes, hashlib.sha1).hexdigest()
-    endpoint = '{}/login/session/'.format(self.freebox_url)
-    data = {
-        'app_id': self.app_id,
-        'password': password,
-        'app_version': self.app_version
-    }
-
-    resp = requests.Session().post(endpoint, json=data).json()
-    self.session_token = resp['result']['session_token']
-
-    ##### DHCP #####
+    def get_challenge(self):
+        endpoint = '{}/login/'.format(self.freebox_url)
+        resp = requests.get(endpoint)
+        self.challenge = resp.json()['result']['challenge']
 
 
-def get_static_lease(self):
-    endpoint = '{}/dhcp/static_lease/'.format(self.freebox_url)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.get(endpoint, headers=headers)
-    lan = resp.json()['result']
-    return lan
+    def create_session(self):
+        token_bytes = bytes(self.app_token, 'latin-1')
+        challenge_bytes = bytes(self.challenge, 'latin-1')
+        password = hmac.new(token_bytes, challenge_bytes, hashlib.sha1).hexdigest()
+        endpoint = '{}/login/session/'.format(self.freebox_url)
+        data = {
+            'app_id': self.app_id,
+            'password': password,
+            'app_version': self.app_version
+        }
+
+        resp = requests.Session().post(endpoint, json=data).json()
+        self.session_token = resp['result']['session_token']
+
+        ##### DHCP #####
 
 
-def update_static_lease(self, mac: str, data: dict):
-    # {
-    #     "comment": "",
-    #  "hostname": "Pc de r0ro",
-    #  "id": "00:DE:AD:B0:0B:55",
-    #  "host": {
-    #      [...]
-    #  },
-    #  "ip": "192.168.1.1"
-    #
-    #  }
-    endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.put(endpoint, headers=headers, json=data)
-    # TODO: end it
-    lan = resp.json()['result']
+    def get_static_lease(self):
+        endpoint = '{}/dhcp/static_lease/'.format(self.freebox_url)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        lan = resp.json()['result']
+        return lan
 
 
-def create_static_lease(self, mac: str, data: dict):
-    # {
-    #    "ip": "192.168.1.222",
-    #    "mac": "00:00:00:11:11:11"
-    # }
-    endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.post(endpoint, headers=headers, json=data)
-    lease = resp.json()['result']
+    def update_static_lease(self, mac: str, data: dict):
+        # {
+        #     "comment": "",
+        #  "hostname": "Pc de r0ro",
+        #  "id": "00:DE:AD:B0:0B:55",
+        #  "host": {
+        #      [...]
+        #  },
+        #  "ip": "192.168.1.1"
+        #
+        #  }
+        endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.put(endpoint, headers=headers, json=data)
+        # TODO: end it
+        lan = resp.json()['result']
 
 
-def delete_static_lease(self, mac: str):
-    endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.delete(endpoint, headers=headers)
-    # TODO: end it
-    lan = resp.json()['result']
+    def create_static_lease(self, mac: str, data: dict):
+        # {
+        #    "ip": "192.168.1.222",
+        #    "mac": "00:00:00:11:11:11"
+        # }
+        endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.post(endpoint, headers=headers, json=data)
+        lease = resp.json()['result']
 
 
-def get_dynamic_lease(self):
-    endpoint = '{}/dhcp/dynamic_lease/'.format(self.freebox_url)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.get(endpoint, headers=headers)
-    lan = resp.json()['result']
+    def delete_static_lease(self, mac: str):
+        endpoint = '{}/dhcp/static_lease/{}'.format(self.freebox_url, mac)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.delete(endpoint, headers=headers)
+        # TODO: end it
+        lan = resp.json()['result']
 
 
-##### PORT FORWARDING #####
-
-def get_all_port_forwarding(self):
-    endpoint = '{}/fw/redir/'.format(self.freebox_url)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.get(endpoint, headers=headers)
-    ports = resp.json()['result']
+    def get_dynamic_lease(self):
+        endpoint = '{}/dhcp/dynamic_lease/'.format(self.freebox_url)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        lan = resp.json()['result']
 
 
-def get_port_forwarding(self, port_id: int):
-    endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.get(endpoint, headers=headers)
-    port = resp.json()['result']
+    ##### PORT FORWARDING #####
+
+    def get_all_port_forwarding(self):
+        endpoint = '{}/fw/redir/'.format(self.freebox_url)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        ports = resp.json()['result']
 
 
-def update_port_forwarding(self, port_id: int):
-    endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.get(endpoint, headers=headers)
-    port = resp.json()['result']
+    def get_port_forwarding(self, port_id: int):
+        endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        port = resp.json()['result']
 
 
-def delete_port_forwarding(self, port_id: int):
-    endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.delete(endpoint, headers=headers)
-    port = resp.json()['result']
+    def update_port_forwarding(self, port_id: int):
+        endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        port = resp.json()['result']
 
 
-def create_port_forwarding(self, data: int):
-    # {
-    #     "enabled": true,
-    #     "comment": "test",
-    #     "lan_port": 4242,
-    #     "wan_port_end": 4242,
-    #     "wan_port_start": 4242,
-    #     "lan_ip": "192.168.1.42",
-    #     "ip_proto": "tcp",
-    #     "src_ip": "0.0.0.0"
-    # }
-    endpoint = '{}/fw/redir/'.format(self.freebox_url)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-
-    }
-    resp = requests.post(endpoint, headers=headers)
-    port = resp.json()['result']
+    def delete_port_forwarding(self, port_id: int):
+        endpoint = '{}/fw/redir/{}'.format(self.freebox_url, port_id)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.delete(endpoint, headers=headers)
+        port = resp.json()['result']
 
 
-##### PORT INCOMING #####
+    def create_port_forwarding(self, data: int):
+        # {
+        #     "enabled": true,
+        #     "comment": "test",
+        #     "lan_port": 4242,
+        #     "wan_port_end": 4242,
+        #     "wan_port_start": 4242,
+        #     "lan_ip": "192.168.1.42",
+        #     "ip_proto": "tcp",
+        #     "src_ip": "0.0.0.0"
+        # }
+        endpoint = '{}/fw/redir/'.format(self.freebox_url)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
 
-def get_all_port_incoming(self):
-    endpoint = '{}/fw/incoming/'.format(self.freebox_url)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.get(endpoint, headers=headers)
-    ports = resp.json()['result']
-
-
-def get_port_incoming(self, port_id: int):
-    endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.get(endpoint, headers=headers)
-    port = resp.json()['result']
-
-
-def update_port_incoming(self, port_id: int):
-    endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.get(endpoint, headers=headers)
-    port = resp.json()['result']
+        }
+        resp = requests.post(endpoint, headers=headers)
+        port = resp.json()['result']
 
 
-def delete_port_incoming(self, port_id: int):
-    endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.delete(endpoint, headers=headers)
-    port = resp.json()['result']
+    ##### PORT INCOMING #####
+
+    def get_all_port_incoming(self):
+        endpoint = '{}/fw/incoming/'.format(self.freebox_url)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        ports = resp.json()['result']
 
 
-def create_port_incoming(self, data: int):
-    # {
-    #     "enabled": true,
-    #     "comment": "test",
-    #     "lan_port": 4242,
-    #     "wan_port_end": 4242,
-    #     "wan_port_start": 4242,
-    #     "lan_ip": "192.168.1.42",
-    #     "ip_proto": "tcp",
-    #     "src_ip": "0.0.0.0"
-    # }
-    endpoint = '{}/fw/incoming/'.format(self.freebox_url)
-    headers = {
-        "X-Fbx-App-Auth": self.session_token
-    }
-    resp = requests.post(endpoint, headers=headers)
-    port = resp.json()['result']
+    def get_port_incoming(self, port_id: int):
+        endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        port = resp.json()['result']
+
+
+    def update_port_incoming(self, port_id: int):
+        endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.get(endpoint, headers=headers)
+        port = resp.json()['result']
+
+
+    def delete_port_incoming(self, port_id: int):
+        endpoint = '{}/fw/incoming/{}'.format(self.freebox_url, port_id)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.delete(endpoint, headers=headers)
+        port = resp.json()['result']
+
+
+    def create_port_incoming(self, data: int):
+        # {
+        #     "enabled": true,
+        #     "comment": "test",
+        #     "lan_port": 4242,
+        #     "wan_port_end": 4242,
+        #     "wan_port_start": 4242,
+        #     "lan_ip": "192.168.1.42",
+        #     "ip_proto": "tcp",
+        #     "src_ip": "0.0.0.0"
+        # }
+        endpoint = '{}/fw/incoming/'.format(self.freebox_url)
+        headers = {
+            "X-Fbx-App-Auth": self.session_token
+        }
+        resp = requests.post(endpoint, headers=headers)
+        port = resp.json()['result']
 
 
 def run_module():
