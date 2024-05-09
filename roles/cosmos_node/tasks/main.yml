@@ -3,16 +3,27 @@
 - name: Run Prepare task
   ansible.builtin.import_tasks: node_prepare.yml
 
+#- name: Donwload & extract cosmos_node Binary
+#  become: true
+#  become_method: "{{ cosmos_node_sudo_method }}"
+#  ansible.builtin.get_url:
+#    url: "{{ cosmos_node_binaries_download_url}}"
+#    dest: "{{ cosmos_node_binaries_path }}/{{ cosmos_node }}"
+#    owner: "{{ item.owner | default(cosmos_node_owner) }}"
+#    group: "{{ item.group | default(cosmos_node_group) }}"
+#    mode: "0777"
+#    force: true
+
 - name: Donwload & extract cosmos_node Binary
   become: true
   become_method: "{{ cosmos_node_sudo_method }}"
-  ansible.builtin.get_url:
-    url: "{{ cosmos_node_binaries_download_url}}"
+  ansible.builtin.unarchive:
+    src: "{{ cosmos_node_binaries_download_url}}"
     dest: "{{ cosmos_node_binaries_path }}/{{ cosmos_node }}"
     owner: "{{ item.owner | default(cosmos_node_owner) }}"
     group: "{{ item.group | default(cosmos_node_group) }}"
+    remote_src: true
     mode: "0777"
-    force: true
 
 - name: Check if node_marker is present
   become: true
