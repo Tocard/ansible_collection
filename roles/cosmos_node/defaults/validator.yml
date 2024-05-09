@@ -1,0 +1,9 @@
+---
+
+cosmos_node_validator_mode: false
+cosmos_node_privkey_validator: "{{ lookup('hashi_vault', hashi_cosmos_node_path ~ '/' ~ ansible_hostname ~ hashi_connect) }}"
+cosmos_node_validator_templates_enabled: true
+cosmos_node_validator_templates:
+  - src: priv_validator_key.json.j2
+    dest: "{{ cosmos_node_config_path}}/priv_validator_key.json"
+

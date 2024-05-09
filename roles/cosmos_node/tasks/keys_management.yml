@@ -1,0 +1,30 @@
+---
+
+- name: List key from node
+  ansible.builtin.shell: cosmos_node --home {{ cosmos_node_path }} keys list
+  changed_when: false
+  register: cosmos_node_key_list
+
+- name: DEBUG
+  ansible.builtin.debug:
+    msg:{{ cosmos_node_key_list }}
+
+- name: Run cosmos_node command with password and confirmation
+  ansible.builtin.expect:
+    command: cosmos_node --log_format json --home {{ cosmos_node_path }} keys add {{ cosmos_node_key_name }}
+    responses:
+      "Enter keyring passphrase .*": "{{ cosmos_node_key_password }}"
+      "Re-enter keyring passphrase .*": "{{ cosmos_node_key_password }}"
+  register: cosmos_node_output
+  delegate_to: localhost
+  args:
+    echo: true
+
+- name: Extract last list of words
+  ansible.builtin.set_fact:
+    mnemonic_phrase: "{{ cosmos_node_output.stdout | regex_findall('.*Important\\*\\* (.*)') | last }}"
+  when: cosmos_node_output.stdout is search('.*Important\\*\\* .*')
+
+- name: Display extracted mnemonic phrase
+  ansible.builtin.debug:
+    var: mnemonic_phrase

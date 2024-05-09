@@ -3,7 +3,7 @@
 - name: Create Volume Group
   become: true
   become_method: "{{ filesystem_custom_become_method }}"
-  lvg:
+  community.general.lvg:
     vg: "{{ filesystem_volume_group_name }}"
     pvs: "{{ filesystem_physical_volumes_list }}"
     state: present
@@ -12,7 +12,7 @@
 - name: Create the logical volume
   become: true
   become_method: "{{ filesystem_custom_become_method }}"
-  lvol:
+  community.general.lvol:
     vg: "{{ item.vg }}"
     lv: "{{ item.lv }}"
     size: "{{ item.size }}"
@@ -27,7 +27,7 @@
 - name: Extend or format the fs for volume group
   become: true
   become_method: "{{ filesystem_custom_become_method }}"
-  filesystem:
+  community.general.filesystem:
     fstype: "{{ item.fstype | default('xfs') }}"
     dev: "/dev/{{ item.vg }}/{{ item.lv }}"
     resizefs: "{{ item.resizefs | default('true') }}"
@@ -40,7 +40,7 @@
 - name: Mount the fs
   become: true
   become_method: "{{ filesystem_custom_become_method }}"
-  mount:
+  ansible.posix.mount:
     name: "{{ item.path }}"
     src: "/dev/{{ item.vg }}/{{ item.lv }}"
     fstype: "{{ item.fstype | default('xfs') }}"
