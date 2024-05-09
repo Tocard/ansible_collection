@@ -27,5 +27,4 @@
     line: "{{ item }}"
     create: True
   loop:
-    - "alias {{ cosmos_node_short_name }}='{{ cosmos_node }}'"
-    - "alias {{ cosmos_node }}='{{ cosmos_node }} --home {{ cosmos_node_path }}'"
+    - "alias {{ cosmos_node_binaries }}='{{ cosmos_node_binaries }} --home {{ cosmos_node_path }}'"

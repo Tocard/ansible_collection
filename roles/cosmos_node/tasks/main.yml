@@ -19,7 +19,7 @@
   become_method: "{{ cosmos_node_sudo_method }}"
   ansible.builtin.unarchive:
     src: "{{ cosmos_node_binaries_download_url}}"
-    dest: "{{ cosmos_node_binaries_path }}/{{ cosmos_node }}"
+    dest: "{{ cosmos_node_binaries_path }}"
     owner: "{{ item.owner | default(cosmos_node_owner) }}"
     group: "{{ item.group | default(cosmos_node_group) }}"
     remote_src: true

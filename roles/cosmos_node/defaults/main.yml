@@ -2,7 +2,7 @@
 
 cosmos_node: nibiru
 cosmos_node_short_name: nibid
-cosmos_node_binaries: "{{ cosmos_node }}"
+cosmos_node_binaries: "{{ cosmos_node_short_name }}"
 cosmos_node_chain_id: cataclysm-1
 
 # USER
