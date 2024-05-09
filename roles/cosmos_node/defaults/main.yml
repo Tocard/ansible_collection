@@ -1,6 +1,7 @@
 ---
 
 cosmos_node: nibiru
+cosmos_node_short_name: nibid
 cosmos_node_chain_id: cataclysm-1
 
 # USER
@@ -19,10 +20,10 @@ cosmos_node_packages:
 cosmos_node_log_path: "/var/log/{{ cosmos_node }}"
 cosmos_node_binaries_path: /usr/bin/
 cosmos_node_path: "/opt/{{ cosmos_node }}/{{ cosmos_node_chain_id }}"
-cosmos_node_config_path: "{{ cosmos_node_home }}/config"
+cosmos_node_config_path: "{{ cosmos_node_path }}/config"
 
 cosmos_node_directories:
-  - path: "{{ cosmos_node_home }}"
+  - path: "{{ cosmos_node_path }}"
   - path: "{{ cosmos_node_config_path }}"
   - path: "{{ cosmos_node_log_path }}"
 

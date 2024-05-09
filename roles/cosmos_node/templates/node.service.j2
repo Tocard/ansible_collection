@@ -4,8 +4,8 @@ After=network-online.target
 
 [Service]
 User={{ cosmos_node_owner }}
-WorkingDirectory={{ cosmos_node_home }}
-ExecStart={{ cosmos_node_binaries }} start --log_format json --home {{ cosmos_node_home }}
+WorkingDirectory={{ cosmos_node_path }}
+ExecStart={{ cosmos_node_binaries }} start --log_format json --home {{ cosmos_node_path }}
 Restart=always
 RestartSec=3
 LimitNOFILE=infinity
@@ -14,7 +14,7 @@ StandardError=append:{{ cosmos_node_log_path }}/{{ cosmos_node_log_file }}
 
 
 Environment="DAEMON_NAME={{ cosmos_node }}"
-Environment="DAEMON_HOME={{ cosmos_node_home }}/"
+Environment="DAEMON_HOME={{ cosmos_node_path }}/"
 Environment="DAEMON_RESTART_AFTER_UPGRADE=true"
 Environment="DAEMON_ALLOW_DOWNLOAD_BINARIES=false"
 

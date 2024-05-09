@@ -18,7 +18,7 @@
   become: true
   become_method: "{{ cosmos_node_sudo_method }}"
   ansible.builtin.stat:
-    path: "{{ cosmos_node_home }}/config/privkey_validator.json"
+    path: "{{ cosmos_node_path }}/config/privkey_validator.json"
   register: cosmos_node_already_init
 
 - name: Run take node config

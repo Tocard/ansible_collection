@@ -18,3 +18,12 @@
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
   loop: "{{ cosmos_node_directories }}"
+
+- name: Add a wrapper for shell into user .bashrc
+  ansible.builtin.lineinfile:
+    path: "/home/{{ cosmos_node_owner }}/.bashrc"
+    line: "{{ item }}"
+    create: True
+  loop:
+    - "alias {{ cosmos_node_short_name }}='{{ cosmos_node }}'"
+    - "alias {{ cosmos_node }}='{{ cosmos_node }} --home {{ cosmos_node_path }}'"
