@@ -76,7 +76,7 @@ cosmos_node_prometheus_namespace: cometbft
 cosmos_node_linimum_gas_price: "0.5{{ cosmos_node_denom }}"
 
 cosmos_node_templates:
-  - src: "{{ cosmos_node }}.service.j2"
+  - src: node.service.j2
     dest: /etc/systemd/system/"{{ cosmos_node }}.service"
 #  - src: app.toml.j2
 #    dest: "{{ cosmos_node_app_toml_path}}"
