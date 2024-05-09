@@ -11,6 +11,11 @@ galaxy_info:
       versions:
         - 22
 
-  galaxy_tags: ['blockhain', 'cosmos', 'validator', 'full-node']
+  galaxy_tags: [blockhain, cosmos, validator, full-node]
 
-dependencies: []
+dependencies:
+  - name: tocard.utils.user
+    user_name: "{{ cosmos_node_owner }}"
+    user_group: "{{ cosmos_node_group }}"
+  - name: tocard.utils.filesystem
+    filesystem_list: "{{ cosmos_node_filesystem_list }}"
