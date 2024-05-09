@@ -19,7 +19,7 @@ cosmos_node_packages:
 
 ## FOLDER
 cosmos_node_log_path: "/var/log/{{ cosmos_node }}"
-cosmos_node_binaries_path: /usr/bin/
+cosmos_node_binaries_path: /usr/bin
 cosmos_node_path: "/opt/{{ cosmos_node }}/{{ cosmos_node_chain_id }}"
 cosmos_node_config_path: "{{ cosmos_node_path }}/config"
 
