@@ -1,6 +1,6 @@
 ---
 vault_package_list:
-  - "vault-{{ vault_version  }}"
+  - "vault={{ vault_version  }}"
 
 
 vault_version: 1.16.2-1
