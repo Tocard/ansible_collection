@@ -24,6 +24,8 @@ certbot_directories:
   - path: "{{ certbot_home }}"
   - path: "{{ certbot_home }}/work"
   - path: "{{ certbot_home }}/config"
+  - path: "{{ certbot_home }}/config/live"
+  - path: "{{ certbot_home }}/config/archive"
   - path: "{{ certbot_home }}/log"
   - path: /etc/letsencrypt
     recurse: true
