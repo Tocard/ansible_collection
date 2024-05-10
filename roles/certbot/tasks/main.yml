@@ -18,7 +18,7 @@
 - name: Create certbot directory
   become: true
   become_method: "{{ certbot_custom_become_method }}"
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     owner: "{{ item.owner | default(certbot_owner) }}"
     group: "{{ item.group | default(certbot_group) }}"
@@ -29,7 +29,7 @@
 - name: Template certbot files
   become: true
   become_method: "{{ certbot_custom_become_method }}"
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ item.owner | default(certbot_owner) }}"
