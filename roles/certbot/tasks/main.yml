@@ -56,7 +56,7 @@
   ansible.builtin.file:
     path: /etc/letsencrypt/live/
     state: absent
-  when: certbot_clean_previous_install
+  when: certbot_clean_previous_install | bool
 
 - name: Check if certbot has already been run at least once
   become: true
