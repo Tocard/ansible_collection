@@ -1,6 +1,6 @@
 galaxy_info:
   author: Douceur
-  description: this role simply install & configure grafana
+  description: this role simply install & configure haproxy
   
   license: BSD-3-Clause
 
@@ -11,14 +11,15 @@ galaxy_info:
       versions:
         - 22
   
-  galaxy_tags: ['grafana']
+  galaxy_tags: [haproxy]
 
 dependencies:
   - role: tocard.utils.user
-    user_name: "{{ grafana_owner }}"
-    user_group: "{{ grafana_group }}"
+    user_name: "{{ haproxy_owner }}"
+    user_group: "{{ haproxy_group }}"
   - role: tocard.utils.filesystem
-    filesystem_list: "{{ grafana_filesystem_list }}"
+    filesystem_list: "{{ haproxy_filesystem_list }}"
+
 
 
 

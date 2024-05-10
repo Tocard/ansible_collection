@@ -1,0 +1,25 @@
+galaxy_info:
+  author: Douceur
+  description: this role simply install & configure elasticsearch
+  
+  license: BSD-3-Clause
+
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 22
+  
+  galaxy_tags: [elasticsearch]
+
+dependencies:
+  - role: tocard.utils.user
+    user_name: "{{ elasticsearch_owner }}"
+    user_group: "{{ elasticsearch_group }}"
+  - role: tocard.utils.filesystem
+    filesystem_list: "{{ elasticsearch_filesystem_list }}"
+
+
+
+
