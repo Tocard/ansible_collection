@@ -1,5 +1,21 @@
 ---
 
+- name: Import grafana gpg key
+  become: true
+  become_method: "{{ grafana_custom_become_method }}"
+  ansible.builtin.apt_key:
+    url: "{{ item }}"
+    state: present
+  loop: "{{ grafana_gpg_key }}"
+
+- name: Add grafana repo
+  become: true
+  become_method: "{{ grafana_custom_become_method }}"
+  ansible.builtin.apt_repository:
+    repo: "deb {{ item }}"
+    state: present
+  loop: "{{ grafana_deb}}"
+
 - name: Copy ssl files
   become: true
   become_method: "{{ grafana_custom_become_method }}"

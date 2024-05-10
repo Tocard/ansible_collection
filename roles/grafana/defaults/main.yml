@@ -61,3 +61,11 @@ ssl_minimal_file:
     user: "{{ grafana_owner }}"
 
 grafana_custom_become_method: sudo
+
+
+grafana_gpg_key:
+  - https://packages.grafana.com/gpg.key
+
+grafana_deb:
+  - https://packages.grafana.com/oss/deb stable main
+  - https://packages.grafana.com/enterprise/deb stable main
