@@ -24,6 +24,7 @@
     group: "{{ item.group | default(certbot_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
+    recurse: "{{ item.recurse | default(omit) }}"
   loop: "{{ certbot_directories }}"
 
 - name: Template certbot files
@@ -45,7 +46,7 @@
     weekday: "0"
     minute: "0"
     hour: "12"
-    user: root
+    user: certbot
     job: "sh {{ certbot_root_dir }}/certbot.sh"
     cron_file: certbot_auto_renew
 

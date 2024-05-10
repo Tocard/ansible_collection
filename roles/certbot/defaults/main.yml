@@ -22,6 +22,8 @@ certbot_domain_to_claim:
 
 certbot_directories:
   - path: /opt/certbot
+  - path: /etc/letsencrypt/
+    recurse: true
 
 certbot_templates:
   - src: certbot.sh.j2
