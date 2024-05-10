@@ -17,11 +17,8 @@ storage "file" {
 # HTTPS listener
 listener "tcp" {
   address       = "{{ vault_bind_adress }}:{{ vault_bind_port }}
-  {% if vault_ssl_enabled | bool %}
-  tls_cert_file = "{{ vault_ssl_full_chain_crt_path }}"
-  tls_key_file  = "{{ vault_ssl_privkey_path }}"
-  {% endif %}
-
+  tls_cert_file = "{{ vault_base_path }}/tls.crt"
+  tls_key_file  = "{{ vault_base_path }}/tls.key"
 }
 
 # Enterprise license_path

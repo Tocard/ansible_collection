@@ -6,8 +6,6 @@ vault_package_list:
 vault_version: 1.16.2-1
 vault_bind_adress: "0.0.0.0"
 vault_bind_port: 8200
-vault_ssl_full_chain_crt_path: /etc/vault.d/fullchain.pem
-vault_ssl_privkey_path: /etc/vault.d/privkey.pem
 
 vault_user: vault
 vault_group: vault
@@ -19,11 +17,13 @@ vault_custom_templates:
 
 vault_ssl_enabled: true
 
-vault_path_data: /opt/vault/data
+vault_base_path: /opt/vault
+vault_path_data: "{{ vault_base_path}}/data"
 
+vault_filesystem_vg_name: olympus
 vault_filesystem_list:
   - lv: lv_vault_data
-    vg: "{{ custom_vg_name }}"
+    vg: "{{ vault_filesystem_vg_name }}"
     size: 5g
     path: "{{ vault_path_data }}"
     owner: "{{ vault_user }}"
@@ -33,19 +33,12 @@ vault_filesystem_list:
     force: false
     shrink: false
 
-ssl_minimal_file:
-  - src: "/etc/letsencrypt/live/{{ ansible_host }}/cert.pem"
-    dest: /etc/vault.d/cert.pem
-    user: vault
-  - src: "/etc/letsencrypt/live/{{ ansible_host }}/chain.pem"
-    dest: /etc/vault.d/chain.pem
-    user: vault
+vault_ssl_file:
   - src: "/etc/letsencrypt/live/{{ ansible_host }}/fullchain.pem"
-    dest: /etc/vault.d/fullchain.pem
-    user: vault
+    dest: "{{ vault_base_path }}/tls.crt"
   - src: "/etc/letsencrypt/live/{{ ansible_host }}/privkey.pem"
-    dest: /etc/vault.d/privkey.pem
-    user: vault
+    dest: "{{ vault_base_path }}/tls.key"
+
 
 vault_custom_become_method: sudo
 vault_gpg_key: https://apt.releases.hashicorp.com/gpg

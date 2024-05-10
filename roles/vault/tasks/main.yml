@@ -22,16 +22,23 @@
     state: present
   loop: "{{ vault_package_list }}"
 
-- name: Copy ssl files
-  become: true
-  become_method: "{{ vault_custom_become_method }}"
-  ansible.builtin.copy:
+- name: Create link fot ssl
+  ansible.builtin.file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ item.user }}"
     group: "{{ item.user }}"
-    mode: "{{ item.mode | default('0640') }}"
-    remote_src: true
+    state: link
+
+- name: Copy ssl files
+  become: true
+  become_method: "{{ vault_custom_become_method }}"
+  ansible.builtin.file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_user }}"
+    state: link
   loop: "{{ ssl_minimal_file }}"
   when: vault_ssl_enabled | bool
 
