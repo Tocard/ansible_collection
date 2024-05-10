@@ -15,7 +15,7 @@
     path: "{{ item.path }}"
     owner: "{{ item.owner | default(certbot_owner) }}"
     group: "{{ item.group | default(certbot_group) }}"
-    mode: "{{ item.mode | default('0750') }}"
+    mode: "{{ item.mode | default('0755') }}"
     state: "{{ item.state | default('directory') }}"
     recurse: "{{ item.recurse | default(omit) }}"
   loop: "{{ certbot_directories }}"
@@ -55,7 +55,7 @@
   become: true
   become_method: "{{ certbot_custom_become_method }}"
   ansible.builtin.stat:
-    path: "/etc/letsencrypt/live/{{ ansible_host }}/cert.pem"
+    path: "{{ certbot_home }}/work/live/{{ ansible_host }}/cert.pem"
   register: certbot_already_executed
 
 - name: Run at least once the shell script

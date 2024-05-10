@@ -45,9 +45,9 @@ vault_filesystem_list:
     mode: "0750"
 
 vault_ssl_file:
-  - src: "/etc/letsencrypt/live/{{ ansible_host }}/fullchain.pem"
+  - src: "/opt/certbot/config/live/{{ ansible_host }}/fullchain.pem"
     dest: "{{ vault_base_path }}/tls.crt"
-  - src: "/etc/letsencrypt/live/{{ ansible_host }}/privkey.pem"
+  - src: "/opt/certbot/config/live/{{ ansible_host }}/privkey.pem"
     dest: "{{ vault_base_path }}/tls.key"
 
 
