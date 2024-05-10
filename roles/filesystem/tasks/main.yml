@@ -11,7 +11,7 @@
     state: "{{ item.state | default('directory') }}"
   loop: "{{ filesystem_list }}"
 
-- import_tasks: disk.yml
+- ansible.builtin.import_tasks: disk.yml
 
-- import_tasks: lvm.yml
+- ansible.builtin.import_tasks: lvm.yml
 

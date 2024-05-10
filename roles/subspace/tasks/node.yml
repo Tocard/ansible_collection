@@ -17,7 +17,7 @@
 - name: Create node directory
   become: true
   become_method: "{{ subspace_custom_become_method }}"
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     owner: "{{ item.owner | default(subspace_owner) }}"
     group: "{{ item.group | default(subspace_group) }}"
@@ -28,7 +28,7 @@
 - name: Template Subspace Node file
   become: true
   become_method: "{{ subspace_custom_become_method }}"
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ item.owner | default(subspace_owner) }}"

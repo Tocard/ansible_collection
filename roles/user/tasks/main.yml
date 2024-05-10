@@ -2,7 +2,7 @@
 - name: Group creation
   become: true
   become_method: "{{ custom_become_method }}"
-  group:
+  ansible.builtin.group:
     name: "{{ user_group }}"
     state: present
   when: user_group is not none
@@ -10,7 +10,7 @@
 - name: User creation
   become: true
   become_method: "{{ custom_become_method }}"
-  user:
+  ansible.builtin.user:
     name: "{{ user_name }}"
     group: "{{ user_group }}"
     shell: "{{ user_shell }}"

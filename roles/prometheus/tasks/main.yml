@@ -20,7 +20,7 @@
     remote_src: true
     owner: "{{ prometheus_owner }}"
     group: "{{ prometheus_group }}"
-    mode: '0750'
+    mode: "0750"
   notify:
     - prometheus_need_restart
 
