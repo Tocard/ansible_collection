@@ -29,8 +29,6 @@ certbot_templates:
   - src: certbot.cred.j2
     dest: "{{ certbot_cred_path }}"
 
-certbot_credential: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/ovh ' ~ hashi_connect) }}"
-
 certbot_credential_dns_ovh_endpoint: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/ovh:dns_ovh_endpoint ' ~ hashi_connect) }}"
 certbot_credential_dns_ovh_application_key: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/ovh:dns_ovh_application_key ' ~ hashi_connect) }}"
 certbot_credential_dns_ovh_application_secret: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/ovh:dns_ovh_application_secret ' ~ hashi_connect) }}"
