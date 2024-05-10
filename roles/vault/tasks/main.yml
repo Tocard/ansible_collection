@@ -33,7 +33,7 @@
     mode: "{{ item.mode | default('0640') }}"
     remote_src: true
   loop: "{{ ssl_minimal_file }}"
-  when: vault_ssl_enabled
+  when: vault_ssl_enabled | bool
 
 - name: Template config files
   become: true

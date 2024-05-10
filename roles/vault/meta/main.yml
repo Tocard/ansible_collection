@@ -20,6 +20,6 @@ dependencies:
   - role: tocard.utils.filesystem
     filesystem_list: "{{ vault_filesystem_list }}"
   - role: tocard.utils.certbot
-    when: vault_ssl_enabled
+    when: vault_ssl_enabled | bool
     tags:
       - vault
