@@ -22,6 +22,7 @@ git push origin --tags
 # Create a GitHub release and upload the artifact
 gh release create "${VERSION}" -n "Release ${VERSION}" -t "${VERSION}" "tocard-utils-${VERSION}.tar.gz"
 
+rm *.gz -f
 # Deactivate virtual environment (optional, depending on your needs)
 #deactivate
 
