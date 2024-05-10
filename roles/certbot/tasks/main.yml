@@ -55,7 +55,7 @@
   become: true
   become_method: "{{ certbot_custom_become_method }}"
   ansible.builtin.stat:
-    path: "{{ certbot_home }}/work/live/{{ ansible_host }}/cert.pem"
+    path: "{{ certbot_home }}/config/live/{{ ansible_host }}/cert.pem"
   register: certbot_already_executed
 
 - name: Run at least once the shell script
