@@ -39,7 +39,7 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_user }}"
     state: link
-  loop: "{{ ssl_minimal_file }}"
+  loop: "{{ vault_ssl_file }}"
   when: vault_ssl_enabled | bool
 
 - name: Template config files
