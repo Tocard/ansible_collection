@@ -40,7 +40,7 @@
     minute: "0"
     hour: "12"
     user: certbot
-    job: "sh {{ certbot_root_dir }}/certbot.sh"
+    job: "sh {{ certbot_home }}/certbot.sh"
     cron_file: certbot_auto_renew
 
 - name: Clean live cert
@@ -62,6 +62,6 @@
   become: true
   become_method: "{{ certbot_custom_become_method }}"
   become_user: "{{ certbot_owner }}"
-  ansible.builtin.shell: "sh {{ certbot_root_dir }}/certbot.sh"
+  ansible.builtin.shell: "sh {{ certbot_home }}/certbot.sh"
   when: not certbot_already_executed.stat.exists or certbot_force_renew
 

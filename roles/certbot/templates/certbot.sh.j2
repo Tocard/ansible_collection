@@ -1,1 +1,10 @@
-certbot --dns-ovh  certonly --dns-ovh-credentials {{ certbot_cred_path }} {% for domain in certbot_domain_to_claim %} -d {{ domain }} {% endfor %} -m {{ certbot_email_contact }} --agree-tos -n --expand
+certbot --dns-ovh  certonly \
+        --dns-ovh-credentials {{ certbot_cred_path }} \
+         {% for domain in certbot_domain_to_claim %} -d {{ domain }} {% endfor %} \
+         -m {{ certbot_email_contact }} \
+         --agree-tos \
+         -n \
+         --expand \
+         --config-dir {{ certbot_home }}/config \
+         --work-dir {{ certbot_home }}/work \
+         --logs-dir {{ certbot_home }}/log

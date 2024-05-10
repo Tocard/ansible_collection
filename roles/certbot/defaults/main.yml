@@ -2,8 +2,8 @@
 certbot_owner: certbot
 certbot_group: certbot
 
-certbot_root_dir: /opt/certbot
-certbot_cred_path: "{{ certbot_root_dir }}/certbot.cred"
+certbot_home: /opt/certbot
+certbot_cred_path: "{{ certbot_home }}/certbot.cred"
 
 certbot_force_renew: false
 certbot_clean_previous_install: false
@@ -21,13 +21,16 @@ certbot_domain_to_claim:
 
 
 certbot_directories:
-  - path: /opt/certbot
+  - path: "{{ certbot_home }}"
+  - path: "{{ certbot_home }}/work"
+  - path: "{{ certbot_home }}/config"
+  - path: "{{ certbot_home }}/log"
   - path: /etc/letsencrypt
     recurse: true
 
 certbot_templates:
   - src: certbot.sh.j2
-    dest: "{{ certbot_root_dir }}/certbot.sh"
+    dest: "{{ certbot_home }}/certbot.sh"
   - src: certbot.cred.j2
     dest: "{{ certbot_cred_path }}"
 
