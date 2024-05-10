@@ -1,0 +1,14 @@
+---
+
+- name: Template cosmos_node validator config
+  become: true
+  become_method: "{{ cosmos_node_sudo_method }}"
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode | default('0640') }}"
+    owner: "{{ item.owner | default(cosmos_node_owner) }}"
+    group: "{{ item.group | default(cosmos_node_group) }}"
+  loop: "{{ cosmos_node_validator_templates }}"
+  notify: cosmos_node_need_restart
+  when: cosmos_node_validator_templates_enabled

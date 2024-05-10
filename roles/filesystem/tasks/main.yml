@@ -3,7 +3,7 @@
 - name: Create filesystem directory before mount
   become: true
   become_method: "{{ filesystem_custom_become_method }}"
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     owner: "{{ item.owner }}"
     group: "{{ item.group }}"

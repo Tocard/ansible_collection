@@ -3,7 +3,7 @@
 - name: Extend or format the fs for whole disk
   become: true
   become_method: "{{ filesystem_custom_become_method }}"
-  filesystem:
+  community.general.filesystem:
     fstype: "{{ item.fstype | default('xfs') }}"
     dev: "/dev/{{ item.disk }}"
     resizefs: "{{ item.resizefs | default('true') }}"
@@ -14,7 +14,7 @@
 - name: Mount the fs
   become: true
   become_method: "{{ filesystem_custom_become_method }}"
-  mount:
+  ansible.posix.mount:
     name: "{{ item.path }}"
     src: "/dev/{{ item.disk }}"
     fstype: "{{ item.fstype | default('xfs') }}"

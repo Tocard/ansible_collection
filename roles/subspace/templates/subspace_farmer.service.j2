@@ -13,7 +13,6 @@ ExecStart={{ subspace_farmer_binary_name }} farm \
      {% endfor -%}
     --reward-address {{ subspace_farmer_wallet_adress }} \
     --listen-on /ip4/0.0.0.0/tcp/{{ subspace_farmer_port }} \
-    --farm-during-initial-plotting false \
     --disable-farm-locking \
     --prometheus-listen-on 0.0.0.0:9081
 
