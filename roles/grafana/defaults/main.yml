@@ -48,13 +48,13 @@ grafana_owner: grafana
 grafana_group: grafana
 
 grafana_ssl_file:
-  - src: "/opt/certbot/eden/{{ ansible_host }}/cert.pem"
+  - src: "/opt/certbot/eden/cert.pem"
     dest: /etc/grafana/cert.pem
-  - src: "/opt/certbot/eden/{{ ansible_host }}/chain.pem"
+  - src: "/opt/certbot/eden/chain.pem"
     dest: /etc/grafana/chain.pem
-  - src: "/opt/certbot/eden/{{ ansible_host }}/fullchain.pem"
+  - src: "/opt/certbot/eden/fullchain.pem"
     dest: /etc/grafana/fullchain.pem
-  - src: "/opt/certbot/eden/{{ ansible_host }}/fullchain.key.pem"
+  - src: "/opt/certbot/eden/fullchain.key.pem"
     dest: /etc/grafana/fullchain.key.pem
 
 grafana_custom_become_method: sudo

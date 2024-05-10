@@ -45,9 +45,9 @@ vault_filesystem_list:
     mode: "0750"
 
 vault_ssl_file:
-  - src: "/opt/certbot/eden/{{ ansible_host }}/fullchain.pem"
+  - src: "/opt/certbot/eden/fullchain.pem"
     dest: "{{ vault_base_path }}/tls.crt"
-  - src: "/opt/certbot/eden/{{ ansible_host }}/fullchain.key.pem"
+  - src: "/opt/certbot/eden/fullchain.key.pem"
     dest: "{{ vault_base_path }}/tls.key"
 
 
