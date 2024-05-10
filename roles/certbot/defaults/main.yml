@@ -31,14 +31,9 @@ certbot_templates:
 
 certbot_credential: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/ovh ' ~ hashi_connect) }}"
 
-certbot_link_to_create:
-  - src: "/etc/letsencrypt/live/{{ certbot_main_domain }}/cert.pem"
-    dest: "/etc/ssl/certs/{{ certbot_final_name_pattern }}.cert.pem"
-  - src: "/etc/letsencrypt/live/{{ certbot_main_domain }}/chain.pem"
-    dest: "/etc/ssl/certs/{{ certbot_final_name_pattern }}.chain.pem"
-  - src: "/etc/letsencrypt/live/{{ certbot_main_domain }}/fullchain.pem"
-    dest: "/etc/ssl/certs/{{ certbot_final_name_pattern }}.fullchain.pem"
-  - src: "/etc/letsencrypt/live/{{ certbot_main_domain }}/privkey.pem"
-    dest: "/etc/ssl/certs/{{ certbot_final_name_pattern }}.privkey.pem"
+certbot_credential_dns_ovh_endpoint: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/ovh:dns_ovh_endpoint ' ~ hashi_connect) }}"
+certbot_credential_dns_ovh_application_key: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/ovh:dns_ovh_application_key ' ~ hashi_connect) }}"
+certbot_credential_dns_ovh_application_secret: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/ovh:dns_ovh_application_secret ' ~ hashi_connect) }}"
+certbot_credential_dns_ovh_consumer_key: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/ovh:dns_ovh_consumer_key ' ~ hashi_connect) }}"
 
 certbot_custom_become_method: sudo
