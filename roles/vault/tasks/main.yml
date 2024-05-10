@@ -22,7 +22,7 @@
     state: present
   loop: "{{ vault_package_list }}"
 
-- name: Copy ssl files
+- name: Source ssl file from certbot
   become: true
   become_method: "{{ vault_custom_become_method }}"
   ansible.builtin.file:

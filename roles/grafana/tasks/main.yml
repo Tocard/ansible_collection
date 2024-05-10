@@ -16,17 +16,17 @@
     state: present
   loop: "{{ grafana_deb}}"
 
-- name: Copy ssl files
+
+- name: Source ssl file from certbot
   become: true
   become_method: "{{ grafana_custom_become_method }}"
-  ansible.builtin.copy:
+  ansible.builtin.file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.user }}"
-    group: "{{ item.user }}"
-    mode: "{{ item.mode | default('0640') }}"
-    remote_src: true
-  loop: "{{ ssl_minimal_file }}"
+    owner: "{{ grafana_owner }}"
+    group: "{{ grafana_group }}"
+    state: link
+  loop: "{{ grafana_ssl_file }}"
 
 - name: Template config files
   become: true
