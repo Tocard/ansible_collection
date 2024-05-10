@@ -4,9 +4,8 @@
   become: true
   become_method: "{{ vault_custom_become_method }}"
   ansible.builtin.apt_key:
-    url: "{{ item }}"
+    url: "{{ vault_gpg_key }}"
     state: present
-  loop: "{{ vault_gpg_key }}"
 
 - name: Add Vault repository
   become: true
