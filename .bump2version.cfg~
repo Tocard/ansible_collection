@@ -1,0 +1,4 @@
+[bumpversion]
+current_version = 1.0.208
+commit = True
+tag = True
