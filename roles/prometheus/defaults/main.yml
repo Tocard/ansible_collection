@@ -47,3 +47,10 @@ prometheus_filesystem_list:
     path: "{{ prometheus_log_directory }}"
     owner: "{{ prometheus_owner }}"
     group: "{{ prometheus_group }}"
+
+prometheus_gpg_key:
+  - https://packages.prometheus.com/gpg.key
+
+prometheus_deb:
+  - https://packages.prometheus.com/oss/deb stable main
+  - https://packages.prometheus.com/enterprise/deb stable main

@@ -1,5 +1,21 @@
 ---
 
+- name: Import prometheus gpg key
+  become: true
+  become_method: "{{ prometheus_custom_become_method }}"
+  ansible.builtin.apt_key:
+    url: "{{ item }}"
+    state: present
+  loop: "{{ prometheus_gpg_key }}"
+
+- name: Add prometheus repo
+  become: true
+  become_method: "{{ prometheus_custom_become_method }}"
+  ansible.builtin.apt_repository:
+    repo: "deb {{ item }}"
+    state: present
+  loop: "{{ prometheus_deb }}"
+
 - name: Create node directory
   become: true
   become_method: "{{ prometheus_custom_become_method }}"
