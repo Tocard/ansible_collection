@@ -16,7 +16,6 @@
     state: present
   loop: "{{ grafana_deb}}"
 
-
 - name: Source ssl file from certbot
   become: true
   become_method: "{{ grafana_custom_become_method }}"
