@@ -42,7 +42,7 @@
   loop: "{{ vault_ssl_file }}"
   when: vault_ssl_enabled | bool
 
-- name: Template config files²
+- name: Template config files
   become: true
   become_method: "{{ vault_custom_become_method }}"
   ansible.builtin.template:
