@@ -7,6 +7,14 @@
     name: "{{ certbot_group }}"
     state: present
 
+- name: Install required package
+  become: true
+  become_method: "{{ certbot_custom_become_method }}"
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ certbot_package}}"
+
 - name: Create certbot directory
   become: true
   become_method: "{{ certbot_custom_become_method }}"

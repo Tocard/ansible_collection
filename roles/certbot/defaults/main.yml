@@ -8,6 +8,10 @@ certbot_cred_path: "{{ certbot_root_dir }}/certbot.cred"
 certbot_force_renew: false
 certbot_clean_previous_install: false
 
+certbot_package:
+  - certbot
+  - python3-certbot-nginx
+  - python3-certbot-dns-ovh
 
 certbot_final_name_pattern: "{{ ansible_hostname }}"
 certbot_email_contact: contact@ether-source.fr
