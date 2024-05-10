@@ -34,7 +34,7 @@
   become_method: "{{ certbot_custom_become_method }}"
   ansible.builtin.cron:
     name: certbot auto renew
-    weekday: "*"
+    weekday: "0"
     minute: "0"
     hour: "12"
     user: root
