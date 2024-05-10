@@ -8,7 +8,4 @@ certbot --dns-ovh  certonly \
          --config-dir {{ certbot_home }}/config \
          --work-dir {{ certbot_home }}/work \
          --logs-dir {{ certbot_home }}/log \
-         --cert-path "{{ certbot_home }}/eden/crt.pem" \
-         --key-path "{{ certbot_home }}/eden/crts.key" \
-         --fullchain-path "{{ certbot_home }}/eden/crts.pem" \
-         --chain-path "{{ certbot_home }}/eden/chain.pem"
+         --deploy-hook ./certbot_eden.sh

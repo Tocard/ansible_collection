@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cp {{ certbot_home }}/config/live/{{ ansible_hostname }}/* {{ certbot_home }}/eden/
+chown {{ certbot_owner }}:{{ certbot_group }} eden -R
+chmod 0660 eden/*
+
+mv {{ certbot_home }}/eden/privkey.pem mv {{ certbot_home }}/eden/fullchain.key.pem
