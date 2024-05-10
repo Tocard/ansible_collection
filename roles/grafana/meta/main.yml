@@ -7,20 +7,18 @@ galaxy_info:
   min_ansible_version: 2.9
 
   platforms:
-   - name: Fedora
-     versions:
-      - 37
-      - 38
-   - name: Ubuntu
-     versions:
-     - 22
-     - 23
-   - name: Proxmox
-     versions:
-     - 7
-     - 8
+    - name: Ubuntu
+      versions:
+        - 22
   
   galaxy_tags: ['grafana']
 
-dependencies: []
+dependencies:
+  - name: tocard.utils.user
+    user_name: "{{ grafana_owner }}"
+    user_group: "{{ grafana_group }}"
+  - name: tocard.utils.filesystem
+    filesystem_list: "{{ grafana_filesystem_list }}"
+
+
 
