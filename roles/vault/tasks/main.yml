@@ -22,14 +22,6 @@
     state: present
   loop: "{{ vault_package_list }}"
 
-- name: Create link fot ssl
-  ansible.builtin.file:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ item.user }}"
-    group: "{{ item.user }}"
-    state: link
-
 - name: Copy ssl files
   become: true
   become_method: "{{ vault_custom_become_method }}"

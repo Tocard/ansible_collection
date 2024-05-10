@@ -57,9 +57,6 @@ filebeat_log_path_to_watch: []
 filebeat_gpg_key:
   - https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
-filebeat_yum_repo:
-  - src: elastic.repo
-    dest: /etc/yum.repos.d/elastic.repo
 
 filebeat_deb:
   - https://artifacts.elastic.co/packages/8.x/apt stable main

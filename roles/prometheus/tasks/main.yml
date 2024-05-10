@@ -3,7 +3,7 @@
 - name: Create node directory
   become: true
   become_method: "{{ prometheus_custom_become_method }}"
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     owner: "{{ item.owner | default(prometheus_owner) }}"
     group: "{{ item.group | default(prometheus_group) }}"
@@ -27,7 +27,7 @@
 - name: Template prometheus file
   become: true
   become_method: "{{ prometheus_custom_become_method }}"
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ item.owner | default(prometheus_owner) }}"

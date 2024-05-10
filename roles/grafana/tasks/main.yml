@@ -1,19 +1,4 @@
 ---
-- name: Templatise rpm repo
-  become: true
-  become_method: "{{ grafana_custom_become_method }}"
-  template:
-    src: grafana.repo
-    dest: /etc/yum.repos.d/grafana.repo
-    owner: root
-    group: root
-
-- name: Install rpm
-  become: true
-  become_method: "{{ grafana_custom_become_method }}"
-  yum:
-    name: grafana
-    state: present
 
 - name: Copy ssl files
   become: true
@@ -30,7 +15,7 @@
 - name: Template config files
   become: true
   become_method: "{{ grafana_custom_become_method }}"
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ item.owner | default(grafana_owner) }}"
