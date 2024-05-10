@@ -1,5 +1,5 @@
 ---
-certbot_owner: root
+certbot_owner: certbot
 certbot_group: certbot
 
 certbot_root_dir: /opt/certbot

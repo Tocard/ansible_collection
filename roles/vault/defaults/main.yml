@@ -9,6 +9,7 @@ vault_bind_port: 8200
 
 vault_user: vault
 vault_group: vault
+vault_groups: [certbot]
 
 vault_custom_templates:
   - src: vault.hcl.j2

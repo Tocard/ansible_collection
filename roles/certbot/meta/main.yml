@@ -13,5 +13,8 @@ galaxy_info:
   
   galaxy_tags: ['certbot', 'ssl']
 
-dependencies: []
+dependencies:
+  - name: tocard.utils.user
+    user_name: "{{ certbot_owner }}"
+    user_group: "{{ certbot_group }}"
 
