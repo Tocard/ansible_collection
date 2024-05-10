@@ -17,6 +17,7 @@ dependencies:
   - role: tocard.utils.user
     user_name: "{{ vault_user }}"
     user_group: "{{ vault_group }}"
+    user_groups: "{{ vault_groups }}"
   - role: tocard.utils.filesystem
     filesystem_list: "{{ vault_filesystem_list }}"
   - role: tocard.utils.certbot

@@ -67,6 +67,7 @@
 - name: Run at least once the shell script
   become: true
   become_method: "{{ certbot_custom_become_method }}"
+  become_user: "{{ certbot_owner }}"
   ansible.builtin.shell: "sh {{ certbot_root_dir }}/certbot.sh"
   when: not certbot_already_executed.stat.exists or certbot_force_renew
 

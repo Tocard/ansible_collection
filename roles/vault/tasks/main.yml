@@ -31,6 +31,7 @@
     owner: "{{ vault_user }}"
     group: "{{ vault_user }}"
     state: link
+    follow: False
   loop: "{{ vault_ssl_file }}"
   when: vault_ssl_enabled | bool
 
