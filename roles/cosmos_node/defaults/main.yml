@@ -91,7 +91,14 @@ cosmos_node_base_url: https://github.com/NibiruChain/nibiru/releases/download
 cosmos_node_arch: linux_amd64
 cosmos_node_binaries_download_url: "{{ cosmos_node_base_url }}/v{{ cosmos_node_version }}/nibid_{{ cosmos_node_version }}_{{ cosmos_node_arch }}.tar.gz"
 
-cosmos_node_genesis_donwload_url:
+cosmos_node_genesis_donwload_url: https://snapshots.kjnodes.com/nibiru/genesis.json
+cosmos_node_addrbook_donwload_url: https://snapshots.kjnodes.com/nibiru/addrbook.json
+
+cosmos_node_extra_remote_config_file:
+  - src: "{{ cosmos_node_genesis_donwload_url }}"
+    dest: "{{ cosmos_node_config_path }}/genesis.json"
+  - src: "{{ cosmos_node_addrbook_donwload_url }}"
+    dest: "{{ cosmos_node_config_path }}/addrbook.json"
 
 cosmos_node_seeds:
 cosmos_node_persistent_peers:

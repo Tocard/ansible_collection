@@ -7,3 +7,15 @@
 - name: Config the node
   ansible.builtin.shell: "{{ cosmos_node_binaries }} config chain-id {{ cosmos_node_chain_id }}"
   notify: cosmos_node_need_restart
+
+- name: Donwload extra config file
+  become: true
+  become_method: "{{ cosmos_node_sudo_method }}"
+  ansible.builtin.get_url:
+    url: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(cosmos_node_owner) }}"
+    group: "{{ item.group | default(cosmos_node_group) }}"
+    mode: "0640"
+    force: true
+  loop: "{{ cosmos_node_extra_remote_config_file }}"
