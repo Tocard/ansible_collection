@@ -1,12 +1,23 @@
 ---
 
-- ansible.builtin.import_tasks: debian.yml
-  when: "'debian' in ansible_os_family"
+- name: Import Vault gpg key
+  become: true
+  become_method: "{{ vault_custom_become_method }}"
+  ansible.builtin.apt_key:
+    url: "{{ item }}"
+    state: present
+  loop: "{{ vault_gpg_key }}"
 
-- ansible.builtin.import_tasks: centos.yml
-  when: "'redhat' in ansible_os_family"
+- name: Add Vault repository
+  become: true
+  become_method: "{{ vault_custom_become_method }}"
+  ansible.builtin.apt_repository:
+    repo: "deb https://apt.releases.hashicorp.com {{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+    state: present
 
 - name: Install Vault package
+  become: true
+  become_method: "{{ vault_custom_become_method }}"
   ansible.builtin.package:
     name: "{{ item }}"
     state: present
@@ -14,7 +25,7 @@
 
 - name: Copy ssl files
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ vault_custom_become_method }}"
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -27,7 +38,7 @@
 
 - name: Template config files
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ vault_custom_become_method }}"
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"

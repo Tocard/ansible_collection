@@ -46,3 +46,6 @@ ssl_minimal_file:
   - src: "/etc/letsencrypt/live/{{ ansible_host }}/privkey.pem"
     dest: /etc/vault.d/privkey.pem
     user: vault
+
+vault_custom_become_method: sudo
+vault_gpg_key: https://apt.releases.hashicorp.com/gpg
