@@ -16,7 +16,7 @@ storage "file" {
 
 # HTTPS listener
 listener "tcp" {
-  address       = "{{ vault_bind_adress }}:{{ vault_bind_port }}
+  address       = "{{ vault_bind_adress }}:{{ vault_bind_port }}"
   tls_cert_file = "{{ vault_base_path }}/tls.crt"
   tls_key_file  = "{{ vault_base_path }}/tls.key"
 }
