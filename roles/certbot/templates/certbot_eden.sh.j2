@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cp {{ certbot_home }}/config/live/{{ ansible_hostname }}/* {{ certbot_home }}/eden/
+cp {{ certbot_home }}/config/live/{{ ansible_host }}/* {{ certbot_home }}/eden/
 chown {{ certbot_owner }}:{{ certbot_group }} eden -R
 chmod 0660 eden/*
 
