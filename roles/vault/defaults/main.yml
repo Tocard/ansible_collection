@@ -14,11 +14,19 @@ vault_custom_templates:
   - src: vault.hcl.j2
     dest: /etc/vault.d/vault.hcl
     mode: "0640"
+  - src: vault.service.j2
+    dest: /etc/systemd/system/vault.service
+    mode: "0640"
+
+
 
 vault_ssl_enabled: true
 
 vault_base_path: /opt/vault
 vault_path_data: "{{ vault_base_path}}/data"
+
+vault_log_file: vault.log
+vault_log_path: /var/log/vault
 
 vault_filesystem_vg_name: olympus
 vault_filesystem_list:
@@ -29,9 +37,13 @@ vault_filesystem_list:
     owner: "{{ vault_user }}"
     group: "{{ vault_group }}"
     mode: "0750"
-    fstype: xfs
-    force: false
-    shrink: false
+  - lv: lv_vault_log
+    vg: "{{ vault_filesystem_vg_name }}"
+    size: 1g
+    path: "{{ vault_log_path }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0750"
 
 vault_ssl_file:
   - src: "/etc/letsencrypt/live/{{ ansible_host }}/fullchain.pem"
