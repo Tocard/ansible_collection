@@ -1,7 +1,7 @@
-Grafana
+elasticsearch
 =========
 
-Install grafana on linux
+Install elasticsearch on linux
 
 Requirements
 ------------
@@ -25,11 +25,11 @@ Example Playbook
 ```yaml
 ---
 #==================================================================
-# GRAFANA
+# elasticsearch
 #==================================================================
-- hosts: grafana
+- hosts: elasticsearch
   roles:
-    - role: grafana
+    - role: elasticsearch
 ```
 
 License

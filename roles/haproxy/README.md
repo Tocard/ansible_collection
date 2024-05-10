@@ -1,7 +1,7 @@
-Grafana
+haproxy
 =========
 
-Install grafana on linux
+Install haproxy on linux
 
 Requirements
 ------------
@@ -25,11 +25,11 @@ Example Playbook
 ```yaml
 ---
 #==================================================================
-# GRAFANA
+# haproxy
 #==================================================================
-- hosts: grafana
+- hosts: haproxy
   roles:
-    - role: grafana
+    - role: haproxy
 ```
 
 License

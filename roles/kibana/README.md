@@ -1,7 +1,7 @@
-Grafana
+kibana
 =========
 
-Install grafana on linux
+Install kibana on linux
 
 Requirements
 ------------
@@ -25,11 +25,11 @@ Example Playbook
 ```yaml
 ---
 #==================================================================
-# GRAFANA
+# kibana
 #==================================================================
-- hosts: grafana
+- hosts: kibana
   roles:
-    - role: grafana
+    - role: kibana
 ```
 
 License
