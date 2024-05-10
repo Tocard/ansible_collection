@@ -1,0 +1,10 @@
+---
+- name: Restart haproxy
+  become: true
+  become_method: "{{ haproxy_sudo_become_method }}"
+  systemd:
+    name: haproxy
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: haproxy_need_restart

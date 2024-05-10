@@ -1,0 +1,162 @@
+#---------------------------------------------------------------------
+# Example configuration for a possible web application.  See the
+# full configuration options online.
+#
+#   https://www.haproxy.org/download/1.8/doc/configuration.txt
+#
+#---------------------------------------------------------------------
+
+#---------------------------------------------------------------------
+# Global settings
+#---------------------------------------------------------------------
+global
+    # to have these messages end up in /var/log/haproxy.log you will
+    # need to:
+    #
+    # 1) configure syslog to accept network log events.  This is done
+    #    by adding the '-r' option to the SYSLOGD_OPTIONS in
+    #    /etc/sysconfig/syslog
+    #
+    # 2) configure local2 events to go to the /var/log/haproxy.log
+    #   file. A line like the following can be added to
+    #   /etc/sysconfig/syslog
+    #
+    #    local2.*                       /var/log/haproxy.log
+    #
+    log         127.0.0.1 local2
+
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     4000
+    user        haproxy
+    group       haproxy
+    daemon
+
+    ca-base     {{ haproxy_certs_path }}
+    crt-base    {{ haproxy_certs_path }}
+    # turn on stats unix socket
+    stats socket /var/lib/haproxy/stats
+
+    # utilize system-wide crypto-policies
+    #ssl-default-bind-ciphers PROFILE=SYSTEM
+    #ssl-default-server-ciphers PROFILE=SYSTEM
+
+#---------------------------------------------------------------------
+# common defaults that all the 'listen' and 'backend' sections will
+# use if not designated in their block
+#---------------------------------------------------------------------
+defaults
+    mode                    tcp
+    log                     global
+    option                  httplog
+    option                  dontlognull
+    option http-server-close
+    option forwardfor       except 127.0.0.0/8
+    option                  redispatch
+    retries                 3
+    timeout http-request    10s
+    timeout queue           1m
+    timeout connect         10s
+    timeout client          1m
+    timeout server          1m
+    timeout http-keep-alive 10s
+    timeout check           10s
+    maxconn                 3000
+
+
+#---------------------------------------------------------------------
+# Stats settings
+#---------------------------------------------------------------------
+listen stats
+       bind 0.0.0.0:9091
+       mode http
+       balance
+       timeout client 5000
+       timeout connect 4000
+       timeout server 30000
+    #This is the virtual URL to access the stats page
+       stats uri /haproxy_stats
+    #autorefresh value
+       stats refresh 5s
+    #Authentication realm. This can be set to anything. Escape space characters with a backslash.
+       stats realm HAProxy\ Statistics
+   #The user/pass you want to use. Change this password!
+       stats auth {{ haproxy_stats_user }}:{{ haproxy_stats_password }}
+   #This allows you to take down and bring up back end servers.
+   #This will produce an error on older versions of HAProxy.
+       stats admin if TRUE
+
+
+backend backend_haproxy_stats
+        mode http
+        server srv_haproxy_stats 127.0.0.1:9091 check  fall 2 rise 2
+
+listen https
+    mode http
+    bind *:443 ssl crt {{ ansible_hostname }}.fullchain.pem  ca-file {{ ansible_hostname }}.chain.pem verify optional
+    acl haproxy_stats_acl path_beg /haproxy_stats
+    use_backend backend_haproxy_stats if haproxy_stats_acl
+
+    redirect scheme https if !{ ssl_fc }
+
+    server  mermaid-alpha  mermaid-alpha.mythologic.fr:3000 check fall 2 rise 2 ssl verify none
+
+listen cerberus
+    mode http
+    option httpchk
+
+    bind *:9200 ssl crt {{ ansible_hostname }}.fullchain.pem  ca-file {{ ansible_hostname }}.chain.pem verify optional
+
+    default-server check fall 2 rise 2 ssl verify none
+
+{% for item in groups['cerberus'] %}
+    server {{ item }} {{ hostvars[item]['ansible_host'] }}:9200
+{% endfor %}
+
+listen mermaid-kibana
+    mode http
+    option httpchk
+
+    bind *:5601 ssl crt {{ ansible_hostname }}.fullchain.pem  ca-file {{ ansible_hostname }}.chain.pem verify optional
+
+    default-server check fall 2 rise 2 ssl verify none
+
+{% for item in groups['mermaid'] %}
+    server {{ item }} {{ hostvars[item]['ansible_host'] }}:5601
+{% endfor %}
+
+listen mermaid-grafana
+    mode http
+    option httpchk
+
+    bind *:3000 ssl crt {{ ansible_hostname }}.fullchain.pem  ca-file {{ ansible_hostname }}.chain.pem verify optional
+
+    default-server check fall 2 rise 2 ssl verify none
+
+{% for item in groups['mermaid'] %}
+    server {{ item }} {{ hostvars[item]['ansible_host'] }}:3000
+{% endfor %}
+
+listen minotor
+    mode http
+    option httpchk
+
+    bind *:8080 ssl crt {{ ansible_hostname }}.fullchain.pem  ca-file {{ ansible_hostname }}.chain.pem verify optional
+
+    default-server check fall 2 rise 2 ssl verify none
+
+{% for item in groups['minotor'] %}
+    server {{ item }} {{ hostvars[item]['ansible_host'] }}:8080
+{% endfor %}
+
+listen cyclops
+    mode http
+    option httpchk
+
+    bind *:8006 ssl crt {{ ansible_hostname }}.fullchain.pem  ca-file {{ ansible_hostname }}.chain.pem verify optional
+
+    default-server check fall 2 rise 2 ssl verify none
+
+{% for item in groups['cyclops'] %}
+    server {{ item }} {{ hostvars[item]['ansible_host'] }}:8006
+{% endfor %}

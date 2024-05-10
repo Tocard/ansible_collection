@@ -1,0 +1,44 @@
+---
+haproxy_owner: haproxy
+haproxy_group: haproxy
+
+haproxy_custom_dirs:
+  - path: /run/haproxy
+    mode: "0755"
+  - path: /etc/haproxy/ssl
+    mode: "0750"
+
+haproxy_packages:
+  - haproxy
+
+haproxy_templates:
+  - src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: "0640"
+
+haproxy_stats_user: admin
+haproxy_stats_password: "{{ lookup('hashi_vault', hashi_haproxy_path ~ '/stats_user:moz ' ~ hashi_connect) }}"
+
+haproxy_filesystem_vg_name: olympus
+haproxy_filesystem_list:
+  - lv: lv_haproxy_log
+    vg: "{{ haproxy_filesystem_vg_name }}"
+    size: 1g
+    path: /var/log/haproxy
+    owner: "{{ haproxy_owner }}"
+    group: "{{ haproxy_group }}"
+    mode: "0750"
+
+haproxy_certs_path: /etc/haproxy/ssl
+
+haproxy_ssl_file:
+  - src: "/opt/certbot/eden/cert.pem"
+    dest: "{{ haproxy_certs_path }}/cert.pem"
+  - src: "/opt/certbot/eden/chain.pem"
+    dest: "{{ haproxy_certs_path }}/chain.pem"
+  - src: "/opt/certbot/eden/fullchain.pem"
+    dest: "{{ haproxy_certs_path }}/fullchain.pem"
+  - src: "/opt/certbot/eden/fullchain.key.pem"
+    dest: "{{ haproxy_certs_path }}/fullchain.key.pem"
+
+haproxy_sudo_become_method: sudo
