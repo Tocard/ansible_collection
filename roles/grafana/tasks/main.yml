@@ -25,9 +25,7 @@
     owner: "{{ item.owner | default(grafana_owner) }}"
     group: "{{ item.group | default(grafana_group) }}"
     mode: "{{ item.mode | default('0640') }}"
-  loop: "{{ grafana_custom_configs }}"
-  when: grafana_custom_configs is defined
-  notify: grafana_need_restart
+  loop: "{{ grafana_directories }}"
 
 - name: Source ssl file from certbot
   become: true
