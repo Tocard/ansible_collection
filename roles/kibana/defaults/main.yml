@@ -11,7 +11,7 @@ kibana_pid_dir: /var/run/kibana
 kibana_ssl_path: /etc/kibana/ssl
 
 kibana_package:
-  - "kibana= {{ kibana_version }}"
+  - "kibana={{ kibana_version }}"
 
 kibana_custom_templates:
   - src: kibana.yml.j2
