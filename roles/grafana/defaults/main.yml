@@ -6,8 +6,16 @@ grafana_custom_configs:
 
 grafana_data_dir: /var/lib/grafana
 grafana_log_dir: /var/log/grafana
-
+grafana_ssl_location:  /etc/grafana/ssl
 grafana_admin_user: admin
+
+grafana_directories:
+  - path: "{{ grafana_ssl_location }}"
+  - path: /usr/share/grafana
+  - path: "{{ grafana_data_dir }}"
+  - path: /var/run/grafana
+  - path: "{{ grafana_log_dir }}"
+
 
 grafana_filesystem_vg_name: olympus
 grafana_filesystem_list:
@@ -18,9 +26,6 @@ grafana_filesystem_list:
     owner: "{{ grafana_owner }}"
     group: "{{ grafana_owner }}"
     mode: "0750"
-    fstype: xfs
-    force: false
-    shrink: false
   - lv: lv_grafana_log
     vg: "{{ grafana_filesystem_vg_name }}"
     size: 500M
@@ -28,9 +33,7 @@ grafana_filesystem_list:
     owner: "{{ grafana_owner }}"
     group: "{{ grafana_owner }}"
     mode: "0750"
-    fstype: xfs
-    force: false
-    shrink: false
+
 
 grafana_custom_packages:
   - nss
@@ -38,24 +41,18 @@ grafana_custom_packages:
 
 grafana_http_port: 3000
 
-grafana_system_directories:
-  - path: /etc/grafana
-  - path: /usr/share/grafana
-  - path: "{{ grafana_data_dir }}"
-  - path: /var/run/grafana
-
 grafana_owner: grafana
 grafana_group: grafana
 
 grafana_ssl_file:
   - src: /opt/certbot/eden/cert.pem
-    dest: /etc/grafana/ssl/cert.pem
+    dest: "{{ grafana_ssl_location }}/cert.pem"
   - src: /opt/certbot/eden/chain.pem
-    dest: /etc/grafana/ssl/chain.pem
+    dest: "{{ grafana_ssl_location }}/chain.pem"
   - src: /opt/certbot/eden/fullchain.pem
-    dest: /etc/grafana/ssl/fullchain.pem
+    dest: "{{ grafana_ssl_location }}/fullchain.pem"
   - src: /opt/certbot/eden/fullchain.key.pem
-    dest: /etc/grafana/ssl/fullchain.key.pem
+    dest: "{{ grafana_ssl_location }}/fullchain.key.pem"
 
 grafana_custom_become_method: sudo
 
