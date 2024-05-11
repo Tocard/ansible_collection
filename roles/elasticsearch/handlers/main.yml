@@ -9,8 +9,3 @@
     enabled: true
     daemon_reload: true
   listen: elasticsearch_need_restart
-
-- name: Wait elasticsearch port
-  ansible.builtin.wait_for:
-    port: "{{ elasticsearch_port }}"
-  listen: elasticsearch_need_restart
