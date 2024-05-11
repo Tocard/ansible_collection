@@ -1,7 +1,7 @@
 ---
 haproxy_owner: haproxy
 haproxy_group: haproxy
-haproxy_version: 2.8
+haproxy_version: 2.8.9-1ppa1
 haproxy_custom_dirs:
   - path: /run/haproxy
     mode: "0755"
