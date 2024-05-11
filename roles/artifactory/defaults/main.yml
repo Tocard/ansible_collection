@@ -1,0 +1,22 @@
+---
+artifactory_owner: artifactory
+artifactory_group: artifactory
+
+artifactory_home: /opt/artifactory
+
+
+artifactory_package:
+  - artifactory
+
+artifactory_directories:
+  - path: "{{ artifactory_home }}"
+  - path: "{{ artifactory_home }}/work"
+  - path: "{{ artifactory_home }}/config"
+  - path: "{{ artifactory_home }}/log"
+  - path: "{{ artifactory_home }}/eden"
+  - path: /etc/letsencrypt
+    recurse: true
+
+artifactory_templates:
+
+artifactory_custom_become_method: sudo

@@ -1,0 +1,33 @@
+---
+
+- name: Install required package
+  become: true
+  become_method: "{{ artifactory_custom_become_method }}"
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ artifactory_package}}"
+
+- name: Create artifactory directories
+  become: true
+  become_method: "{{ artifactory_custom_become_method }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(artifactory_owner) }}"
+    group: "{{ item.group | default(artifactory_group) }}"
+    mode: "{{ item.mode | default('0755') }}"
+    state: "{{ item.state | default('directory') }}"
+    recurse: "{{ item.recurse | default(omit) }}"
+  loop: "{{ artifactory_directories }}"
+
+- name: Template artifactory files
+  become: true
+  become_method: "{{ artifactory_custom_become_method }}"
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(artifactory_owner) }}"
+    group: "{{ item.group | default(artifactory_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ artifactory_templates }}"
+
