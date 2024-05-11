@@ -34,17 +34,15 @@ filebeat_custom_dirs:
     group: "{{ filebeat_group }}"
     mode: "0750"
 
+filebeat_filesyste_vg_name: olympus
 filebeat_filesystem_list:
   - lv: lv_filebeat_log
-    vg: "{{ custom_vg_name }}"
+    vg: "{{ filebeat_filesyste_vg_name }}"
     size: 1g
     path: "{{ filebeat_log_dir }}"
     owner: "{{ filebeat_owner }}"
     group: "{{ filebeat_group }}"
     mode: "0750"
-    fstype: xfs
-    force: false
-    shrink: false
 
 filebeat_install_mode: latest
 filebeat_custom_become_method: sudo

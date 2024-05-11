@@ -44,17 +44,15 @@ metricbeat_custom_dirs:
     group: "{{ metricbeat_group }}"
     mode: "0750"
 
+metricbeat_filesystem_vg_name: olympus
 metricbeat_filesystem_list:
   - lv: lv_metricbeat_log
-    vg: "{{ custom_vg_name }}"
+    vg: "{{ metricbeat_filesystem_vg_name }}"
     size: 1g
     path: "{{ metricbeat_log_dir }}"
     owner: "{{ metricbeat_owner }}"
     group: "{{ metricbeat_group }}"
     mode: "0750"
-    fstype: xfs
-    force: false
-    shrink: false
 
 metricbeat_install_mode: latest
 metricbeat_custom_become_method: sudo
