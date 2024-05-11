@@ -3,7 +3,7 @@
 - name: Restart Prometheus
   become: true
   become_method: "{{ prometheus_custom_become_method }}"
-  systemd:
+  ansible.builtin.systemd:
     name: prometheus
     state: restarted
     enabled: true

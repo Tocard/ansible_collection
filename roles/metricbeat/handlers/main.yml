@@ -1,8 +1,8 @@
 ---
 - name: Restart metricbeat
   become: true
-  become_method: "{{ custom_become_method }}"
-  systemd:
+  become_method: "{{ metricbeat_custom_become_method }}"
+  ansible.builtin.systemd:
     name: metricbeat
     state: restarted
     enabled: true

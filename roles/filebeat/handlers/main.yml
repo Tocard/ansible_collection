@@ -2,7 +2,7 @@
 - name: Restart filebeat
   become: true
   become_method: "{{ filebeat_custom_become_method }}"
-  systemd:
+  ansible.builtin.systemd:
     name: filebeat
     state: restarted
     enabled: true

@@ -23,7 +23,6 @@
     - item.vg is defined
     - inventory_hostname | regex_search('cyclops') is none
 
-
 - name: Extend or format the fs for volume group
   become: true
   become_method: "{{ filesystem_custom_become_method }}"

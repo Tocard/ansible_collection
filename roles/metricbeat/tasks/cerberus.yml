@@ -3,7 +3,7 @@
 - name: Template elasticsearch xpack
   become: true
   become_method: "{{ metricbeat_custom_become_method }}"
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ item.owner | default(metricbeat_owner) }}"

@@ -1,8 +1,8 @@
 ---
 - name: Restart Subspace Node
   become: true
-  become_method: "{{ custom_become_method }}"
-  systemd:
+  become_method: "{{ subspace_custom_become_method }}"
+  ansible.builtin.systemd:
     name: subspace_node
     state: restarted
     enabled: true
@@ -11,8 +11,8 @@
 
 - name: Restart Subspace Farmer
   become: true
-  become_method: "{{ custom_become_method }}"
-  systemd:
+  become_method: "{{ subspace_custom_become_method }}"
+  ansible.builtin.systemd:
     name: subspace_farmer
     state: restarted
     enabled: true
@@ -21,8 +21,8 @@
 
 - name: Restart Subspace Operator
   become: true
-  become_method: "{{ custom_become_method }}"
-  systemd:
+  become_method: "{{ subspace_custom_become_method }}"
+  ansible.builtin.systemd:
     name: subspace_operator
     state: restarted
     enabled: true

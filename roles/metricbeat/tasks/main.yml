@@ -2,7 +2,7 @@
 - name: Create directory
   become: true
   become_method: "{{ metricbeat_custom_become_method }}"
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     owner: "{{ item.owner | default(metricbeat_owner) }}"
     group: "{{ item.group | default(metricbeat_group) }}"
@@ -15,7 +15,7 @@
 - name: Install binaries
   become: true
   become_method: "{{ metricbeat_custom_become_method }}"
-  package:
+  ansible.builtin.package:
     name: "metricbeat{{ metricbeat_version }}"
     state: "{{ metricbeat_install_mode }}"
   notify:
@@ -24,7 +24,7 @@
 - name: Template config file
   become: true
   become_method: "{{ metricbeat_custom_become_method }}"
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ item.owner | default(metricbeat_owner) }}"
@@ -34,11 +34,11 @@
   notify:
     - metricbeat_need_restart
 
-- import_tasks: generic_ac.yml
+- ansible.builtin.import_tasks: generic_ac.yml
   when: metricbeat_use_generic_ac
 
-- import_tasks: cerberus.yml
+- ansible.builtin.import_tasks: cerberus.yml
   when: "'cerberus' in groups"
 
-- import_tasks: cosmos.yml
+- ansible.builtin.import_tasks: cosmos.yml
   when: metricbeat_cosmos_node_enabled
