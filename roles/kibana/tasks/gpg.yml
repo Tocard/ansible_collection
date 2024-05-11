@@ -5,7 +5,7 @@
   ansible.builtin.apt_key:
     url: "{{ item }}"
     state: present
-  loop: "{{ elasticsearch_gpg_key }}"
+  loop: "{{ kibana_gpg_key }}"
 
 - name: Add repo for elk
   become: true
@@ -13,4 +13,4 @@
   ansible.builtin.apt_repository:
     repo: "deb {{ item }}"
     state: present
-  loop: "{{ elasticsearch_deb }}"
+  loop: "{{ kibana_deb }}"
