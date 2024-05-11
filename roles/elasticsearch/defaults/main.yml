@@ -72,17 +72,20 @@ elasticsearch_cluster_users:
     password: "{{ elasticsearch_elastic_password }}"
 
 elasticsearch_custom_roles:
-  - cluster: [manage_index_templates, monitor, manage_ilm]
+  - name: metricbeat_olympus
+    cluster: [manage_index_templates, monitor, manage_ilm]
     indices:
       - names: [metricbeat*, .monitoring*, .ds-.monitoring-*]
         privileges: [ write, create_index, manage, view_index_metadata ]
 
-  - cluster: [manage_index_templates, monitor, manage_ilm]
+  - name: metricbeat
+    cluster: [manage_index_templates, monitor, manage_ilm]
     indices:
       - names: [metricbeat*]
         privileges: [ write, create_index, manage, view_index_metadata ]
 
-  - cluster: []
+  - name: grafana
+    cluster: []
     indices:
       - names: [flux-*, cosmos-*, defi-*, minotor-*, metricbeat*, .monitoring-*, osmosis-*]
         privileges: [ read, monitor, view_index_metadata ]
