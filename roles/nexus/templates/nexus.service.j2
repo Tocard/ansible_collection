@@ -1,0 +1,18 @@
+[Unit]
+Description=nexus service
+After=network.target
+  
+[Service]
+Type=forking
+LimitNOFILE=65536
+ExecStart={{ nexus_binary_path }} start
+ExecStop={{ nexus_binary_path }} stop
+User="{{ nexus_owner }}
+Group="{{ nexus_group }}
+Restart=on-abort
+TimeoutSec=600
+ StandardOutput=append:{{ nexus_log_path }}/nexus.log
+StandardError=append:{{ nexus_log_path }}/nexus.log
+  
+[Install]
+WantedBy=multi-user.target

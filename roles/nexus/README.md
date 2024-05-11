@@ -1,7 +1,7 @@
-Certbot
+Nexus
 =========
 
-Install & configure artifactory
+Install & configure nexus
 
 Requirements
 ------------
@@ -28,13 +28,13 @@ Example Playbook
 ---
 
 #==================================================================
-# Artifactory
+# nexus
 #==================================================================
-- hosts: artifactory
+- hosts: nexus
   roles:
-    - role: artifactory
+    - role: nexus
       tags:
-        - artifactory
+        - nexus
 
 
 
