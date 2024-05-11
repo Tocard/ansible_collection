@@ -1,46 +1,79 @@
-Filesystem
-=========
+# filesystem
 
-This role will allow you to create filesystem with lvm or create filesystem for the whole disk.
+this role simply create filesystem on linux
 
-Requirements
-------------
+## Table of content
 
-None
+- [Requirements](#requirements)
+- [Default Variables](#default-variables)
+  - [filesystem_custom_become_method](#filesystem_custom_become_method)
+  - [filesystem_list](#filesystem_list)
+  - [filesystem_physical_volumes_list](#filesystem_physical_volumes_list)
+  - [filesystem_volume_create_enabled](#filesystem_volume_create_enabled)
+  - [filesystem_volume_group_name](#filesystem_volume_group_name)
+- [Dependencies](#dependencies)
+- [License](#license)
+- [Author](#author)
 
-Role Variables
---------------
+---
 
-```yaml
-kibana_filesystem_list:
-  - lv: lv_kibana_data
-    vg: "{{ custom_vg_name }}"
-    size: 1G
-    path: "{{ kibana_data_dir }}"
-    owner: "{{ kibana_owner}}"
-    group: "{{ kibana_group}}"
-    mode: "0750"
-    fstype: xfs
-    force: false
-    shrink: false
+## Requirements
 
+- Minimum Ansible version: `2.9`
+
+## Default Variables
+
+### filesystem_custom_become_method
+
+#### Default value
+
+```YAML
+filesystem_custom_become_method: sudo
 ```
 
-Dependencies
-------------
+### filesystem_list
 
-None
+#### Default value
 
-Example Playbook
-----------------
-
-```yaml
-    - role: filesystem
-      filesystem_list: "{{ kibana_filesystem_list }}"
+```YAML
+filesystem_list: []
 ```
 
-License
--------
+### filesystem_physical_volumes_list
 
-BSD
+#### Default value
 
+```YAML
+filesystem_physical_volumes_list:
+  - /dev/sdb
+```
+
+### filesystem_volume_create_enabled
+
+#### Default value
+
+```YAML
+filesystem_volume_create_enabled: false
+```
+
+### filesystem_volume_group_name
+
+#### Default value
+
+```YAML
+filesystem_volume_group_name: appli_vg
+```
+
+
+
+## Dependencies
+
+None.
+
+## License
+
+BSD-3-Clause
+
+## Author
+
+Douceur

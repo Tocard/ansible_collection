@@ -1,34 +1,115 @@
-User
-=========
+# user
 
-install user on linux
+this role simply install user & group to linux os
 
-Requirements
-------------
+## Table of content
 
-'community.general.random_string' only if user_password is not set.
+- [Requirements](#requirements)
+- [Default Variables](#default-variables)
+  - [user_become_method](#user_become_method)
+  - [user_changed](#user_changed)
+  - [user_expires](#user_expires)
+  - [user_group](#user_group)
+  - [user_groups](#user_groups)
+  - [user_name](#user_name)
+  - [user_password](#user_password)
+  - [user_shell](#user_shell)
+  - [user_system](#user_system)
+- [Dependencies](#dependencies)
+- [License](#license)
+- [Author](#author)
 
-Role Variables
---------------
+---
 
-all variable is kinda simply to understand.
+## Requirements
 
-Dependencies
-------------
+- Minimum Ansible version: `2.9`
 
-None
+## Default Variables
 
-Example Playbook
-----------------
+### user_become_method
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+#### Default value
 
-    - role: user
-      user_name: "{{ vault_user }}"
-      user_group: "{{ vault_group }}"
+```YAML
+user_become_method: sudo
+```
 
-License
--------
+### user_changed
 
-BSD
+#### Default value
 
+```YAML
+user_changed: false
+```
+
+### user_expires
+
+#### Default value
+
+```YAML
+user_expires: -1
+```
+
+### user_group
+
+#### Default value
+
+```YAML
+user_group:
+```
+
+### user_groups
+
+#### Default value
+
+```YAML
+user_groups:
+```
+
+### user_name
+
+#### Default value
+
+```YAML
+user_name:
+```
+
+### user_password
+
+#### Default value
+
+```YAML
+user_password: "{{ lookup('community.general.random_string', min_lower=12, min_upper=12,
+  min_special=12, min_numeric=12, length=64) }}"
+```
+
+### user_shell
+
+#### Default value
+
+```YAML
+user_shell: /bin/bash
+```
+
+### user_system
+
+#### Default value
+
+```YAML
+user_system: false
+```
+
+
+
+## Dependencies
+
+None.
+
+## License
+
+BSD-3-Clause
+
+## Author
+
+Douceur
