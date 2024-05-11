@@ -1,7 +1,7 @@
 ---
 - name: Group creation
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ user_become_method }}"
   ansible.builtin.group:
     name: "{{ user_group }}"
     state: present
@@ -9,7 +9,7 @@
 
 - name: User creation
   become: true
-  become_method: "{{ custom_become_method }}"
+  become_method: "{{ user_become_method }}"
   ansible.builtin.user:
     name: "{{ user_name }}"
     group: "{{ user_group }}"
@@ -19,4 +19,5 @@
     expires: "{{ user_expires }}"
     password: "{{ user_password | password_hash('sha512') | default(omit) }}"
     password_expire_max: -1
+    system: "{{ user_system }}" 
   when: user_name is not none

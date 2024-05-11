@@ -17,6 +17,7 @@ dependencies:
   - role: tocard.utils.user
     user_name: "{{ haproxy_owner }}"
     user_group: "{{ haproxy_group }}"
+    user_system: true
   - role: tocard.utils.filesystem
     filesystem_list: "{{ haproxy_filesystem_list }}"
 
