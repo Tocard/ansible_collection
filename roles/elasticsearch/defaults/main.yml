@@ -17,7 +17,7 @@ elasticsearch_path_config: /etc/elasticsearch
 elasticsearch_ssl_path: "{{ elasticsearch_path_config }}/ssl"
 
 elasticsearch_directories:
-  - "{{ elasticsearch_ssl_path }}"
+  - path: "{{ elasticsearch_ssl_path }}"
 
 elasticsearch_templates:
   - src: elasticsearch.yml.j2
