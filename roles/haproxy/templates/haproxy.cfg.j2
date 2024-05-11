@@ -137,18 +137,6 @@ listen mermaid-grafana
     server {{ item }} {{ hostvars[item]['ansible_host'] }}:3000
 {% endfor %}
 
-listen minotor
-    mode http
-    option httpchk
-
-    bind *:8080 ssl crt {{ ansible_hostname }}.fullchain.pem  ca-file {{ ansible_hostname }}.chain.pem verify optional
-
-    default-server check fall 2 rise 2 ssl verify none
-
-{% for item in groups['minotor'] %}
-    server {{ item }} {{ hostvars[item]['ansible_host'] }}:8080
-{% endfor %}
-
 listen cyclops
     mode http
     option httpchk
