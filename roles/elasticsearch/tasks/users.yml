@@ -1,0 +1,33 @@
+---
+- name: Change user password
+  run_once: true
+  ansible.builtin.uri:
+    url: "{{ elasticsearch_url_security }}/user/{{ item.name }}/_password"
+    method: PUT
+    user: "{{ elasticsearch_elastic_user }}"
+    password: "{% if elasticsearch_elastic_current_password is none %}{{ elasticsearch_elastic_password }}{% else %}{{ elasticsearch_elastic_current_password }}{% endif %}"
+    body:
+      password: "{{ item.password }}"
+    force_basic_auth: true
+    status_code: 200
+    body_format: json
+  changed_when: false
+  loop: "{{ elasticsearch_cluster_users }}"
+  when: elasticsearch_cluster_users | length > 0
+
+- name: Add elasticsearch custom users
+  run_once: true
+  ansible.builtin.uri:
+    url: "{{ elasticsearch_url_security }}/user/{{ item.name }}"
+    method: POST
+    user: "{{ elasticsearch_elastic_user }}"
+    password: "{{ elasticsearch_elastic_password }}"
+    body:
+      password: "{{ item.password }}"
+      roles: "{{ item.roles }}"
+      full_name: "{{ item.full_name }}"
+      enabled:  "{{ item.enabeld | bool }}"
+    force_basic_auth: true
+    status_code: 200
+    body_format: json
+  loop: "{{ elasticsearch_custom_users }}"

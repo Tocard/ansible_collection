@@ -1,0 +1,16 @@
+---
+- name: Restart elasticsearch
+  throttle: 1
+  become: true
+  become_method: "{{ elasticsearch_custom_become_method }}"
+  systemd:
+    name: elasticsearch
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: elasticsearch_need_restart
+
+- name: Wait elasticsearch port
+  wait_for:
+    port: "{{ elasticsearch_port }}"
+  listen: elasticsearch_need_restart

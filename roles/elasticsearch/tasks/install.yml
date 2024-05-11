@@ -1,0 +1,7 @@
+---
+- name: Install elasticsearch
+  become: true
+  become_method: "{{ elasticsearch_custom_become_method }}"
+  ansible.builtin.package:
+    name: "{{ elasticsearch_packages }}"
+    state: present

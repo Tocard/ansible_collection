@@ -1,0 +1,118 @@
+---
+elasticsearch_owner: elasticsearch
+elasticsearch_group: elasticsearch
+
+elasticsearch_port: 9200
+elasticsearch_host: "{{ ansible_host }}"
+
+elasticsearch_http_base_url: "https://{{ elasticsearch_host }}:{{ elasticsearch_port }}"
+elasticsearch_elastic_user: elastic
+elasticsearch_url_license: "{{ elasticsearch_http_base_url }}/_license"
+elasticsearch_url_security: "{{ elasticsearch_http_base_url }}/_security"
+
+elasticsearch_path_data: /var/lib/elasticsearch
+elasticsearch_path_bin: /usr/share/elasticsearch
+elasticsearch_path_logs: /var/log/elasticsearch
+elasticsearch_path_config: /etc/elasticsearch
+
+
+elasticsearch_templates:
+  - src: elasticsearch.yml.j2
+    dest: "{{ elasticsearch_path_config }}/elasticsearch.yml"
+
+elasticsearch_other_nodes: "{{ elasticsearch_unicast_hosts | difference(elasticsearch_exclude_node) }}"
+
+elasticsearch_exclude_node:
+  - "{{ ansible_host }}"
+
+elasticsearch_unicast_hosts: "{{ groups['elasticsearch'] | map('extract', hostvars, ['ansible_host']) | list }}"
+
+elasticsearch_filesystem_vg_name: olympus
+elasticsearch_filesystem_list:
+  - lv: lv_es_data
+    vg: "{{ elasticsearch_filesystem_vg_name }}"
+    size: 140g
+    path: "{{ elasticsearch_path_data }}"
+    owner: "{{ elasticsearch_owner }}"
+    group: "{{ elasticsearch_owner }}"
+    mode: "0750"
+
+
+  - lv: lv_es_log
+    vg: "{{ elasticsearch_filesystem_vg_name }}"
+    size: 1g
+    path: "{{ elasticsearch_path_logs }}"
+    owner: "{{ elasticsearch_owner }}"
+    group: "{{ elasticsearch_owner }}"
+    mode: "0750"
+
+
+elasticsearch_version: 8.13.4
+
+elasticsearch_packages:
+  - "elasticsearch={{ elasticsearch_version }}"
+
+elasticsearch_elastic_current_password:
+
+elasticsearch_elastic_password: "{{ lookup('hashi_vault', hashi_elasticsearch_path ~ '/elastic:moz ' ~ hashi_connect) }}"
+elasticsearch_kibana_password: "{{ lookup('hashi_vault', hashi_elasticsearch_path ~ '/kibana:moz ' ~ hashi_connect) }}"
+elasticsearch_minotor_password: "{{ lookup('hashi_vault', hashi_elasticsearch_path ~ '/minotor:moz ' ~ hashi_connect) }}"
+elasticsearch_metricbeat_password: "{{ lookup('hashi_vault', hashi_elasticsearch_path ~ '/metricbeat:moz ' ~ hashi_connect) }}"
+elasticsearch_filebeat_password: "{{ lookup('hashi_vault', hashi_elasticsearch_path ~ '/filebeat:moz ' ~ hashi_connect) }}"
+elasticsearch_packetbeat_password: "{{ lookup('hashi_vault', hashi_elasticsearch_path ~ '/packetbeat:moz ' ~ hashi_connect) }}"
+elasticsearch_grafana_password: "{{ lookup('hashi_vault', hashi_elasticsearch_path ~ '/grafana:moz ' ~ hashi_connect) }}"
+elasticsearch_mozquito_password: "{{ lookup('hashi_vault', hashi_elasticsearch_path ~ '/mozquito:moz ' ~ hashi_connect) }}"
+elasticsearch_metricbeat_advanced_password: "{{ lookup('hashi_vault', hashi_elasticsearch_path ~ '/metricbeat-advanced:moz ' ~ hashi_connect) }}"
+
+elasticsearch_cluster_users:
+  - name: kibana_system
+    password: "{{ elasticsearch_kibana_password }}"
+  - name: elastic
+    password: "{{ elasticsearch_elastic_password }}"
+
+elasticsearch_custom_roles:
+  - cluster: [manage_index_templates, monitor, manage_ilm]
+    indices:
+      - names: [metricbeat*, .monitoring*, .ds-.monitoring-*]
+        privileges: [ write, create_index, manage, view_index_metadata ]
+
+  - cluster: [manage_index_templates, monitor, manage_ilm]
+    indices:
+      - names: [metricbeat*]
+        privileges: [ write, create_index, manage, view_index_metadata ]
+
+  - cluster: []
+    indices:
+      - names: [flux-*, cosmos-*, defi-*, minotor-*, metricbeat*, .monitoring-*, osmosis-*]
+        privileges: [ read, monitor, view_index_metadata ]
+
+
+elasticsearch_custom_users:
+  - name: grafana
+    password: "{{ elasticsearch_grafana_password }}"
+    roles: [grafana_role]
+  - name: minotor
+    password: "{{ elasticsearch_minotor_password }}"
+    roles: [minotor_writer]
+
+elasticsearch_ssl_file:
+  - src: "/opt/certbot/eden/cert.pem"
+    dest: "{{ elasticsearch_path_config }}/cert.pem"
+    user: elasticsearch
+  - src: "/opt/certbot/eden/chain.pem"
+    dest: "{{ elasticsearch_path_config }}/chain.pem"
+    user: elasticsearch
+  - src: "/opt/certbot/eden/fullchain.pem"
+    dest: "{{ elasticsearch_path_config }}/fullchain.pem"
+    user: elasticsearch
+  - src: "/opt/certbot/eden/fullchain.key.pem"
+    dest: "{{ elasticsearch_path_config }}/fullchain.key.pem"
+    user: elasticsearch
+
+elasticsearch_custom_become_method: sudo
+
+elasticsearch_gpg_key:
+  - https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+elasticsearch_deb:
+  - https://artifacts.elastic.co/packages/8.x/apt stable main

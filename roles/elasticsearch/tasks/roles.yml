@@ -1,0 +1,15 @@
+---
+- name: Add elasticsearch roles
+  run_once: true
+  uri:
+    url: "{{ elasticsearch_url_security }}/role/{{ item.name }}"
+    method: POST
+    user: "{{ elasticsearch_elastic_user }}"
+    password: "{{ elasticsearch_elastic_password }}"
+    body:
+      cluster: "{{ item.cluster_settings }}"
+      indices: "{{ item.indices }}"
+    force_basic_auth: true
+    status_code: 200
+    body_format: json
+  loop: "{{ elasticsearch_custom_roles }}"

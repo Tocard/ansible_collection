@@ -1,0 +1,38 @@
+cluster.name: olympus-alpha
+node.name: {{ ansible_host }}
+path.data: {{ elasticsearch_path_data }}
+path.logs: {{ elasticsearch_path_logs }}
+network.host: {{ ansible_host }}
+#http.port: 9200-9203
+discovery.seed_hosts:
+{% for host in elasticsearch_other_nodes %}
+- {{ host }}
+{% endfor %}
+cluster.initial_master_nodes:
+{% for host in elasticsearch_unicast_hosts %}
+- {{ host }}
+{% endfor %}
+
+node.roles: [ data, master , ingest, transform ]
+
+
+xpack.security.enabled: true
+
+xpack.security.enrollment.enabled: true
+xpack.security.http.ssl.enabled: true
+xpack.security.transport.ssl.enabled: true
+xpack.security.http.ssl.key: /etc/elasticsearch/privkey.pem
+xpack.security.http.ssl.certificate: /etc/elasticsearch/fullchain.pem
+xpack.security.http.ssl.certificate_authorities: /etc/elasticsearch/chain.pem
+xpack.security.transport.ssl.key: /etc/elasticsearch/privkey.pem
+xpack.security.transport.ssl.certificate: /etc/elasticsearch/fullchain.pem
+xpack.security.transport.ssl.certificate_authorities: /etc/elasticsearch/chain.pem
+#----------------------- END SECURITY AUTO CONFIGURATION -------------------------
+
+xpack:
+  security:
+    authc:
+      realms:
+        native:
+          native1:
+            order: 0

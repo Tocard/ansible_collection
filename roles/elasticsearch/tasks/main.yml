@@ -1,0 +1,21 @@
+---
+- ansible.builtin.import_tasks: gpg.yml
+
+- ansible.builtin.import_tasks: install.yml
+
+- ansible.builtin.import_tasks: config.yml
+
+- ansible.builtin.import_tasks: ssl.yml
+
+- name: Force restart if needed
+  ansible.builtin.meta: flush_handlers
+
+- ansible.builtin.import_tasks: bootstrap.yml
+
+- ansible.builtin.import_tasks: roles.yml
+
+- ansible.builtin.import_tasks: users.yml
+
+- name: Force restart if needed
+  ansible.builtin.meta: flush_handlers
+

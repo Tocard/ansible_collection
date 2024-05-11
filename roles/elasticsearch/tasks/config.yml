@@ -1,0 +1,12 @@
+---
+- name: Template config file
+  become: true
+  become_method: "{{ elasticsearch_custom_become_method }}"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(elasticsearch_owner) }}"
+    group: "{{ item.group | default(elasticsearch_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ elasticsearch_templates }}"
+  notify: elasticsearch_need_restart
