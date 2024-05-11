@@ -1,7 +1,7 @@
 ---
 - name: Import elastic gpg key
   become: true
-  become_method: "{{ elasticsearch_custom_become_method }}"
+  become_method: "{{ kibana_custom_become_method }}"
   ansible.builtin.apt_key:
     url: "{{ item }}"
     state: present
@@ -9,7 +9,7 @@
 
 - name: Add repo for elk
   become: true
-  become_method: "{{ elasticsearch_custom_become_method }}"
+  become_method: "{{ kibana_custom_become_method }}"
   ansible.builtin.apt_repository:
     repo: "deb {{ item }}"
     state: present
