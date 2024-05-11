@@ -93,7 +93,7 @@ backend backend_haproxy_stats
 
 listen https
     mode http
-    bind *:443 ssl crt {{ ansible_hostname }}.fullchain.pem  ca-file {{ ansible_hostname }}.chain.pem verify optional
+    bind *:443 ssl crt fullchain.pem  ca-file chain.pem verify optional
     acl haproxy_stats_acl path_beg /haproxy_stats
     use_backend backend_haproxy_stats if haproxy_stats_acl
 
@@ -105,7 +105,7 @@ listen cerberus
     mode http
     option httpchk
 
-    bind *:9200 ssl crt {{ ansible_hostname }}.fullchain.pem  ca-file {{ ansible_hostname }}.chain.pem verify optional
+    bind *:9200 ssl crt fullchain.pem  ca-file chain.pem verify optional
 
     default-server check fall 2 rise 2 ssl verify none
 
@@ -117,7 +117,7 @@ listen mermaid-kibana
     mode http
     option httpchk
 
-    bind *:5601 ssl crt {{ ansible_hostname }}.fullchain.pem  ca-file {{ ansible_hostname }}.chain.pem verify optional
+    bind *:5601 ssl crt fullchain.pem  ca-file chain.pem verify optional
 
     default-server check fall 2 rise 2 ssl verify none
 
@@ -129,7 +129,7 @@ listen mermaid-grafana
     mode http
     option httpchk
 
-    bind *:3000 ssl crt {{ ansible_hostname }}.fullchain.pem  ca-file {{ ansible_hostname }}.chain.pem verify optional
+    bind *:3000 ssl crt fullchain.pem  ca-file chain.pem verify optional
 
     default-server check fall 2 rise 2 ssl verify none
 
@@ -141,7 +141,7 @@ listen cyclops
     mode http
     option httpchk
 
-    bind *:8006 ssl crt {{ ansible_hostname }}.fullchain.pem  ca-file {{ ansible_hostname }}.chain.pem verify optional
+    bind *:8006 ssl crt fullchain.pem  ca-file chain.pem verify optional
 
     default-server check fall 2 rise 2 ssl verify none
 
