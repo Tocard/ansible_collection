@@ -17,7 +17,7 @@ grafana_directories:
   - path: "{{ grafana_log_dir }}"
 
 grafana_packages:
-  grafana=10.4.2
+  - grafana=10.4.2
 
 
 grafana_filesystem_vg_name: olympus
