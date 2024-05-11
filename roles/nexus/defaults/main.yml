@@ -2,16 +2,16 @@
 nexus_owner: nexus
 nexus_group: nexus
 
-nexus_home: /opt/nexus
+nexus_home: /nexus
 nexus_log_path: /var/log/nexus
 nexus_ssl_path: "{{ nexus_home }}/ssl"
-nexus_blob_path: "{{ nexus_home}}/sonatype-work/nexus3/blobs/"
+nexus_blob_path: "{{ nexus_home}}/sonatype-work/nexus3/blobs"
 
 nexus_version: 3.68.0-04
 nexus_java_version: 11
 nexus_download_url: "https://download.sonatype.com/nexus/3/nexus-{{ nexus_version}}-java{{ nexus_java_version }}-unix.tar.gz"
 
-nexus_binary_path: "/opt/nexus-{{ nexus_version }}/bin/nexus"
+nexus_binary_path: "{{ nexus_home}}/nexus-{{ nexus_version }}/bin/nexus"
 
 nexus_package:
   - "openjdk-{{ nexus_java_version }}-jdk"
@@ -38,17 +38,20 @@ nexus_filesystem_list:
     owner: "{{ nexus_owner }}"
     group: "{{ nexus_group }}"
     direct_mount: true
+
   - disk: sdc
     path: "{{ nexus_blob_path }}/public"
     owner: "{{ nexus_owner }}"
     group: "{{ nexus_group }}"
     direct_mount: true
-  - lv: olympus-opt
+
+  - lv: olympus-root
     vg: "{{ nexus_vg_name }}"
-    size: 4g
+    size: 2g
     path: "{{ nexus_home }}"
     owner: "{{ nexus_owner }}"
     group: "{{ nexus_group }}"
+
   - lv: "{{ nexus_log_lv_name }}"
     vg: "{{ nexus_vg_name }}"
     size: "{{ nexus_log_size }}"
