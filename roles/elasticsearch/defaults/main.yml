@@ -95,9 +95,6 @@ elasticsearch_custom_users:
   - name: grafana
     password: "{{ elasticsearch_grafana_password }}"
     roles: [grafana_role]
-  - name: minotor
-    password: "{{ elasticsearch_minotor_password }}"
-    roles: [minotor_writer]
 
 elasticsearch_ssl_file:
   - src: /opt/certbot/eden/cert.pem
