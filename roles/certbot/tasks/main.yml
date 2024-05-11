@@ -65,3 +65,9 @@
   ansible.builtin.shell: "sh {{ certbot_home }}/certbot.sh"
   when: not certbot_already_executed.stat.exists or certbot_force_renew
 
+- name: remove old config
+  become: true
+  become_method: "{{ certbot_custom_become_method }}"
+  ansible.builtin.file:
+    path: "{{ certbot_home }}/certbot_eden.sh"
+    state: absent
