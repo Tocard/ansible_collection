@@ -1,7 +1,7 @@
 ---
 - name: Restart grafana
   become: true
-  become_method: "{{ "{{ grafana_custom_become_method }}" }}"
+  become_method: "{{ grafana_custom_become_method }}"
   ansible.builtin.systemd:
     name: grafana-server
     state: restarted
