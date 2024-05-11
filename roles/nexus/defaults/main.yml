@@ -49,3 +49,14 @@ nexus_filesystem_list:
     path: "{{ nexus_log_path }}"
     owner: "{{ nexus_owner }}"
     group: "{{ nexus_group }}"
+
+nexus_ssl_enabled: true
+nexus_ssl_file:
+  - src: /opt/certbot/eden/cert.pem
+    dest: "{{ nexus_ssl_path }}/cert.pem"
+  - src: /opt/certbot/eden/chain.pem
+    dest: "{{ nexus_ssl_path }}/chain.pem"
+  - src: /opt/certbot/eden/fullchain.pem
+    dest: "{{ nexus_ssl_path }}/fullchain.pem"
+  - src: /opt/certbot/eden/fullchain.pem.key
+    dest: "{{ nexus_ssl_path }}/fullchain.pem.key"

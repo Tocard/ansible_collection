@@ -22,3 +22,5 @@ dependencies:
     filesystem_list: "{{ nexus_filesystem_list }}"
     tags: [filesystem]
 
+  - role: tocard.utils.certbot
+    when: nexus_ssl_enabled | bool

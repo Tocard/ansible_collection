@@ -42,3 +42,13 @@
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ nexus_templates }}"
 
+- name: Source ssl file from certbot
+  become: true
+  become_method: "{{ nexus_custom_become_method }}"
+  ansible.builtin.file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ nexus_owner }}"
+    group: "{{ nexus_group }}"
+    state: link
+  loop: "{{ nexus_ssl_file }}"
