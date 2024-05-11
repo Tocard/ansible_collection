@@ -47,7 +47,7 @@ vault_filesystem_list:
 vault_ssl_file:
   - src: "/opt/certbot/eden/fullchain.pem"
     dest: "{{ vault_base_path }}/tls.crt"
-  - src: "/opt/certbot/eden/fullchain.key.pem"
+  - src: "/opt/certbot/eden/fullchain.pem.key"
     dest: "{{ vault_base_path }}/tls.key"
 
 

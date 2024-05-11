@@ -53,8 +53,8 @@ grafana_ssl_file:
     dest: "{{ grafana_ssl_location }}/chain.pem"
   - src: /opt/certbot/eden/fullchain.pem
     dest: "{{ grafana_ssl_location }}/fullchain.pem"
-  - src: /opt/certbot/eden/fullchain.key.pem
-    dest: "{{ grafana_ssl_location }}/fullchain.key.pem"
+  - src: /opt/certbot/eden/fullchain.pem.key
+    dest: "{{ grafana_ssl_location }}/fullchain.pem.key"
 
 grafana_custom_become_method: sudo
 

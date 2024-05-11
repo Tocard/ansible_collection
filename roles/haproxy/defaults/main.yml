@@ -39,7 +39,7 @@ haproxy_ssl_file:
     dest: "{{ haproxy_certs_path }}/chain.pem"
   - src: "/opt/certbot/eden/fullchain.pem"
     dest: "{{ haproxy_certs_path }}/fullchain.pem"
-  - src: "/opt/certbot/eden/fullchain.key.pem"
-    dest: "{{ haproxy_certs_path }}/fullchain.key.pem"
+  - src: "/opt/certbot/eden/fullchain.pem.key"
+    dest: "{{ haproxy_certs_path }}/fullchain.pem.key"
 
 haproxy_sudo_become_method: sudo

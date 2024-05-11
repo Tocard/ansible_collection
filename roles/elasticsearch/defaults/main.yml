@@ -103,8 +103,8 @@ elasticsearch_ssl_file:
   - src: "/opt/certbot/eden/fullchain.pem"
     dest: "{{ elasticsearch_path_config }}/fullchain.pem"
     user: elasticsearch
-  - src: "/opt/certbot/eden/fullchain.key.pem"
-    dest: "{{ elasticsearch_path_config }}/fullchain.key.pem"
+  - src: "/opt/certbot/eden/fullchain.pem.key"
+    dest: "{{ elasticsearch_path_config }}/fullchain.pem.key"
     user: elasticsearch
 
 elasticsearch_custom_become_method: sudo
