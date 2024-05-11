@@ -5,3 +5,39 @@
   ansible.builtin.package:
     name: "{{ elasticsearch_packages }}"
     state: present
+  
+- name: Create elasticsearch directories
+  become: true
+  become_method: "{{ elasticsearch_custom_become_method }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(elasticsearch_owner) }}"
+    group: "{{ item.group | default(elasticsearch_group) }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+    recurse: "{{ item.recurse | default(omit) }}"
+  loop: "{{ elasticsearch_directories }}"
+
+
+- name: Template config file
+  become: true
+  become_method: "{{ elasticsearch_custom_become_method }}"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(elasticsearch_owner) }}"
+    group: "{{ item.group | default(elasticsearch_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ elasticsearch_templates }}"
+  notify: elasticsearch_need_restart
+  
+- name: Source ssl file from certbot
+  become: true
+  become_method: "{{ elasticsearch_custom_become_method }}"
+  ansible.builtin.file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ elasticsearch_owner }}"
+    group: "{{ elasticsearch_group }}"
+    state: link
+  loop: "{{ elasticsearch_ssl_file }}"

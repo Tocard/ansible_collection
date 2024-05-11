@@ -14,7 +14,10 @@ elasticsearch_path_data: /var/lib/elasticsearch
 elasticsearch_path_bin: /usr/share/elasticsearch
 elasticsearch_path_logs: /var/log/elasticsearch
 elasticsearch_path_config: /etc/elasticsearch
+elasticsearch_ssl_path: "{{ elasticsearch_path_config }}/ssl"
 
+elasticsearch_directories:
+  - "{{ elasticsearch_ssl_path }}"
 
 elasticsearch_templates:
   - src: elasticsearch.yml.j2
@@ -94,17 +97,17 @@ elasticsearch_custom_users:
     roles: [minotor_writer]
 
 elasticsearch_ssl_file:
-  - src: "/opt/certbot/eden/cert.pem"
-    dest: "{{ elasticsearch_path_config }}/cert.pem"
+  - src: /opt/certbot/eden/cert.pem
+    dest: "{{ elasticsearch_ssl_path }}/cert.pem"
     user: elasticsearch
-  - src: "/opt/certbot/eden/chain.pem"
-    dest: "{{ elasticsearch_path_config }}/chain.pem"
+  - src: /opt/certbot/eden/chain.pem
+    dest: "{{ elasticsearch_ssl_path }}/chain.pem"
     user: elasticsearch
-  - src: "/opt/certbot/eden/fullchain.pem"
-    dest: "{{ elasticsearch_path_config }}/fullchain.pem"
+  - src: /opt/certbot/eden/fullchain.pem
+    dest: "{{ elasticsearch_ssl_path }}/fullchain.pem"
     user: elasticsearch
-  - src: "/opt/certbot/eden/fullchain.pem.key"
-    dest: "{{ elasticsearch_path_config }}/fullchain.pem.key"
+  - src: /opt/certbot/eden/fullchain.pem.key
+    dest: "{{ elasticsearch_ssl_path }}/fullchain.pem.key"
     user: elasticsearch
 
 elasticsearch_custom_become_method: sudo
