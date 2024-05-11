@@ -16,6 +16,14 @@
     state: present
   loop: "{{ grafana_deb}}"
 
+- name: Install binaries for grafana
+  become: true
+  become_method: "{{ grafana_custom_become_method }}"
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ grafana_packages }}"
+
 - name: Create Grafana folder
   become: true
   become_method: "{{ grafana_custom_become_method }}"

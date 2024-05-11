@@ -16,6 +16,9 @@ grafana_directories:
   - path: /var/run/grafana
   - path: "{{ grafana_log_dir }}"
 
+grafana_packages:
+  grafana=10.4.2
+
 
 grafana_filesystem_vg_name: olympus
 grafana_filesystem_list:
