@@ -95,6 +95,7 @@ elasticsearch_custom_users:
   - name: grafana
     password: "{{ elasticsearch_grafana_password }}"
     roles: [grafana_role]
+    full_name: grafana user from olympus
 
 elasticsearch_ssl_file:
   - src: /opt/certbot/eden/cert.pem
