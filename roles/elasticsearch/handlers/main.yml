@@ -3,7 +3,7 @@
   throttle: 1
   become: true
   become_method: "{{ elasticsearch_custom_become_method }}"
-  systemd:
+  ansible.builtin.systemd:
     name: elasticsearch
     state: restarted
     enabled: true
@@ -11,6 +11,6 @@
   listen: elasticsearch_need_restart
 
 - name: Wait elasticsearch port
-  wait_for:
+  ansible.builtin.wait_for:
     port: "{{ elasticsearch_port }}"
   listen: elasticsearch_need_restart

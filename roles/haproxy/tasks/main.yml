@@ -1,6 +1,8 @@
 ---
 
 - name: Add haproxy repository
+  become: true
+  become_method: "{{ haproxy_sudo_become_method }}"
   ansible.builtin.apt_repository:
     repo: "ppa:vbernat/haproxy-{{ haproxy_version }}"
     update_cache: true
