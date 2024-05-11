@@ -29,9 +29,7 @@ elasticsearch_unicast_hosts: "{{ groups['elasticsearch'] | map('extract', hostva
 
 elasticsearch_filesystem_vg_name: olympus
 elasticsearch_filesystem_list:
-  - lv: lv_es_data
-    vg: "{{ elasticsearch_filesystem_vg_name }}"
-    size: 140g
+  - disk: /dev/sdb
     path: "{{ elasticsearch_path_data }}"
     owner: "{{ elasticsearch_owner }}"
     group: "{{ elasticsearch_owner }}"
