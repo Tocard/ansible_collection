@@ -17,7 +17,7 @@ ansible-galaxy collection build . --force
 ansible-galaxy collection publish "tocard-utils-${VERSION}.tar.gz" --token 8105075849307ba61ab672979f38cc15d229dcc7
 
 # Create tag and push to Git
-git push origin --tags
+git push origin master --tags
 
 # Create a GitHub release and upload the artifact
 gh release create "${VERSION}" -n "Release ${VERSION}" -t "${VERSION}" "tocard-utils-${VERSION}.tar.gz"
