@@ -1,7 +1,7 @@
 ---
 - name: Restart kibana
   become: true
-  become_method: "{{ kibana_become_metthod }}"
+  become_method: "{{ kibana_custom_become_method }}"
   ansible.builtin.systemd:
     name: kibana
     state: restarted

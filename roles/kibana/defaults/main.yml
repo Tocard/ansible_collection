@@ -50,7 +50,7 @@ kibana_elasticsearch_username: kibana_system
 
 kibana_elasticsearch_url:
 
-kibana_become_metthod: sudo
+kibana_custom_become_method: sudo
 
 kibana_ssl_file:
   - src: /opt/certbot/eden/cert.pem

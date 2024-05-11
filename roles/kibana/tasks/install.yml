@@ -1,7 +1,7 @@
 ---
 - name: Create directory
   become: true
-  become_method: "{{ kibana_become_metthod }}"
+  become_method: "{{ kibana_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
     owner: "{{ item.owner | default(kibana_owner) }}"
@@ -12,7 +12,7 @@
 
 - name: Install binaries
   become: true
-  become_method: "{{ kibana_become_metthod }}"
+  become_method: "{{ kibana_custom_become_method }}"
   ansible.builtin.yum:
     name: "{{ item }}"
     state: present
