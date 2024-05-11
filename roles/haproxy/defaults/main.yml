@@ -1,7 +1,7 @@
 ---
 haproxy_owner: haproxy
 haproxy_group: haproxy
-
+haproxy_version: 2.8
 haproxy_custom_dirs:
   - path: /run/haproxy
     mode: "0755"
@@ -9,7 +9,7 @@ haproxy_custom_dirs:
     mode: "0750"
 
 haproxy_packages:
-  - haproxy
+  - "haproxy={{ haproxy_version }}"
 
 haproxy_templates:
   - src: haproxy.cfg.j2

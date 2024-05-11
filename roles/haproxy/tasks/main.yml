@@ -1,4 +1,12 @@
 ---
+- name: Add haproxy repository
+  become: true
+  become_method: "{{ haproxy_sudo_become_method }}"
+  ansible.builtin.apt_repository:
+    repo: "deb http://ppa.launchpad.net/vbernat/haproxy-{{ haproxy_version }}/ubuntu {{ ansible_distribution_release | lower }} main"
+    state: present
+
+
 - name: Install haproxy packages
   become: true
   become_method: "{{ haproxy_sudo_become_method }}"
