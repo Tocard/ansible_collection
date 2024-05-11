@@ -1,0 +1,63 @@
+---
+kibana_version: 8.13.4
+
+kibana_owner: kibana
+kibana_group: kibana
+
+kibana_data_dir: /var/lib/kibana
+kibana_share_dir: /usr/share/kibana
+kibana_log_dir: /var/log/kibana
+kibana_pid_dir: /var/run/kibana
+kibana_ssl_path: /etc/kibana/ssl
+
+kibana_package:
+  - "kibana= {{ kibana_version }}"
+
+kibana_custom_templates:
+  - src: kibana.yml.j2
+    dest: /etc/kibana/kibana.yml
+
+kibana_custom_dirs:
+  - path: "{{ kibana_pid_dir }}"
+  - path: "{{ kibana_log_dir }}"
+  - path: "{{ kibana_ssl_path }}"
+
+kibana_filesystem_vg_name: olympus
+kibana_filesystem_list:
+  - lv: lv_kibana_data
+    vg: "{{ kibana_filesystem_vg_name }}"
+    size: 1G
+    path: "{{ kibana_data_dir }}"
+    owner: "{{ kibana_owner}}"
+    group: "{{ kibana_group}}"
+    mode: "0750"
+  - lv: lv_kibana_share
+    vg: "{{ kibana_filesystem_vg_name }}"
+    size: 1536M
+    path: "{{ kibana_share_dir }}"
+    owner: "{{ kibana_owner}}"
+    group: "{{ kibana_group}}"
+    mode: "0750"
+  - lv: lv_kibana_log
+    vg: "{{ kibana_filesystem_vg_name }}"
+    size: 1G
+    path: "{{ kibana_log_dir }}"
+    owner: "{{ kibana_owner}}"
+    group: "{{ kibana_group}}"
+    mode: "0750"
+
+kibana_elasticsearch_username: kibana_system
+
+kibana_elasticsearch_url:
+
+kibana_become_metthod: sudo
+
+kibana_ssl_file:
+  - src: /opt/certbot/eden/cert.pem
+    dest: "{{ kibana_ssl_path }}/cert.pem"
+  - src: /opt/certbot/eden/chain.pem
+    dest: "{{ kibana_ssl_path }}/chain.pem"
+  - src: /opt/certbot/eden/fullchain.pem
+    dest: "{{ kibana_ssl_path }}/fullchain.pem"
+  - src: /opt/certbot/eden/fullchain.key.pem
+    dest: "{{ kibana_ssl_path }}/fullchain.key.pem"

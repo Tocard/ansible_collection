@@ -1,0 +1,13 @@
+---
+- name: Template config files
+  become: true
+  become_method: "{{ kibana_become_metthod }}"
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(kibana_owner) }}"
+    group: "{{ item.group | default(kibana_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ kibana_custom_templates }}"
+  notify:
+    - kibana_need_restart

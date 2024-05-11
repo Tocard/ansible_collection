@@ -1,0 +1,10 @@
+---
+- name: Restart kibana
+  become: true
+  become_method: "{{ kibana_become_metthod }}"
+  ansible.builtin.systemd:
+    name: kibana
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: kibana_need_restart

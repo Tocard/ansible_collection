@@ -1,0 +1,20 @@
+---
+- name: Create directory
+  become: true
+  become_method: "{{ kibana_become_metthod }}"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(kibana_owner) }}"
+    group: "{{ item.group | default(kibana_group) }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+  loop: "{{ kibana_custom_dirs }}"
+
+- name: Install binaries
+  become: true
+  become_method: "{{ kibana_become_metthod }}"
+  ansible.builtin.yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop: "{{ kibana_package }}"
