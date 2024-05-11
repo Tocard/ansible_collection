@@ -61,3 +61,10 @@ kibana_ssl_file:
     dest: "{{ kibana_ssl_path }}/fullchain.pem"
   - src: /opt/certbot/eden/fullchain.pem.key
     dest: "{{ kibana_ssl_path }}/fullchain.pem.key"
+
+
+kibana_gpg_key:
+  - https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+kibana_deb:
+  - https://artifacts.elastic.co/packages/8.x/apt stable main
