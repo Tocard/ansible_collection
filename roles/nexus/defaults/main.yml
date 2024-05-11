@@ -43,6 +43,12 @@ nexus_filesystem_list:
     owner: "{{ nexus_owner }}"
     group: "{{ nexus_group }}"
     direct_mount: true
+  - lv: olympus-opt
+    vg: "{{ nexus_vg_name }}"
+    size: 4g
+    path: "{{ nexus_home }}"
+    owner: "{{ nexus_owner }}"
+    group: "{{ nexus_group }}"
   - lv: "{{ nexus_log_lv_name }}"
     vg: "{{ nexus_vg_name }}"
     size: "{{ nexus_log_size }}"
