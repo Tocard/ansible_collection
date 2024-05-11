@@ -8,4 +8,4 @@ certbot --dns-ovh  certonly \
          --config-dir {{ certbot_home }}/config \
          --work-dir {{ certbot_home }}/work \
          --logs-dir {{ certbot_home }}/log \
-         --deploy-hook ./certbot_eden.sh
+         --deploy-hook certbot_eden.sh

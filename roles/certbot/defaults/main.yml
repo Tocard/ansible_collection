@@ -35,7 +35,7 @@ certbot_templates:
   - src: certbot.cred.j2
     dest: "{{ certbot_cred_path }}"
   - src: certbot_eden.sh.j2
-    dest: "{{ certbot_home }}/certbot_eden.sh"
+    dest: /usr/bin/certbot_eden.sh
     mode: "0770"
 
 certbot_credential_dns_ovh_endpoint: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/ovh:dns_ovh_endpoint ' ~ hashi_connect) }}"
