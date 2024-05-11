@@ -9,6 +9,7 @@ haproxy_custom_dirs:
     mode: "0750"
 
 haproxy_packages:
+  - apt-utils
   - "haproxy={{ haproxy_version }}"
 
 haproxy_templates:
