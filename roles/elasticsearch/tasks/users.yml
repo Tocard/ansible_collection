@@ -25,8 +25,8 @@
     body:
       password: "{{ item.password }}"
       roles: "{{ item.roles }}"
-      full_name: "{{ item.full_name }}"
-      enabled:  "{{ item.enabeld | bool }}"
+      full_name: "{{ item.full_name | default(item.name) }}"
+      enabled:  "{{ item.enabled | default(true) }}"
     force_basic_auth: true
     status_code: 200
     body_format: json
