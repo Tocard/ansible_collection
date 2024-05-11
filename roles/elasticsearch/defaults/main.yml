@@ -34,7 +34,7 @@ elasticsearch_filesystem_list:
     owner: "{{ elasticsearch_owner }}"
     group: "{{ elasticsearch_owner }}"
     mode: "0750"
-
+    direct_mount: true
 
   - lv: lv_es_log
     vg: "{{ elasticsearch_filesystem_vg_name }}"
