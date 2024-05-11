@@ -2,7 +2,7 @@
 nexus_owner: nexus
 nexus_group: nexus
 
-nexus_home: /nexus
+nexus_home: /opt/nexus
 nexus_log_path: /var/log/nexus
 nexus_ssl_path: "{{ nexus_home }}/ssl"
 nexus_blob_path: "{{ nexus_home}}/sonatype-work/nexus3/blobs"
@@ -29,21 +29,30 @@ nexus_templates:
 
 nexus_custom_become_method: sudo
 
-nexus_vg_name: olympus
+nexus_vg_name: tartarus
+nexus_lv_name: lv_nexus
+nexus_lv_size: 8g
 nexus_log_size: 1g
 nexus_log_lv_name: lv_nexus_log
 nexus_filesystem_list:
-  - disk: sdb
+  - disk: sdc
     path: "{{ nexus_blob_path }}/olympus"
     owner: "{{ nexus_owner }}"
     group: "{{ nexus_group }}"
     direct_mount: true
 
-  - disk: sdc
+  - disk: sdd
     path: "{{ nexus_blob_path }}/public"
     owner: "{{ nexus_owner }}"
     group: "{{ nexus_group }}"
     direct_mount: true
+
+  - lv: "{{ nexus_lv_name }}"
+    vg: "{{ nexus_vg_name }}"
+    size: "{{ nexus_lv_size }}"
+    path: "{{ nexus_home }}"
+    owner: "{{ nexus_owner }}"
+    group: "{{ nexus_group }}"
 
   - lv: "{{ nexus_log_lv_name }}"
     vg: "{{ nexus_vg_name }}"

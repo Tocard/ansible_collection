@@ -20,6 +20,7 @@ dependencies:
 
   - name: tocard.utils.filesystem
     filesystem_list: "{{ nexus_filesystem_list }}"
+    filesystem_volume_create_enabled: true
     tags: [filesystem]
 
   - role: tocard.utils.certbot
