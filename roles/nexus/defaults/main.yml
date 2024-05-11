@@ -30,7 +30,7 @@ nexus_templates:
 nexus_custom_become_method: sudo
 
 nexus_vg_name: olympus
-nexus_log_size: 2g
+nexus_log_size: 1g
 nexus_log_lv_name: lv_nexus_log
 nexus_filesystem_list:
   - disk: sdb
@@ -44,13 +44,6 @@ nexus_filesystem_list:
     owner: "{{ nexus_owner }}"
     group: "{{ nexus_group }}"
     direct_mount: true
-
-  - lv: olympus-root
-    vg: "{{ nexus_vg_name }}"
-    size: 2g
-    path: "{{ nexus_home }}"
-    owner: "{{ nexus_owner }}"
-    group: "{{ nexus_group }}"
 
   - lv: "{{ nexus_log_lv_name }}"
     vg: "{{ nexus_vg_name }}"
