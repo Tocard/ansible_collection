@@ -13,8 +13,7 @@
 - name: Install binaries
   become: true
   become_method: "{{ kibana_custom_become_method }}"
-  ansible.builtin.yum:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
-    update_cache: true
   loop: "{{ kibana_package }}"
