@@ -40,4 +40,5 @@
     owner: "{{ elasticsearch_owner }}"
     group: "{{ elasticsearch_group }}"
     state: link
+    follow: False
   loop: "{{ elasticsearch_ssl_file }}"

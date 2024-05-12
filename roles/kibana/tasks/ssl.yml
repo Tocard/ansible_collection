@@ -9,6 +9,7 @@
     owner: "{{ kibana_owner }}"
     group: "{{ kibana_group }}"
     state: link
+    follow: False
   loop: "{{ kibana_ssl_file }}"
   notify:
     - kibana_need_restart

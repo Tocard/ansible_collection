@@ -58,6 +58,7 @@
     owner: "{{ haproxy_owner }}"
     group: "{{ haproxy_group }}"
     state: link
+    follow: False
   loop: "{{ haproxy_ssl_file }}"
   notify:
     - haproxy_need_restart

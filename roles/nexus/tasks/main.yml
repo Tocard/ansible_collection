@@ -65,5 +65,6 @@
     owner: "{{ nexus_owner }}"
     group: "{{ nexus_group }}"
     state: link
+    follow: False
   loop: "{{ nexus_ssl_file }}"
   notify: nexus_need_restart

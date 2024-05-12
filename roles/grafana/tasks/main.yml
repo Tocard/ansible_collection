@@ -55,6 +55,7 @@
     owner: "{{ grafana_owner }}"
     group: "{{ grafana_group }}"
     state: link
+    follow: False
   loop: "{{ grafana_ssl_file }}"
 
 - name: Template config files
