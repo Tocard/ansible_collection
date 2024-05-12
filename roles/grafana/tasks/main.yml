@@ -35,6 +35,17 @@
     mode: "{{ item.mode | default('0750') }}"
   loop: "{{ grafana_directories }}"
 
+- name: Patch Grafana default
+  become: true
+  become_method: "{{ grafana_custom_become_method }}"
+  ansible.builtin.file:
+    state: directory
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(grafana_owner) }}"
+    group: "{{ item.group | default(grafana_group) }}"
+    recurse: True
+  loop: "{{ grafana_directories_patch }}"
+
 - name: Source ssl file from certbot
   become: true
   become_method: "{{ grafana_custom_become_method }}"

@@ -11,10 +11,13 @@ grafana_admin_user: admin
 
 grafana_directories:
   - path: "{{ grafana_ssl_location }}"
+  - path: "{{ grafana_log_dir }}"
+
+grafana_directories_patch:
   - path: /usr/share/grafana
   - path: "{{ grafana_data_dir }}"
   - path: /var/run/grafana
-  - path: "{{ grafana_log_dir }}"
+  - path: /etc/grafana
 
 grafana_packages:
   - grafana-enterprise=10.4.2
