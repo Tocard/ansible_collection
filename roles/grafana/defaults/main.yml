@@ -67,3 +67,5 @@ grafana_gpg_key:
 grafana_deb:
   - https://packages.grafana.com/oss/deb stable main
   - https://packages.grafana.com/enterprise/deb stable main
+
+grafana_secret: change_me
