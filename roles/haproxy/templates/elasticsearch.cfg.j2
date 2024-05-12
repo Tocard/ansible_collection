@@ -1,0 +1,11 @@
+listen cerberus
+    mode http
+    option httpchk
+
+    bind *:9200 ssl crt fullchain.pem  ca-file chain.pem verify optional
+
+    default-server check fall 2 rise 2 ssl verify none
+
+{% for item in groups['cerberus'] %}
+    server {{ item }} {{ hostvars[item]['ansible_host'] }}:9200
+{% endfor %}

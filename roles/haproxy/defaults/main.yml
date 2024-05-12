@@ -17,9 +17,14 @@ haproxy_templates:
   - src: haproxy.cfg.j2
     dest: /etc/haproxy/haproxy.cfg
     mode: "0640"
+  - src: haproxy.service.j2
+    dest: /lib/systemd/system/haproxy.service
+    mode: "0644"
 
 haproxy_stats_user: admin
 haproxy_stats_password: "{{ lookup('hashi_vault', hashi_haproxy_path ~ '/stats_user:moz ' ~ hashi_connect) }}"
+
+haproxy_config_folder: /etc/haproxy
 
 haproxy_filesystem_vg_name: olympus
 haproxy_filesystem_lvs_mounts:

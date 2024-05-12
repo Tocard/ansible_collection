@@ -2,7 +2,7 @@
 # Example configuration for a possible web application.  See the
 # full configuration options online.
 #
-#   https://www.haproxy.org/download/1.8/doc/configuration.txt
+#   https://www.haproxy.org/download/2.8/doc/configuration.txt
 #
 #---------------------------------------------------------------------
 
@@ -64,73 +64,3 @@ defaults
     maxconn                 3000
 
 
-#---------------------------------------------------------------------
-# Stats settings
-#---------------------------------------------------------------------
-listen stats
-       bind 0.0.0.0:9091
-       mode http
-       balance
-       timeout client 5000
-       timeout connect 4000
-       timeout server 30000
-    #This is the virtual URL to access the stats page
-       stats uri /haproxy_stats
-    #autorefresh value
-       stats refresh 5s
-    #Authentication realm. This can be set to anything. Escape space characters with a backslash.
-       stats realm HAProxy\ Statistics
-   #The user/pass you want to use. Change this password!
-       stats auth {{ haproxy_stats_user }}:{{ haproxy_stats_password }}
-   #This allows you to take down and bring up back end servers.
-   #This will produce an error on older versions of HAProxy.
-       stats admin if TRUE
-
-frontend https
-    mode http
-    bind *:443 ssl crt fullchain.pem  ca-file chain.pem verify optional
-
-    redirect scheme https if !{ ssl_fc }
-
-    acl haproxy_stats_acl path_beg /haproxy_stats
-    acl nexus_acl path_beg /nexus
-    acl grafana_acl path_beg /grafana
-
-    use_backend backend_haproxy_stats if haproxy_stats_acl
-    use_backend backend_nexus if nexus_acl
-    use_backend backend_grafana if grafana_acl
-
-backend backend_nexus
-    mode http
-    option httpchk
-    http-request replace-path /nexus(/)?(.*) /\2
-
-    default-server check fall 2 rise 2
-
-    server  hephaestus_beta hephaestus-beta.mythologic.fr:8081
-
-
-backend backend_grafana
-    mode http
-    option httpchk
-
-    default-server check fall 2 rise 2 ssl verify none
-
-    server mermaid-alpha mermaid-alpha.mythologic.fr:3000
-
-
-backend backend_haproxy_stats
-        mode http
-        server srv_haproxy_stats 127.0.0.1:9091 check  fall 2 rise 2
-
-listen cerberus
-    mode http
-    option httpchk
-
-    bind *:9200 ssl crt fullchain.pem  ca-file chain.pem verify optional
-
-    default-server check fall 2 rise 2 ssl verify none
-
-{% for item in groups['cerberus'] %}
-    server {{ item }} {{ hostvars[item]['ansible_host'] }}:9200
-{% endfor %}

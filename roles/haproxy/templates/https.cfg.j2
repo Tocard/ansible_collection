@@ -1,0 +1,46 @@
+frontend https
+    mode http
+    bind *:443 ssl crt fullchain.pem  ca-file chain.pem verify optional
+
+    redirect scheme https if !{ ssl_fc }
+
+    acl haproxy_stats_acl path_beg /haproxy_stats
+    acl nexus_acl path_beg /nexus
+    acl grafana_acl path_beg /grafana
+    acl kibana_acl path_beg /kibana
+
+
+    use_backend backend_haproxy_stats if haproxy_stats_acl
+    use_backend backend_nexus if nexus_acl
+    use_backend backend_grafana if grafana_acl
+    use_backend backend_kibana if kibana_acl
+
+backend backend_nexus
+    mode http
+    option httpchk
+    http-request replace-path /nexus(/)?(.*) /\2
+
+    default-server check fall 2 rise 2
+
+    server  hephaestus_beta hephaestus-beta.mythologic.fr:8081
+
+backend backend_grafana
+    mode http
+    option httpchk
+
+    default-server check fall 2 rise 2 ssl verify none
+
+    server mermaid-alpha mermaid-alpha.mythologic.fr:3000
+
+backend backend_kibana
+    mode http
+    option httpchk
+
+    default-server check fall 2 rise 2 ssl verify none
+
+    server mermaid-alpha mermaid-alpha.mythologic.fr:5601
+
+backend backend_haproxy_stats
+        mode http
+        server srv_haproxy_stats 127.0.0.1:9091 check  fall 2 rise 2
+

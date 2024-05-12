@@ -1,0 +1,22 @@
+#---------------------------------------------------------------------
+# Stats settings
+#---------------------------------------------------------------------
+listen stats
+       bind 0.0.0.0:9091
+       mode http
+       balance
+       timeout client 5000
+       timeout connect 4000
+       timeout server 30000
+    #This is the virtual URL to access the stats page
+       stats uri /haproxy_stats
+    #autorefresh value
+       stats refresh 5s
+    #Authentication realm. This can be set to anything. Escape space characters with a backslash.
+       stats realm HAProxy\ Statistics
+   #The user/pass you want to use. Change this password!
+       stats auth {{ haproxy_stats_user }}:{{ haproxy_stats_password }}
+   #This allows you to take down and bring up back end servers.
+   #This will produce an error on older versions of HAProxy.
+       stats admin if TRUE
+
