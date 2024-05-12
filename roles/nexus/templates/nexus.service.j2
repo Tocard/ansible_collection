@@ -4,6 +4,7 @@ After=network.target
   
 [Service]
 Type=forking
+WorkingDirectory={{ nexus_run_home }}
 LimitNOFILE=65536
 ExecStart={{ nexus_binary_path }} start
 ExecStop={{ nexus_binary_path }} stop
@@ -11,7 +12,7 @@ User="{{ nexus_owner }}
 Group="{{ nexus_group }}
 Restart=on-abort
 TimeoutSec=600
- StandardOutput=append:{{ nexus_log_path }}/nexus.log
+StandardOutput=append:{{ nexus_log_path }}/nexus.log
 StandardError=append:{{ nexus_log_path }}/nexus.log
   
 [Install]

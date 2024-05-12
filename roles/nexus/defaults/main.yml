@@ -11,7 +11,8 @@ nexus_version: 3.68.0-04
 nexus_java_version: 11
 nexus_download_url: "https://download.sonatype.com/nexus/3/nexus-{{ nexus_version}}-java{{ nexus_java_version }}-unix.tar.gz"
 
-nexus_binary_path: "{{ nexus_home}}/nexus-{{ nexus_version }}/bin/nexus"
+nexus_run_home: "{{ nexus_home}}/nexus-{{ nexus_version }}"
+nexus_binary_path: "{{ nexus_run_home}}/bin/nexus"
 
 nexus_package:
   - "openjdk-{{ nexus_java_version }}-jdk"
