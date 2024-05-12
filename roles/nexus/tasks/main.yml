@@ -31,14 +31,14 @@
     remote_src: true
     mode: "0750"
 
-- name: enforce owner & mode for nexus folder
+- name: Enforce owner & mode for nexus folder
   become: true
   become_method: "{{ nexus_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ nexus_home }}"
     owner: "{{ nexus_owner }}"
     group: "{{ nexus_group }}"
-    mode: "'0750"
+    mode: "0750"
     state: directory
     recurse: True
 
