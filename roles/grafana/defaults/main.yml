@@ -69,3 +69,4 @@ grafana_deb:
   - https://packages.grafana.com/enterprise/deb stable main
 
 grafana_secret: change_me
+grafana_root_url: %(protocol)s://%(domain)s:%(http_port)s/grafana/
