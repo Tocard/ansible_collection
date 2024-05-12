@@ -1,6 +1,7 @@
 ---
-prometheus_owner: prometheus
+prometheus_user: prometheus
 prometheus_group: prometheus
+prometheus_groups: [certbot]
 
 prometheus_custom_become_method: sudo
 
@@ -39,14 +40,14 @@ prometheus_filesystem_lvs_mounts:
     vg: "{{ prometheus_virtual_group_name }}"
     size: "{{ prometheus_filesystem_storage_size }}"
     path: "{{ prometheus_storage_directory }}"
-    owner: "{{ prometheus_owner }}"
+    owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
 
   - lv: lv_prometheus_log
     vg: "{{ prometheus_virtual_group_name }}"
     size: "{{ prometheus_filesystem_log_size}}"
     path: "{{ prometheus_log_directory }}"
-    owner: "{{ prometheus_owner }}"
+    owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
 
 prometheus_gpg_key:

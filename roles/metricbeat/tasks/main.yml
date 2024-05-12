@@ -4,7 +4,7 @@
   become_method: "{{ metricbeat_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(metricbeat_owner) }}"
+    owner: "{{ item.owner | default(metricbeat_user) }}"
     group: "{{ item.group | default(metricbeat_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
@@ -27,7 +27,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(metricbeat_owner) }}"
+    owner: "{{ item.owner | default(metricbeat_user) }}"
     group: "{{ item.group | default(metricbeat_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ metricbeat_custom_templates }}"

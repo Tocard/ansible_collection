@@ -22,7 +22,7 @@
   become_method: "{{ haproxy_sudo_become_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(haproxy_owner) }}"
+    owner: "{{ item.owner | default(haproxy_user) }}"
     group: "{{ item.group | default(haproxy_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
@@ -44,7 +44,7 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode | default('0640') }}"
-    owner: "{{ item.owner | default(haproxy_owner) }}"
+    owner: "{{ item.owner | default(haproxy_user) }}"
     group: "{{ item.group | default(haproxy_group) }}"
   loop: "{{ haproxy_templates }}"
   notify: haproxy_need_restart
@@ -55,7 +55,7 @@
   ansible.builtin.file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ haproxy_owner }}"
+    owner: "{{ haproxy_user }}"
     group: "{{ haproxy_group }}"
     state: link
     follow: False

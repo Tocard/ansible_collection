@@ -1,6 +1,7 @@
 ---
-elasticsearch_owner: elasticsearch
+elasticsearch_user: elasticsearch
 elasticsearch_group: elasticsearch
+elasticsearch_groups: [certbot]
 
 elasticsearch_port: 9200
 elasticsearch_host: "{{ ansible_host }}"
@@ -33,8 +34,8 @@ elasticsearch_unicast_hosts: "{{ groups['elasticsearch'] | map('extract', hostva
 elasticsearch_filesystem_disk_mounts:
   - disk: sdb
     path: "{{ elasticsearch_path_data }}"
-    owner: "{{ elasticsearch_owner }}"
-    group: "{{ elasticsearch_owner }}"
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
 
 elasticsearch_filesystem_vg_name: olympus
 elasticsearch_filesystem_lvs_mounts:
@@ -42,8 +43,8 @@ elasticsearch_filesystem_lvs_mounts:
     vg: "{{ elasticsearch_filesystem_vg_name }}"
     size: 1g
     path: "{{ elasticsearch_path_logs }}"
-    owner: "{{ elasticsearch_owner }}"
-    group: "{{ elasticsearch_owner }}"
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
 
 
 elasticsearch_version: 8.13.4

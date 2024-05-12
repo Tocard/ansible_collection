@@ -15,8 +15,9 @@ galaxy_info:
 
 dependencies:
   - name: tocard.utils.user
-    user_name: "{{ nexus_owner }}"
+    user_name: "{{ nexus_user }}"
     user_group: "{{ nexus_group }}"
+    user_groups: "{{ nexus_groups }}"
 
   - name: tocard.utils.filesystem
     filesystem_lvs_mounts: "{{ nexus_filesystem_lvs_mounts }}"

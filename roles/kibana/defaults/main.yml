@@ -1,8 +1,9 @@
 ---
 kibana_version: 8.13.4
 
-kibana_owner: kibana
+kibana_user: kibana
 kibana_group: kibana
+kibana_groups: [certbot]
 
 kibana_data_dir: /var/lib/kibana
 kibana_share_dir: /usr/share/kibana
@@ -28,21 +29,21 @@ kibana_filesystem_lvs_mounts:
     vg: "{{ kibana_filesystem_vg_name }}"
     size: 1g
     path: "{{ kibana_data_dir }}"
-    owner: "{{ kibana_owner}}"
+    owner: "{{ kibana_user}}"
     group: "{{ kibana_group}}"
 
   - lv: lv_kibana_share
     vg: "{{ kibana_filesystem_vg_name }}"
     size: 1536m
     path: "{{ kibana_share_dir }}"
-    owner: "{{ kibana_owner}}"
+    owner: "{{ kibana_user}}"
     group: "{{ kibana_group}}"
 
   - lv: lv_kibana_log
     vg: "{{ kibana_filesystem_vg_name }}"
     size: 1g
     path: "{{ kibana_log_dir }}"
-    owner: "{{ kibana_owner}}"
+    owner: "{{ kibana_user}}"
     group: "{{ kibana_group}}"
 
 kibana_elasticsearch_username: kibana_system

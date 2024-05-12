@@ -15,9 +15,10 @@ galaxy_info:
 
 dependencies:
   - name: tocard.utils.user
-    user_name: "{{ prometheus_owner }}"
+    user_name: "{{ prometheus_user }}"
     user_group: "{{ prometheus_group }}"
-    tags: ['user']
+    user_groups: "{{ prometheus_groups }}"
+    tags: [user]
 
   - name: tocard.utils.filesystem
     filesystem_lvs_mounts: "{{ prometheus_filesystem_lvs_mounts }}"

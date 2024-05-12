@@ -31,7 +31,7 @@ subspace_farmer_filesystem_lvs_mounts:
     vg: "{{ suspace_custom_vg_name }}"
     size: 2g
     path: "{{ subspace_farmer_log_folder }}"
-    owner: "{{ subspace_owner }}"
+    owner: "{{ subsoace_user }}"
     group: "{{ subspace_group }}"
 
 subspace_farmer_node_rpc_url: ws://127.0.0.1:9944

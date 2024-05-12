@@ -1,6 +1,7 @@
 ---
-haproxy_owner: haproxy
+haproxy_user: haproxy
 haproxy_group: haproxy
+haproxy_groups: [certbot]
 haproxy_version: 2.8.9-1ppa1~jammy
 haproxy_custom_dirs:
   - path: /run/haproxy
@@ -26,7 +27,7 @@ haproxy_filesystem_lvs_mounts:
     vg: "{{ haproxy_filesystem_vg_name }}"
     size: 1g
     path: /var/log/haproxy
-    owner: "{{ haproxy_owner }}"
+    owner: "{{ haproxy_user }}"
     group: "{{ haproxy_group }}"
 
 haproxy_certs_path: /etc/haproxy/ssl

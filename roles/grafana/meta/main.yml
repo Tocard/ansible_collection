@@ -15,8 +15,10 @@ galaxy_info:
 
 dependencies:
   - role: tocard.utils.user
-    user_name: "{{ grafana_owner }}"
+    user_name: "{{ grafana_user }}"
     user_group: "{{ grafana_group }}"
+    user_groups: "{{ grafana_groups }}"
+
   - role: tocard.utils.filesystem
     filesystem_lvs_mounts: "{{ grafana_filesystem_lvs_mounts }}"
 

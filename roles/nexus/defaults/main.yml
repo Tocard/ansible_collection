@@ -1,6 +1,7 @@
 ---
-nexus_owner: nexus
+nexus_user: nexus
 nexus_group: nexus
+nexus_groups: [certbot]
 
 nexus_home: /opt/nexus
 nexus_log_path: /var/log/nexus
@@ -44,25 +45,25 @@ nexus_filesystem_lvs_mounts:
     vg: "{{ nexus_vg_name }}"
     size: "{{ nexus_lv_size }}"
     path: "{{ nexus_home }}"
-    owner: "{{ nexus_owner }}"
+    owner: "{{ nexus_user }}"
     group: "{{ nexus_group }}"
 
   - lv: "{{ nexus_log_lv_name }}"
     vg: "{{ nexus_vg_name }}"
     size: "{{ nexus_log_size }}"
     path: "{{ nexus_log_path }}"
-    owner: "{{ nexus_owner }}"
+    owner: "{{ nexus_user }}"
     group: "{{ nexus_group }}"
 
 nexus_filesystem_disk_mounts:
   - disk: sdc
     path: "{{ nexus_blob_path }}/olympus"
-    owner: "{{ nexus_owner }}"
+    owner: "{{ nexus_user }}"
     group: "{{ nexus_group }}"
 
   - disk: sdd
     path: "{{ nexus_blob_path }}/public"
-    owner: "{{ nexus_owner }}"
+    owner: "{{ nexus_user }}"
     group: "{{ nexus_group }}"
 
 

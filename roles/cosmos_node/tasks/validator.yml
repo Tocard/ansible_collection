@@ -7,7 +7,7 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode | default('0640') }}"
-    owner: "{{ item.owner | default(cosmos_node_owner) }}"
+    owner: "{{ item.owner | default(cosmos_node_user) }}"
     group: "{{ item.group | default(cosmos_node_group) }}"
   loop: "{{ cosmos_node_validator_templates }}"
   notify: cosmos_node_need_restart

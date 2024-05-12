@@ -4,7 +4,7 @@
   become_method: "{{ filebeat_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(filebeat_owner) }}"
+    owner: "{{ item.owner | default(filebeat_user) }}"
     group: "{{ item.group | default(filebeat_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
@@ -27,7 +27,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(filebeat_owner) }}"
+    owner: "{{ item.owner | default(filebeat_user) }}"
     group: "{{ item.group | default(filebeat_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ filebeat_custom_templates }}"
@@ -40,7 +40,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ filebeat_input_dir }}/{{ item.src | basename }}.yml"
-    owner: "{{ item.owner | default(filebeat_owner) }}"
+    owner: "{{ item.owner | default(filebeat_user) }}"
     group: "{{ item.group | default(filebeat_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ filebeat_input_templates }}"

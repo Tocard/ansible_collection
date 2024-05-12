@@ -15,9 +15,11 @@ galaxy_info:
 
 dependencies:
   - role: tocard.utils.user
-    user_name: "{{ haproxy_owner }}"
+    user_name: "{{ haproxy_user }}"
     user_group: "{{ haproxy_group }}"
+    user_groups: "{{ haproxy_groups }}"
     user_system: true
+
   - role: tocard.utils.filesystem
     filesystem_lvs_mounts: "{{ haproxy_filesystem_lvs_mounts }}"
 

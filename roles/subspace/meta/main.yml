@@ -15,7 +15,7 @@ galaxy_info:
 
 dependencies:
   - name: tocard.utils.user
-    user_name: "{{ subspace_owner }}"
+    user_name: "{{ subsoace_user }}"
     user_group: "{{ subspace_group }}"
     tags: ['user']
 

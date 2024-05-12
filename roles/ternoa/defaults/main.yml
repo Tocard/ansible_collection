@@ -1,6 +1,6 @@
 ---
 
-ternoa_owner: chimera
+ternoa_user: chimera
 ternoa_group: chimera
 
 ternoa_donwload_binary: true
@@ -40,14 +40,14 @@ ternoa_node_filesystem_lvs_mounts:
     vg: "{{ ternoa_vg_name }}"
     size: "{{ ternoa_lv_node_size }}"
     path: "{{ ternoa_node_install_path }}"
-    owner: "{{ ternoa_owner }}"
+    owner: "{{ ternoa_user }}"
     group: "{{ ternoa_group }}"
 
   - lv: "{{ ternoa_lv_log_name }}"
     vg: "{{ ternoa_vg_name }}"
     size: "{{ ternoa_lv_log_size }}"
     path: "{{ ternoa_node_log_folder }}"
-    owner: "{{ ternoa_owner }}"
+    owner: "{{ ternoa_user }}"
     group: "{{ ternoa_group }}"
 
 ternoa_extra_package:

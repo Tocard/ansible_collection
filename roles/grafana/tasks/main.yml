@@ -30,7 +30,7 @@
   ansible.builtin.file:
     state: directory
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(grafana_owner) }}"
+    owner: "{{ item.owner | default(grafana_user) }}"
     group: "{{ item.group | default(grafana_group) }}"
     mode: "{{ item.mode | default('0750') }}"
   loop: "{{ grafana_directories }}"
@@ -41,7 +41,7 @@
   ansible.builtin.file:
     state: directory
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(grafana_owner) }}"
+    owner: "{{ item.owner | default(grafana_user) }}"
     group: "{{ item.group | default(grafana_group) }}"
     recurse: True
   loop: "{{ grafana_directories_patch }}"
@@ -52,7 +52,7 @@
   ansible.builtin.file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ grafana_owner }}"
+    owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
     state: link
     follow: False
@@ -64,7 +64,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(grafana_owner) }}"
+    owner: "{{ item.owner | default(grafana_user) }}"
     group: "{{ item.group | default(grafana_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ grafana_custom_configs }}"

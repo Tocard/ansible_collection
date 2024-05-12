@@ -11,7 +11,7 @@
   become_method: "{{ elasticsearch_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(elasticsearch_owner) }}"
+    owner: "{{ item.owner | default(elasticsearch_user) }}"
     group: "{{ item.group | default(elasticsearch_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
@@ -25,7 +25,7 @@
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(elasticsearch_owner) }}"
+    owner: "{{ item.owner | default(elasticsearch_user) }}"
     group: "{{ item.group | default(elasticsearch_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ elasticsearch_templates }}"
@@ -37,7 +37,7 @@
   ansible.builtin.file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ elasticsearch_owner }}"
+    owner: "{{ elasticsearch_user }}"
     group: "{{ elasticsearch_group }}"
     state: link
     follow: False

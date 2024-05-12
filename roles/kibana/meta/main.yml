@@ -15,8 +15,10 @@ galaxy_info:
 
 dependencies:
   - role: tocard.utils.user
-    user_name: "{{ kibana_owner }}"
+    user_name: "{{ kibana_user }}"
     user_group: "{{ kibana_group }}"
+    user_groups: "{{ kibana_groups }}"
+
   - role: tocard.utils.filesystem
     filesystem_lvs_mounts: "{{ kibana_filesystem_lvs_mounts }}"
 

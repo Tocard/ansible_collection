@@ -13,7 +13,7 @@
   become_method: "{{ certbot_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(certbot_owner) }}"
+    owner: "{{ item.owner | default(certbot_user) }}"
     group: "{{ item.group | default(certbot_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
@@ -26,7 +26,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(certbot_owner) }}"
+    owner: "{{ item.owner | default(certbot_user) }}"
     group: "{{ item.group | default(certbot_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ certbot_templates }}"
@@ -61,7 +61,7 @@
 - name: Run at least once the shell script
   become: true
   become_method: "{{ certbot_custom_become_method }}"
-  become_user: "{{ certbot_owner }}"
+  become_user: "{{ certbot_user }}"
   ansible.builtin.shell: "sh {{ certbot_home }}/certbot.sh"
   when: not certbot_already_executed.stat.exists or certbot_force_renew
 

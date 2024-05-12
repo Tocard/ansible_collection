@@ -13,7 +13,7 @@
   ansible.builtin.get_url:
     url: "{{ ternoa_node_binary_url }}"
     dest: "{{ ternoa_node_binary_path }}"
-    owner: "{{ ternoa_owner }}"
+    owner: "{{ ternoa_user }}"
     group: "{{ ternoa_group }}"
     mode: '0750'
     force: true
@@ -26,7 +26,7 @@
   become_method: "{{ ternoa_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(ternoa_owner) }}"
+    owner: "{{ item.owner | default(ternoa_user) }}"
     group: "{{ item.group | default(ternoa_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
@@ -38,7 +38,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(ternoa_owner) }}"
+    owner: "{{ item.owner | default(ternoa_user) }}"
     group: "{{ item.group | default(ternoa_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ ternoa_node_templates }}"

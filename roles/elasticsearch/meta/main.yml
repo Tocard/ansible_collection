@@ -15,8 +15,10 @@ galaxy_info:
 
 dependencies:
   - role: tocard.utils.user
-    user_name: "{{ elasticsearch_owner }}"
+    user_name: "{{ elasticsearch_user }}"
     user_group: "{{ elasticsearch_group }}"
+    user_groups: "{{ elasticsearch_groups }}"
+
   - role: tocard.utils.filesystem
     filesystem_lvs_mounts: "{{ elasticsearch_filesystem_lvs_mounts }}"
     filesyste_disk_mount: "{{ elasticsearch_filesystem_disk_mounts }}"

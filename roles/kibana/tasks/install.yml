@@ -4,7 +4,7 @@
   become_method: "{{ kibana_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(kibana_owner) }}"
+    owner: "{{ item.owner | default(kibana_user) }}"
     group: "{{ item.group | default(kibana_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"

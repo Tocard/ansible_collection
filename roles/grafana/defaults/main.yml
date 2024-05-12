@@ -28,15 +28,15 @@ grafana_filesystem_lvs_mounts:
     vg: "{{ grafana_filesystem_vg_name }}"
     size: 1g
     path: "{{ grafana_data_dir }}"
-    owner: "{{ grafana_owner }}"
-    group: "{{ grafana_owner }}"
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_user }}"
 
   - lv: lv_grafana_log
     vg: "{{ grafana_filesystem_vg_name }}"
     size: 500m
     path: "{{ grafana_log_dir }}"
-    owner: "{{ grafana_owner }}"
-    group: "{{ grafana_owner }}"
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_user }}"
 
 
 grafana_custom_packages:
@@ -45,8 +45,9 @@ grafana_custom_packages:
 
 grafana_http_port: 3000
 
-grafana_owner: grafana
+grafana_user: grafana
 grafana_group: grafana
+grafana_groups: [certbot]
 
 grafana_ssl_file:
   - src: /opt/certbot/eden/cert.pem

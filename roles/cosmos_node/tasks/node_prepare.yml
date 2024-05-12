@@ -13,7 +13,7 @@
   become_method: "{{ cosmos_node_sudo_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(cosmos_node_owner) }}"
+    owner: "{{ item.owner | default(cosmos_node_user) }}"
     group: "{{ item.group | default(cosmos_node_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
@@ -23,7 +23,7 @@
   become: true
   become_method: "{{ cosmos_node_sudo_method }}"
   ansible.builtin.lineinfile:
-    path: "/home/{{ cosmos_node_owner }}/.bashrc"
+    path: "/home/{{ cosmos_node_user }}/.bashrc"
     line: "{{ item }}"
     create: True
   loop:

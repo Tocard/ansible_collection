@@ -5,7 +5,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(kibana_owner) }}"
+    owner: "{{ item.owner | default(kibana_user) }}"
     group: "{{ item.group | default(kibana_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ kibana_custom_templates }}"

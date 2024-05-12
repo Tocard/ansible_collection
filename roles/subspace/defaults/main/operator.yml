@@ -24,14 +24,14 @@ subspace_operator_filesystem_lvs_mounts:
     vg: "{{ suspace_custom_vg_name }}"
     size: 10g
     path: "{{ subspace_install_path }}"
-    owner: "{{ subspace_owner }}"
+    owner: "{{ subsoace_user }}"
     group: "{{ subspace_group }}"
 
   - lv: lv_subspace_operator_log
     vg: "{{ suspace_custom_vg_name }}"
     size: 2g
     path: "{{ subspace_operator_log_folder }}"
-    owner: "{{ subspace_owner }}"
+    owner: "{{ subsoace_user }}"
     group: "{{ subspace_group }}"
 
 

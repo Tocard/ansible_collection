@@ -6,7 +6,7 @@
   ansible.builtin.get_url:
     url: "{{ subspace_operator_binary_url }}"
     dest: "{{ subspace_operator_binary_path }}"
-    owner: "{{ subspace_owner }}"
+    owner: "{{ subsoace_user }}"
     group: "{{ subspace_group }}"
     mode: '0750'
     force: true
@@ -19,7 +19,7 @@
   become_method: "{{ subspace_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(subspace_owner) }}"
+    owner: "{{ item.owner | default(subsoace_user) }}"
     group: "{{ item.group | default(subspace_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
@@ -31,7 +31,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(subspace_owner) }}"
+    owner: "{{ item.owner | default(subsoace_user) }}"
     group: "{{ item.group | default(subspace_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ subspace_operator_templates }}"

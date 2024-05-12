@@ -1,5 +1,5 @@
 ---
-certbot_owner: certbot
+certbot_user: certbot
 certbot_group: certbot
 
 certbot_home: /opt/certbot

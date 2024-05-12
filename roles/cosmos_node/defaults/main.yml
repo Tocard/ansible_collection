@@ -6,7 +6,7 @@ cosmos_node_binaries: "{{ cosmos_node_short_name }}"
 cosmos_node_chain_id: cataclysm-1
 
 # USER
-cosmos_node_owner: "{{ cosmos_node }}"
+cosmos_node_user: "{{ cosmos_node }}"
 cosmos_node_group: "{{ cosmos_node }}"
 
 
@@ -39,13 +39,13 @@ cosmos_node_filesystem_lvs_mounts:
     vg: "{{ cosmos_node_vg_name }}"
     size: "{{ cosmos_node_log_size }}"
     path: "{{ cosmos_node_log_path }}"
-    owner: "{{ cosmos_node_owner }}"
+    owner: "{{ cosmos_node_user }}"
     group: "{{ cosmos_node_group }}"
 
 cosmos_node_filesystem_disk_mounts:
   - disk: "{{ cosmos_node_data_disk_name }}"
     path: "{{ cosmos_node_path }}"
-    owner: "{{ cosmos_node_owner }}"
+    owner: "{{ cosmos_node_user }}"
     group: "{{ cosmos_node_group }}"
 
 ## FILE

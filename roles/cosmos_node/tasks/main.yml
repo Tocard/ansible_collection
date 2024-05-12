@@ -9,7 +9,7 @@
 #  ansible.builtin.get_url:
 #    url: "{{ cosmos_node_binaries_download_url}}"
 #    dest: "{{ cosmos_node_binaries_path }}/{{ cosmos_node }}"
-#    owner: "{{ item.owner | default(cosmos_node_owner) }}"
+#    owner: "{{ item.owner | default(cosmos_node_user) }}"
 #    group: "{{ item.group | default(cosmos_node_group) }}"
 #    mode: "0777"
 #    force: true
@@ -20,7 +20,7 @@
   ansible.builtin.unarchive:
     src: "{{ cosmos_node_binaries_download_url}}"
     dest: "{{ cosmos_node_binaries_path }}"
-    owner: "{{ item.owner | default(cosmos_node_owner) }}"
+    owner: "{{ item.owner | default(cosmos_node_user) }}"
     group: "{{ item.group | default(cosmos_node_group) }}"
     remote_src: true
     mode: "0777"
@@ -34,7 +34,7 @@
 
 - name: Run take node config
   become: true
-  become_user: "{{ cosmos_node_owner }}"
+  become_user: "{{ cosmos_node_user }}"
   ansible.builtin.import_tasks: node_init.yml
   when: not cosmos_node_already_init.stat.exists
 
@@ -45,7 +45,7 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode | default('0640') }}"
-    owner: "{{ item.owner | default(cosmos_node_owner) }}"
+    owner: "{{ item.owner | default(cosmos_node_user) }}"
     group: "{{ item.group | default(cosmos_node_group) }}"
   loop: "{{ cosmos_node_templates }}"
   notify: cosmos_node_need_restart
@@ -65,13 +65,13 @@
 #    src: "{{ cosmos_node_genesis_donwload_url }}"
 #    dest: "{{ cosmos_node_config_path }}"
 #    remote_src: true
-#    owner: "{{ item.owner | default(cosmos_node_owner) }}"
+#    owner: "{{ item.owner | default(cosmos_node_user) }}"
 #    group: "{{ item.group | default(cosmos_node_group) }}"
 
 
 #- name: Run th keys management
 #  become: true
-#  become_user: "{{ cosmos_node_owner }}"
+#  become_user: "{{ cosmos_node_user }}"
 #  ansible.builtin.import_tasks: keys_management.yml
 #  when: cosmos_node_keys_management_enabled
 

@@ -13,7 +13,7 @@
   become_method: "{{ nexus_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(nexus_owner) }}"
+    owner: "{{ item.owner | default(nexus_user) }}"
     group: "{{ item.group | default(nexus_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
@@ -26,7 +26,7 @@
   ansible.builtin.unarchive:
     src: "{{ nexus_download_url }}"
     dest: "{{ nexus_home }}"
-    owner: "{{ item.owner | default(nexus_owner) }}"
+    owner: "{{ item.owner | default(nexus_user) }}"
     group: "{{ item.group | default(nexus_group) }}"
     remote_src: true
     mode: "0750"
@@ -37,7 +37,7 @@
   become_method: "{{ nexus_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ nexus_home }}"
-    owner: "{{ nexus_owner }}"
+    owner: "{{ nexus_user }}"
     group: "{{ nexus_group }}"
     mode: "0750"
     state: directory
@@ -50,7 +50,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(nexus_owner) }}"
+    owner: "{{ item.owner | default(nexus_user) }}"
     group: "{{ item.group | default(nexus_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ nexus_templates }}"
@@ -62,7 +62,7 @@
   ansible.builtin.file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ nexus_owner }}"
+    owner: "{{ nexus_user }}"
     group: "{{ nexus_group }}"
     state: link
     follow: False

@@ -15,7 +15,7 @@ galaxy_info:
 
 dependencies:
   - name: tocard.utils.user
-    user_name: "{{ ternoa_owner }}"
+    user_name: "{{ ternoa_user }}"
     user_group: "{{ ternoa_group }}"
     tags: ['user']
 

@@ -21,7 +21,7 @@
   become_method: "{{ prometheus_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(prometheus_owner) }}"
+    owner: "{{ item.owner | default(prometheus_user) }}"
     group: "{{ item.group | default(prometheus_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
@@ -34,7 +34,7 @@
     src: "{{ prometheus_github_url }}"
     dest: "{{ prometheus_binary_path }}"
     remote_src: true
-    owner: "{{ prometheus_owner }}"
+    owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: "0750"
   notify:
@@ -46,7 +46,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(prometheus_owner) }}"
+    owner: "{{ item.owner | default(prometheus_user) }}"
     group: "{{ item.group | default(prometheus_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ prometheus_templates }}"
