@@ -23,28 +23,27 @@ kibana_custom_dirs:
   - path: "{{ kibana_ssl_path }}"
 
 kibana_filesystem_vg_name: olympus
-kibana_filesystem_list:
+kibana_filesystem_lvs_mounts:
   - lv: lv_kibana_data
     vg: "{{ kibana_filesystem_vg_name }}"
-    size: 1G
+    size: 1g
     path: "{{ kibana_data_dir }}"
     owner: "{{ kibana_owner}}"
     group: "{{ kibana_group}}"
-    mode: "0750"
+
   - lv: lv_kibana_share
     vg: "{{ kibana_filesystem_vg_name }}"
-    size: 1536M
+    size: 1536m
     path: "{{ kibana_share_dir }}"
     owner: "{{ kibana_owner}}"
     group: "{{ kibana_group}}"
-    mode: "0750"
+
   - lv: lv_kibana_log
     vg: "{{ kibana_filesystem_vg_name }}"
-    size: 1G
+    size: 1g
     path: "{{ kibana_log_dir }}"
     owner: "{{ kibana_owner}}"
     group: "{{ kibana_group}}"
-    mode: "0750"
 
 kibana_elasticsearch_username: kibana_system
 

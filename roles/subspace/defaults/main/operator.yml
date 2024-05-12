@@ -19,27 +19,21 @@ subspace_operator_directories:
   - path: "{{ subspace_operator_log_folder }}"
 
 subspace_operator_filesystem_enabled: true
-subspace_operator_filesystem_list:
+subspace_operator_filesystem_lvs_mounts:
   - lv: lv_chimera
-    vg: "{{ custom_vg_name }}"
+    vg: "{{ suspace_custom_vg_name }}"
     size: 10g
     path: "{{ subspace_install_path }}"
     owner: "{{ subspace_owner }}"
     group: "{{ subspace_group }}"
-    mode: "0750"
-    fstype: xfs
-    force: false
-    shrink: false
+
   - lv: lv_subspace_operator_log
-    vg: "{{ custom_vg_name }}"
+    vg: "{{ suspace_custom_vg_name }}"
     size: 2g
     path: "{{ subspace_operator_log_folder }}"
     owner: "{{ subspace_owner }}"
     group: "{{ subspace_group }}"
-    mode: "0750"
-    fstype: xfs
-    force: false
-    shrink: false
+
 
 subspace_operator_prometheus_port: 9615
 subspace_operator_p2p_port: 30333

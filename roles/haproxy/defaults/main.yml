@@ -21,14 +21,13 @@ haproxy_stats_user: admin
 haproxy_stats_password: "{{ lookup('hashi_vault', hashi_haproxy_path ~ '/stats_user:moz ' ~ hashi_connect) }}"
 
 haproxy_filesystem_vg_name: olympus
-haproxy_filesystem_list:
+haproxy_filesystem_lvs_mounts:
   - lv: lv_haproxy_log
     vg: "{{ haproxy_filesystem_vg_name }}"
     size: 1g
     path: /var/log/haproxy
     owner: "{{ haproxy_owner }}"
     group: "{{ haproxy_group }}"
-    mode: "0750"
 
 haproxy_certs_path: /etc/haproxy/ssl
 

@@ -2,23 +2,20 @@
 
 - name: Extend or format the fs for whole disk
   become: true
-  become_method: "{{ filesystem_custom_become_method }}"
   community.general.filesystem:
     fstype: "{{ item.fstype | default('xfs') }}"
     dev: "/dev/{{ item.disk }}"
     resizefs: "{{ item.resizefs | default('true') }}"
-    force: false
-  loop: "{{ filesystem_list }}"
-  when: item.disk is defined
+  register: _filesystem_changed
 
-- name: Mount the fs
+- name: Mount disk
   become: true
-  become_method: "{{ filesystem_custom_become_method }}"
   ansible.posix.mount:
-    name: "{{ item.path }}"
+    path: "{{ item.path }}"
     src: "/dev/{{ item.disk }}"
     fstype: "{{ item.fstype | default('xfs') }}"
     opts: "{{ item.opts | default(omit) }}"
-    state: mounted
-  loop: "{{ filesystem_list }}"
-  when: item.disk is defined
+    state: present
+  register: _filesystem_fstab_changed
+
+- ansible.builtin.import_tasks: mount.yml

@@ -18,7 +18,7 @@ dependencies:
     user_name: "{{ kibana_owner }}"
     user_group: "{{ kibana_group }}"
   - role: tocard.utils.filesystem
-    filesystem_list: "{{ kibana_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ kibana_filesystem_lvs_mounts }}"
 
 
 

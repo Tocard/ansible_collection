@@ -19,7 +19,7 @@ dependencies:
     user_group: "{{ haproxy_group }}"
     user_system: true
   - role: tocard.utils.filesystem
-    filesystem_list: "{{ haproxy_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ haproxy_filesystem_lvs_mounts }}"
 
 
 

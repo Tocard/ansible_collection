@@ -41,27 +41,21 @@ streamr_filesystem_enabled: true
 streamr_virtual_group_name: data_virtual
 streamr_lv_data_size: 10G
 streamr_lv_log_size: 1G
-streamr_filesystem_list:
+streamr_filesystem_lvs_mounts:
   - lv: lv_streamr_data
     vg: "{{ streamr_virtual_group_name }}"
     size: "{{ streamr_lv_data_size }}"
     path: "{{ streamr_install_dir }}"
     owner: "{{ streamr_user }}"
     group: "{{ streamr_group }}"
-    mode: "0750"
-    fstype: xfs
-    force: false
-    shrink: false
+
   - lv: lv_streamr_log
     vg: "{{ streamr_virtual_group_name }}"
     size: "{{ streamr_lv_log_size }}"
     path: "{{ streamr_log_dir }}"
     owner: "{{ streamr_user }}"
     group: "{{ streamr_group }}"
-    mode: "0750"
-    fstype: xfs
-    force: false
-    shrink: false
+
 
 streamr_package_list:
   - git

@@ -25,9 +25,10 @@ subspace_farmer_directories:
 subpace_farmer_plot_size: 10g
 
 subspace_farmer_filesystem_enabled: true
-subspace_farmer_filesystem_list:
+
+subspace_farmer_filesystem_lvs_mounts:
   - lv: lv_subspace_farmer_log
-    vg: "{{ custom_vg_name }}"
+    vg: "{{ suspace_custom_vg_name }}"
     size: 2g
     path: "{{ subspace_farmer_log_folder }}"
     owner: "{{ subspace_owner }}"

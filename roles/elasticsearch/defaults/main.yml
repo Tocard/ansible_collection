@@ -30,21 +30,20 @@ elasticsearch_exclude_node:
 
 elasticsearch_unicast_hosts: "{{ groups['elasticsearch'] | map('extract', hostvars, ['ansible_host']) | list }}"
 
-elasticsearch_filesystem_vg_name: olympus
-elasticsearch_filesystem_list:
+elasticsearch_filesystem_disk_mounts:
   - disk: sdb
     path: "{{ elasticsearch_path_data }}"
     owner: "{{ elasticsearch_owner }}"
     group: "{{ elasticsearch_owner }}"
-    mode: "0750"
 
+elasticsearch_filesystem_vg_name: olympus
+elasticsearch_filesystem_lvs_mounts:
   - lv: lv_es_log
     vg: "{{ elasticsearch_filesystem_vg_name }}"
     size: 1g
     path: "{{ elasticsearch_path_logs }}"
     owner: "{{ elasticsearch_owner }}"
     group: "{{ elasticsearch_owner }}"
-    mode: "0750"
 
 
 elasticsearch_version: 8.13.4

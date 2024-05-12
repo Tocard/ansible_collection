@@ -1,17 +1,33 @@
 ---
 
-- name: Create filesystem directory before mount
+- name: Create mountpoint folder
   become: true
-  become_method: "{{ filesystem_custom_become_method }}"
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner }}"
-    group: "{{ item.group }}"
-    mode: "{{ item.mode | default('0750') }}"
-    state: "{{ item.state | default('directory') }}"
-  loop: "{{ filesystem_list }}"
+    owner: "{{ item.owner | default(filesystem_mountpoint_user) }}"
+    group: "{{ item.group | default(filesystem_mountpoint_group) }}"
+    mode: "{{ item.mode | default(filesystem_mountpoint_mode) }}"
+    state: directory
+  loop: "{{ filesystem_mounts }}"
 
-- ansible.builtin.import_tasks: disk.yml
+- name: Process lvs filesystem
+  ansible.builtin.include_tasks: lvs.yml
+  loop: "{{ filesystem_lvs_mounts }}"
 
-- ansible.builtin.import_tasks: lvm.yml
+- name: Process disk filesystem
+  ansible.builtin.include_tasks: disk.yml
+  loop: "{{ filesystem_disk_mounts }}"
 
+- name: Process nfs filesystem
+  ansible.builtin.include_tasks: nfs.yml
+  loop: "{{ filesystem_nfs_mounts }}"
+
+- name: Ensure right are correctly set
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(filesystem_mountpoint_user) }}"
+    group: "{{ item.group | default(filesystem_mountpoint_group)  }}"
+    mode: "{{ item.mode | default(filesystem_mountpoint_mode) }}"
+    state: directory
+  loop: "{{ filesystem_mounts }}"

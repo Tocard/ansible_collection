@@ -25,3 +25,4 @@ subspace_extra_package:
 subspace_custom_become_method: sudo
 
 subspace_log_path_to_watch: []
+suspace_custom_vg_name: olympus

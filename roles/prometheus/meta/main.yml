@@ -20,7 +20,7 @@ dependencies:
     tags: ['user']
 
   - name: tocard.utils.filesystem
-    filesystem_list: "{{ prometheus_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ prometheus_filesystem_lvs_mounts }}"
     when: prometheus_filesystem_enabled
     tags: ['filesystem']
 

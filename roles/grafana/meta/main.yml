@@ -18,7 +18,7 @@ dependencies:
     user_name: "{{ grafana_owner }}"
     user_group: "{{ grafana_group }}"
   - role: tocard.utils.filesystem
-    filesystem_list: "{{ grafana_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ grafana_filesystem_lvs_mounts }}"
 
 
 

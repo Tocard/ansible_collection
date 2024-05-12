@@ -20,16 +20,16 @@ dependencies:
     tags: ['user']
 
   - name: tocard.utils.filesystem
-    filesystem_list: "{{ subspace_node_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ subspace_node_filesystem_lvs_mounts }}"
     when: subspace_node_filesystem_enabled and subspace_node_install_enabled
     tags: ['filesystem']
 
   - name: tocard.utils.filesystem
-    filesystem_list: "{{ subspace_operator_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ subspace_operator_filesystem_lvs_mounts }}"
     when: subspace_operator_filesystem_enabled and subspace_operator_install_enabled
     tags: ['filesystem']
 
   - name: tocard.utils.filesystem
-    filesystem_list: "{{ subspace_farmer_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ subspace_farmer_filesystem_lvs_mounts }}"
     when: subspace_farmer_filesystem_enabled and subspace_farmer_install_enabled
     tags: ['filesystem']

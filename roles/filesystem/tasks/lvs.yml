@@ -1,0 +1,37 @@
+---
+
+- name: Create Volume Group
+  become: true
+  community.general.lvg:
+    vg: "{{ item.vg }}"
+    pvs: "{{ item.pvs | default(['/dev/sdb']) }}"
+    pvresize: "{{ item.pvresize | default(True) }}"
+    state: present
+  loop: "{{ filesystem_vgs_to_create }}"
+
+- name: Create the logical volume
+  become: true
+  community.general.lvol:
+    vg: "{{ item.vg }}"
+    lv: "{{ item.lv }}"
+    size: "{{ item.size }}"
+
+- name: Extend or format the fs for volume group
+  become: true
+  community.general.filesystem:
+    fstype: "{{ item.fstype | default('xfs') }}"
+    dev: "/dev/{{ item.vg }}/{{ item.lv }}"
+    resizefs: "{{ item.resizefs | default('true') }}"
+  register: _filesystem_changed
+
+- name: Mount the fs
+  become: true
+  ansible.posix.mount:
+    path: "{{ item.path }}"
+    src: "/dev/{{ item.vg }}/{{ item.lv }}"
+    fstype: "{{ item.fstype | default('xfs') }}"
+    opts: "{{ item.opts | default(omit) }}"
+    state: present
+  register: _filesystem_fstab_changed
+
+- ansible.builtin.import_tasks: mount.yml

@@ -15,6 +15,6 @@ galaxy_info:
 
 dependencies:
   - name: tocard.utils.filesystem
-    filesystem_list: "{{ filebeat_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ filebeat_filesystem_lvs_mounts }}"
 
 

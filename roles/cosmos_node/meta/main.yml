@@ -18,4 +18,5 @@ dependencies:
     user_name: "{{ cosmos_node_owner }}"
     user_group: "{{ cosmos_node_group }}"
   - name: tocard.utils.filesystem
-    filesystem_list: "{{ cosmos_node_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ cosmos_node_filesystem_lvs_mounts }}"
+    filesystem_disk_mounts: "{{ cosmos_node_filesystem_disk_mounts }}"

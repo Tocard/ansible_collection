@@ -35,13 +35,14 @@ ternoa_lv_node_size: 10g
 ternoa_lv_log_name: lv_ternoa_node_log
 ternoa_lv_log_size: 1g
 ternoa_vg_name: olympus
-ternoa_node_filesystem_list:
+ternoa_node_filesystem_lvs_mounts:
   - lv: "{{ ternoa_lv_node_name }}"
     vg: "{{ ternoa_vg_name }}"
     size: "{{ ternoa_lv_node_size }}"
     path: "{{ ternoa_node_install_path }}"
     owner: "{{ ternoa_owner }}"
     group: "{{ ternoa_group }}"
+
   - lv: "{{ ternoa_lv_log_name }}"
     vg: "{{ ternoa_vg_name }}"
     size: "{{ ternoa_lv_log_size }}"

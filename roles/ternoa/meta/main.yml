@@ -20,6 +20,6 @@ dependencies:
     tags: ['user']
 
   - name: tocard.utils.filesystem
-    filesystem_list: "{{ ternoa_node_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ ternoa_node_filesystem_lvs_mounts }}"
     when: ternoa_node_filesystem_enabled and ternoa_node_install_enabled
     tags: ['filesystem']

@@ -20,21 +20,20 @@ grafana_packages:
   - grafana=10.4.2
 
 grafana_filesystem_vg_name: olympus
-grafana_filesystem_list:
+grafana_filesystem_lvs_mounts:
   - lv: lv_grafana_data
     vg: "{{ grafana_filesystem_vg_name }}"
-    size: 1G
+    size: 1g
     path: "{{ grafana_data_dir }}"
     owner: "{{ grafana_owner }}"
     group: "{{ grafana_owner }}"
-    mode: "0750"
+
   - lv: lv_grafana_log
     vg: "{{ grafana_filesystem_vg_name }}"
-    size: 500M
+    size: 500m
     path: "{{ grafana_log_dir }}"
     owner: "{{ grafana_owner }}"
     group: "{{ grafana_owner }}"
-    mode: "0750"
 
 
 grafana_custom_packages:

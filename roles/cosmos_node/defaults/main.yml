@@ -33,16 +33,18 @@ cosmos_node_vg_name: olympus
 cosmos_node_data_disk_name: sdb
 cosmos_node_log_lv_name: "lv_log_{{ cosmos_node }}"
 cosmos_node_log_size: 2g
-cosmos_node_filesystem_list:
-  - disk: "{{ cosmos_node_data_disk_name }}"
-    path: "{{ cosmos_node_path }}"
-    owner: "{{ cosmos_node_owner }}"
-    group: "{{ cosmos_node_group }}"
 
+cosmos_node_filesystem_lvs_mounts:
   - lv: "{{ cosmos_node_log_lv_name }}"
     vg: "{{ cosmos_node_vg_name }}"
     size: "{{ cosmos_node_log_size }}"
     path: "{{ cosmos_node_log_path }}"
+    owner: "{{ cosmos_node_owner }}"
+    group: "{{ cosmos_node_group }}"
+
+cosmos_node_filesystem_disk_mounts:
+  - disk: "{{ cosmos_node_data_disk_name }}"
+    path: "{{ cosmos_node_path }}"
     owner: "{{ cosmos_node_owner }}"
     group: "{{ cosmos_node_group }}"
 

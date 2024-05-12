@@ -1,0 +1,13 @@
+---
+
+- name: Mount nfs
+  become: true
+  ansible.posix.mount:
+    src: "{{ item.nfs }}"
+    path: "{{ item.path }}"
+    fstype: "{{ item.fstype | default('nfs') }}"
+    opts: "{{ item.opts | default(filesystem_nfs_opts) }}"
+    state: present
+  register: _filesystem_fstab_changed
+
+- ansible.builtin.import_tasks: mount.yml

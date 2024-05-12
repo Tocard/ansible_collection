@@ -19,8 +19,9 @@ dependencies:
     user_group: "{{ nexus_group }}"
 
   - name: tocard.utils.filesystem
-    filesystem_list: "{{ nexus_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ nexus_filesystem_lvs_mounts }}"
     filesystem_volume_create_enabled: true
+    filesystem_disk_mounts: "{{ nexus_filesystem_disk_mounts }}"
     tags: [filesystem]
 
   - role: tocard.utils.certbot

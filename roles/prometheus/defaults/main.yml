@@ -34,13 +34,14 @@ prometheus_virtual_group_name:
 
 prometheus_filesystem_log_size: 2G
 prometheus_filesystem_storage_size: 10g
-prometheus_filesystem_list:
+prometheus_filesystem_lvs_mounts:
   - lv: lv_prometheus_storage
     vg: "{{ prometheus_virtual_group_name }}"
     size: "{{ prometheus_filesystem_storage_size }}"
     path: "{{ prometheus_storage_directory }}"
     owner: "{{ prometheus_owner }}"
     group: "{{ prometheus_group }}"
+
   - lv: lv_prometheus_log
     vg: "{{ prometheus_virtual_group_name }}"
     size: "{{ prometheus_filesystem_log_size}}"

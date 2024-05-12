@@ -1,8 +1,56 @@
 ---
-filesystem_list: []
-filesystem_custom_become_method: sudo
+filesystem_mountpoint_user: root
+filesystem_mountpoint_group: root
+filesystem_mountpoint_mode: "0750"
 
-filesystem_volume_create_enabled: false
-filesystem_volume_group_name: tartarus
-filesystem_physical_volumes_list:
-  - /dev/sdb
+# List of logical volume to create & mount
+filesystem_vgs_to_create: []
+# filesystem_vgs_to_create:
+#  - vg: data_vg
+#    pvs: default([/dev/sdb])
+#    pvresize: default(True)
+
+# List of logical volume to create & mount
+filesystem_lvs_mounts: []
+# filesystem_lvs_mounts:
+#   - lv: lv_logstash_db
+#     vg: data_vg
+#     size: 70g
+#     path: /var/lib/logstash
+#     fstype: default('xfs')
+#     opts: default(omit)
+#     resizefs: default('true')
+#     owner: default(filesystem_mountpoint_user)
+#     group: default(filesystem_mountpoint_group)
+#     mode: default(filesystem_mountpoint_mode)
+#   - lv: ...
+#     ...
+
+# List of disk to create & mount
+filesystem_disk_mounts: []
+# filesystem_disk_mounts:
+#   - disk: sdb
+#     path: /var/lib/logstash
+#     fstype: default('xfs')
+#     opts: default(omit)
+#     owner: default(filesystem_mountpoint_user)
+#     group: default(filesystem_mountpoint_group)
+#     mode: default(filesystem_mountpoint_mode)
+#     resizefs: default('true')
+#   - disk: ...
+#     ...
+
+# List of nfs to mount
+filesystem_nfs_mounts: []
+# filesystem_lvs_mounts:
+#   - nfs: rad0007.zst-svc.pcy.zx.tt.swag.enedis.fr:/vol_BEF_STG_LPT_01/rec2/out
+#     path: /mnt/nfs_0001
+#     fstype: default(nfs)
+#     opts: default(filesystem_nfs_opts)
+#     owner: default(filesystem_mountpoint_user)
+#     group: default(filesystem_mountpoint_group)
+#     mode: default(filesystem_mountpoint_mode)
+#   - nfs: ...
+#     ...
+
+filesystem_mounts: "{{ filesystem_lvs_mounts | union(filesystem_nfs_mounts) | union(filesystem_disk_mounts) }}"

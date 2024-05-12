@@ -19,7 +19,7 @@ dependencies:
     user_group: "{{ vault_group }}"
     user_groups: "{{ vault_groups }}"
   - role: tocard.utils.filesystem
-    filesystem_list: "{{ vault_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ vault_filesystem_lvs_mounts }}"
   - role: tocard.utils.certbot
     when: vault_ssl_enabled | bool
     tags:

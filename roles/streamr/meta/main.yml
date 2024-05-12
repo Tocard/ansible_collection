@@ -19,7 +19,7 @@ dependencies:
     user_group: "{{ streamr_group }}"
 
   - name: tocard.utils.filesystem
-    filesystem_list: "{{ streamr_filesystem_list }}"
+    filesystem_lvs_mounts: "{{ streamr_filesystem_lvs_mounts }}"
     when: streamr_filesystem_enabled
 
   - name: morgangraphics.ansible_role_nvm

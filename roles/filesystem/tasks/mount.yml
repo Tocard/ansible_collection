@@ -1,0 +1,19 @@
+---
+
+- name: Mount in all namespaces
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ item.path }}"
+    daemon_reload: "{{ _filesystem_fstab_changed is changed or _filesystem_changed is changed }}"
+    state: started
+  register: _filesystem_result_systemd_state
+
+- name: Update mount
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ item.path }}"
+    state: reloaded
+  when:
+    - _filesystem_fstab_changed is changed or _filesystem_changed is changed
+    - _filesystem_result_systemd_state is not changed
+
