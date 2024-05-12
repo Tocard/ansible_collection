@@ -32,7 +32,8 @@
     path: "{{ item.path }}"
     owner: "{{ item.owner | default(grafana_owner) }}"
     group: "{{ item.group | default(grafana_group) }}"
-    mode: "{{ item.mode | default('0640') }}"
+    mode: "{{ item.mode | default('0750') }}"
+    recurse: true
   loop: "{{ grafana_directories }}"
 
 - name: Source ssl file from certbot
