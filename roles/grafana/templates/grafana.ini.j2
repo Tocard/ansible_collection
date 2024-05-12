@@ -49,7 +49,7 @@ domain = {{ grafana_public_domain }}
 
 # Redirect to correct domain if host header does not match domain
 # Prevents DNS rebinding attacks
-enforce_domain = true
+enforce_domain = {{ grafana_enforce_domain }}
 
 # The full public facing url you use in browser, used for redirects and emails
 # If you use reverse proxy and sub path specify full url (with sub path)

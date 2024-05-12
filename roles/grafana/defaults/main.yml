@@ -71,3 +71,4 @@ grafana_deb:
 grafana_secret: change_me
 grafana_root_url: %(protocol)s://%(domain)s:%(http_port)s/grafana/
 grafana_sub_path_enabled: true
+grafana_enforce_domain: false
