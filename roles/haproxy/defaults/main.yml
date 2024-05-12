@@ -15,7 +15,7 @@ haproxy_packages:
 
 haproxy_templates:
   - src: haproxy.cfg.j2
-    dest: /etc/haproxy/haproxy.cfg
+    dest: /etc/haproxy/00_haproxy.cfg
     mode: "0640"
   - src: stats.cfg.j2
     dest: /etc/haproxy/stats.cfg
