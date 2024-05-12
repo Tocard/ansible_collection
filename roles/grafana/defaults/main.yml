@@ -1,5 +1,5 @@
 ---
-grafana_public_domain: mythologic.fr
+grafana_public_domain: "{{ ansible_hostname }}"
 grafana_custom_configs:
   - src: grafana.ini.j2
     dest: /etc/grafana/grafana.ini
