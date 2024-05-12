@@ -15,7 +15,7 @@
     path: "{{ item.path }}"
     owner: "{{ item.owner | default(nexus_owner) }}"
     group: "{{ item.group | default(nexus_group) }}"
-    mode: "{{ item.mode | default('0755') }}"
+    mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
     recurse: "{{ item.recurse | default(omit) }}"
   loop: "{{ nexus_directories }}"

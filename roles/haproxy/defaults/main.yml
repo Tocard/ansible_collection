@@ -4,7 +4,7 @@ haproxy_group: haproxy
 haproxy_version: 2.8.9-1ppa1~jammy
 haproxy_custom_dirs:
   - path: /run/haproxy
-    mode: "0755"
+    mode: "0750"
   - path: /etc/haproxy/ssl
     mode: "0750"
 
