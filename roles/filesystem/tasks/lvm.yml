@@ -34,7 +34,7 @@
   loop: "{{ filesystem_list }}"
   when:
     - inventory_hostname | regex_search('cyclops') is none
-    - item.direct_mount is not defined
+    - item.vg is defined
 
 - name: Mount the fs
   become: true
@@ -48,4 +48,4 @@
   loop: "{{ filesystem_list }}"
   when:
     - inventory_hostname | regex_search('cyclops') is none
-    - item.direct_mount is not defined
+    - item.vg is defined

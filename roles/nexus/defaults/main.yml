@@ -39,13 +39,11 @@ nexus_filesystem_list:
     path: "{{ nexus_blob_path }}/olympus"
     owner: "{{ nexus_owner }}"
     group: "{{ nexus_group }}"
-    direct_mount: true
 
   - disk: sdd
     path: "{{ nexus_blob_path }}/public"
     owner: "{{ nexus_owner }}"
     group: "{{ nexus_group }}"
-    direct_mount: true
 
   - lv: "{{ nexus_lv_name }}"
     vg: "{{ nexus_vg_name }}"

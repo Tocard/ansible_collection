@@ -9,7 +9,7 @@
     resizefs: "{{ item.resizefs | default('true') }}"
     force: false
   loop: "{{ filesystem_list }}"
-  when: item.direct_mount is defined and item.direct_mount
+  when: item.disk is defined
 
 - name: Mount the fs
   become: true
@@ -21,4 +21,4 @@
     opts: "{{ item.opts | default(omit) }}"
     state: mounted
   loop: "{{ filesystem_list }}"
-  when: item.direct_mount is defined and item.direct_mount
+  when: item.disk is defined

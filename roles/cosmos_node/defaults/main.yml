@@ -38,7 +38,7 @@ cosmos_node_filesystem_list:
     path: "{{ cosmos_node_path }}"
     owner: "{{ cosmos_node_owner }}"
     group: "{{ cosmos_node_group }}"
-    direct_mount: true
+
   - lv: "{{ cosmos_node_log_lv_name }}"
     vg: "{{ cosmos_node_vg_name }}"
     size: "{{ cosmos_node_log_size }}"
