@@ -20,7 +20,7 @@ dependencies:
 
   - name: tocard.utils.filesystem
     filesystem_lvs_mounts: "{{ nexus_filesystem_lvs_mounts }}"
-    filesystem_volume_create_enabled: true
+    filesystem_vgs_to_create: "{{ nexus_filesystem_vgs_to_create }}"
     filesystem_disk_mounts: "{{ nexus_filesystem_disk_mounts }}"
     tags: [filesystem]
 

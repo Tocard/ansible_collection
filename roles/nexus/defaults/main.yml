@@ -30,6 +30,9 @@ nexus_templates:
 nexus_custom_become_method: sudo
 
 nexus_vg_name: tartarus
+nexus_filesystem_vgs_to_create:
+  - vg: "{{ nexus_vg_name }}"
+
 nexus_lv_name: lv_nexus
 nexus_lv_size: 8g
 nexus_log_size: 1g
