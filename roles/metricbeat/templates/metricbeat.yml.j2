@@ -52,8 +52,8 @@ output.elasticsearch:
   username: "{{ free_metricbeat_user }}"
   password: "{{ free_metricbeat_password }}"
 {% else %}
-  username: "{{ metricbeat_user }}"
-  password: "{{ metricbeat_password }}"
+  username: "{{ metricbeat_elasticsearch_user }}"
+  password: "{{ metricbeat_elasticsearch_password }}"
 {% endif %}
 
 

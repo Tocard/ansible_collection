@@ -4,8 +4,8 @@ metricbeat_version: ""
 metricbeat_user: root
 metricbeat_group: root
 
-metricbeat_user: metricbeat
-metricbeat_password: changeme
+metricbeat_elasticsearch_user: metricbeat
+metricbeat_elasticsearch_password: changeme
 
 metricbeat_module_path: /etc/metricbeat/modules.d
 
