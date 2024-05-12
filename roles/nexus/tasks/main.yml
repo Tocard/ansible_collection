@@ -30,6 +30,7 @@
     group: "{{ item.group | default(nexus_group) }}"
     remote_src: true
     mode: "0750"
+  notify: nexus_need_restart
 
 - name: Enforce owner & mode for nexus folder
   become: true
@@ -41,6 +42,7 @@
     mode: "0750"
     state: directory
     recurse: True
+  notify: nexus_need_restart
 
 - name: Template nexus files
   become: true
@@ -52,6 +54,7 @@
     group: "{{ item.group | default(nexus_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ nexus_templates }}"
+  notify: nexus_need_restart
 
 - name: Source ssl file from certbot
   become: true
@@ -63,3 +66,4 @@
     group: "{{ nexus_group }}"
     state: link
   loop: "{{ nexus_ssl_file }}"
+  notify: nexus_need_restart

@@ -1,0 +1,10 @@
+---
+- name: Restart nexus
+  become: true
+  become_method: "{{ nexus_custom_become_method }}"
+  ansible.builtin.systemd:
+    name: nexus
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: nexus_need_restart
