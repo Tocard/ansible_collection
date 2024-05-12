@@ -17,6 +17,15 @@ haproxy_templates:
   - src: haproxy.cfg.j2
     dest: /etc/haproxy/haproxy.cfg
     mode: "0640"
+  - src: stats.cfg.j2
+    dest: /etc/haproxy/stats.cfg
+    mode: "0640"
+  - src: https.cfg.j2
+    dest: /etc/haproxy/https.cfg
+    mode: "0640"
+  - src: elasticsearch.cfg.j2
+    dest: /etc/haproxy/elasticsearch.cfg
+    mode: "0640"
   - src: haproxy.service.j2
     dest: /lib/systemd/system/haproxy.service
     mode: "0644"
