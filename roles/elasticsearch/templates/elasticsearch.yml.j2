@@ -5,11 +5,11 @@ path.logs: {{ elasticsearch_path_logs }}
 network.host: {{ ansible_host }}
 #http.port: 9200-9203
 discovery.seed_hosts:
-{% for host in elasticsearch_other_nodes %}
+{% for host in elasticsearch_other_nodes | sort %}
 - {{ host }}
 {% endfor %}
 cluster.initial_master_nodes:
-{% for host in elasticsearch_unicast_hosts %}
+{% for host in elasticsearch_unicast_hosts | sort %}
 - {{ host }}
 {% endfor %}
 
