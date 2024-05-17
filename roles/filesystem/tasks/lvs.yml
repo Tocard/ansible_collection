@@ -15,6 +15,7 @@
     vg: "{{ item.vg }}"
     lv: "{{ item.lv }}"
     size: "{{ item.size }}"
+    shrink: false
 
 - name: Extend or format the fs for volume group
   become: true
