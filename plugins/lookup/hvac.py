@@ -109,7 +109,7 @@ class LookupModule(LookupBase):
         if self.get_option("mount_point") is not None:
             self.mount_point = self.get_option("mount_point")
         else:
-            self.mount_point = variables["hashi_mount_point"]
+            self.mount_point = variables["hashi_mount_point_api"]
         if self.get_option("force_renew") is not None:
             self.force_renew = self.get_option("force_renew")
 
