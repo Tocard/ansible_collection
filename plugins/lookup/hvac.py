@@ -44,11 +44,11 @@ display = Display()
 
 
 class HVAC:
-    def __init__(self, username, password, vault_addr):
+    def __init__(self):
         self.cacerts = os.getenv("REQUESTS_CA_BUNDLE")
-        self.vault_addr = vault_addr
-        self.username = username
-        self.password = password
+        self.vault_addr = os.getenv("hashi_vault_url")
+        self.username = os.getenv("hashi_user")
+        self.password = os.getenv("hashi_password")
         self.client = self.init_hvac_client()
 
     def init_hvac_client(self):
@@ -113,8 +113,7 @@ class LookupModule(LookupBase):
         if self.get_option("force_renew") is not None:
             self.force_renew = self.get_option("force_renew")
 
-        self.hvac_wrapper = HVAC(username=os.getenv("hashi_user"), password=os.getenv("hashi_password"),
-                                 vault_addr=os.getenv("hashi_vault_url"))
+        self.hvac_wrapper = HVAC()
 
     def run(self, terms: list, variables: dict = None, **kwargs: dict) -> list:
         self.config(terms, variables, **kwargs)
