@@ -87,7 +87,6 @@ class HVAC:
 class LookupModule(LookupBase):
     mount_point = 'secret/moz'
     path = None
-    field = None
     key = None
     length_password = 32
     force_renew = False
@@ -132,7 +131,4 @@ class LookupModule(LookupBase):
                     break
             else:
                 break
-        if self.field:
-            return [secrets[self.field]]
-        else:
-            return [secrets]
+        return [secrets[self.key]]
