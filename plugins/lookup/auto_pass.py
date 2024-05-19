@@ -85,7 +85,7 @@ class HVAC:
 
 
 class LookupModule(LookupBase):
-    mount_point = None
+    mount_point = 'secret/moz'
     path = None
     field = None
     key = None
@@ -106,10 +106,6 @@ class LookupModule(LookupBase):
             self.field = parts[1]
         if self.get_option('key') is not None:
             self.key = self.get_option('key')
-        if self.get_option('mount_point') is not None:
-            self.mount_point = self.get_option('mount_point')
-        else:
-            self.mount_point = variables['hashi_mount_point']
         if self.get_option('force_renew') is not None:
             self.force_renew = self.get_option('force_renew')
 
