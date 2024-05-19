@@ -45,13 +45,14 @@ display = Display()
 
 class HVAC:
     def __init__(self):
-        self.cacerts = os.getenv("REQUESTS_CA_BUNDLE")
         self.client = self.init_hvac_client()
 
     def init_hvac_client(self):
         try:
-            self.client = hvac.Client(url=os.getenv("hashi_vault_url"), token=os.getenv('VAULT_TOKEN'),
-                                      verify=self.cacerts)
+            self.client = hvac.Client(url=os.getenv("VAULT_URL"), token=os.getenv('VAULT_TOKEN'),
+                                      verify=os.getenv("REQUESTS_CA_BUNDLE"))
+            if not self.client.is_authenticated():
+                display.warning('client is not authenticated')
         except VaultError as e:
             raise AnsibleError("Unable to init hvac client for address {}", os.getenv("hashi_vault_url"), e)
 
