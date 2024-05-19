@@ -113,8 +113,8 @@ class LookupModule(LookupBase):
         if self.get_option("force_renew") is not None:
             self.force_renew = self.get_option("force_renew")
 
-        self.hvac_wrapper = HVAC(username=variables["hashi_user"], password=variables["hashi_password"],
-                                 vault_addr=variables["hashi_vault_url"])
+        self.hvac_wrapper = HVAC(username=os.getenv("hashi_user"), password=os.getenv("hashi_password"),
+                                 vault_addr=os.getenv("hashi_vault_url"))
 
     def run(self, terms: list, variables: dict = None, **kwargs: dict) -> list:
         self.config(terms, variables, **kwargs)
