@@ -13,7 +13,7 @@ import os
 __metaclass__ = type
 
 DOCUMENTATION = """
-  name: hvac
+  name: auto_pass
   author: douceur
   version_added: '2.9'  # for collections, use the collection version, not the Ansible version
   short_description: read secret from hashicorp, or create if not exist
@@ -46,17 +46,14 @@ display = Display()
 class HVAC:
     def __init__(self):
         self.cacerts = os.getenv("REQUESTS_CA_BUNDLE")
-        self.vault_addr = os.getenv("hashi_vault_url")
-        self.username = os.getenv("hashi_user")
-        self.password = os.getenv("hashi_password")
         self.client = self.init_hvac_client()
 
     def init_hvac_client(self):
         try:
-            self.client = hvac.Client(url=self.vault_addr, username=self.username, password=self.password,
+            self.client = hvac.Client(url=os.getenv("hashi_vault_url"), token=os.getenv('VAULT_TOKEN'),
                                       verify=self.cacerts)
         except VaultError as e:
-            raise AnsibleError("Unable to init hvac client for address {}", self.vault_addr, e)
+            raise AnsibleError("Unable to init hvac client for address {}", os.getenv("hashi_vault_url"), e)
 
     def read_path(self, mount_point: str, path: str) -> dict:
         try:

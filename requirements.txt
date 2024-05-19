@@ -1,3 +1,5 @@
 ansible==9.5.1
 ansible-doctor
 bump2version
+requests~=2.31.0
+hvac==2.2.0
