@@ -12,7 +12,7 @@ import os
 
 __metaclass__ = type
 
-DOCUMENTATION = """
+DOCUMENTATION = '''
   name: auto_pass
   author: douceur
   version_added: '2.9'  # for collections, use the collection version, not the Ansible version
@@ -38,7 +38,7 @@ DOCUMENTATION = """
       type: bool
   notes:
     - this lookup uses env variable REQUESTS_CA_BUNDLE
-"""
+'''
 
 display = Display()
 
@@ -51,37 +51,37 @@ class HVAC:
 
     def init_hvac_client(self):
         try:
-            self.client = hvac.Client(url=os.getenv("VAULT_URL"), token=os.getenv('VAULT_TOKEN'),
-                                      verify=os.getenv("REQUESTS_CA_BUNDLE"))
+            self.client = hvac.Client(url=os.getenv('VAULT_URL'), token=os.getenv('VAULT_TOKEN'),
+                                      verify=os.getenv('REQUESTS_CA_BUNDLE'))
             if not self.client.is_authenticated():
                 display.warning('client is not authenticated')
         except VaultError as e:
-            raise AnsibleError("Unable to init hvac client for address {}", os.getenv("VAULT_URL"), e)
+            raise AnsibleError('Unable to init hvac client for address {}', os.getenv('VAULT_URL'), e)
 
     def read_path(self, mount_point: str, path: str) -> dict:
         try:
             data = self.client.secrets.kv.v2.read_secret_version(
                 path=path, mount_point=mount_point)
-            secret = data["data"]["data"]
+            secret = data['data']['data']
             return secret
         except InvalidPath:
-            display.warning("path {} does not exist yet".format(path))
+            display.warning('path {} does not exist yet'.format(path))
             return {}
         except VaultError as e:
-            display.warning("{}".format(e))
-            raise AnsibleError("Unable to read vault path {} at mount point {}".format(path, mount_point), e)
+            display.warning('{}'.format(e))
+            raise AnsibleError('Unable to read vault path {} at mount point {}'.format(path, mount_point), e)
 
     def create_or_update_secret(self, mount_point: str, path: str, secret: dict):
         try:
             self.client.secrets.kv.v2.create_or_update_secret(
                 path=path, secret=secret, mount_point=mount_point)
-            display.vvv("secrets have been created or updated in path {}".format(path))
+            display.vvv('secrets have been created or updated in path {}'.format(path))
             return True
         except InvalidRequest as e:
-            display.warning(f"secrets not updated in path {path} because of invalid request {e}")
+            display.warning(f'secrets not updated in path {path} because of invalid request {e}')
             return False
         except AnsibleParserError as e:
-            raise AnsibleError("{}, {}, {}, {}".format(mount_point, path, secret, e))
+            raise AnsibleError('{}, {}, {}, {}'.format(mount_point, path, secret, e))
 
 
 class LookupModule(LookupBase):
@@ -94,24 +94,24 @@ class LookupModule(LookupBase):
     hvac_wrapper = None
 
     def password_generator(self) -> str:
-        letters = string.ascii_letters + string.digits + "-_"
-        return "".join(random.choice(letters) for _ in range(self.length_password))
+        letters = string.ascii_letters + string.digits + '-_'
+        return ''.join(random.choice(letters) for _ in range(self.length_password))
 
     def config(self, terms: list, variables: dict = None, **kwargs: dict):
         self.set_options(var_options=variables, direct=kwargs)
-        self.path = "{}".format(terms[0])
-        if ":" in self.path:
-            parts = self.path.split(":", 1)
+        self.path = '{}'.format(terms[0])
+        if ':' in self.path:
+            parts = self.path.split(':', 1)
             self.path = parts[0]
             self.field = parts[1]
-        if self.get_option("key") is not None:
-            self.key = self.get_option("key")
-        if self.get_option("mount_point") is not None:
-            self.mount_point = self.get_option("mount_point")
+        if self.get_option('key') is not None:
+            self.key = self.get_option('key')
+        if self.get_option('mount_point') is not None:
+            self.mount_point = self.get_option('mount_point')
         else:
-            self.mount_point = variables["hashi_mount_point_api"]
-        if self.get_option("force_renew") is not None:
-            self.force_renew = self.get_option("force_renew")
+            self.mount_point = variables['hashi_mount_point_api']
+        if self.get_option('force_renew') is not None:
+            self.force_renew = self.get_option('force_renew')
 
         self.hvac_wrapper = HVAC()
 
@@ -120,18 +120,18 @@ class LookupModule(LookupBase):
         while True:
             secrets = self.hvac_wrapper.read_path(self.mount_point, self.path)
             if self.key is not None and (self.key not in secrets or self.force_renew is True):
-                display.vvv("key is missing or force_renew")
+                display.vvv('key is missing or force_renew')
                 secrets[self.key] = self.password_generator()
                 if not self.hvac_wrapper.create_or_update_secret(self.mount_point, self.path, secrets):
-                    display.vvv(f"update for key {self.key} failed, let's check")
+                    display.vvv(f'update for key {self.key} failed')
                     new_secrets, new_version, new_meta = self.hvac_wrapper.read_path(self.mount_point, self.path)
                     if self.key not in new_secrets:
-                        display.vvv(f"{self.key} is still absent, retry")
+                        display.vvv(f'{self.key} is still absent, retry')
                         continue
                     if self.force_renew and secrets.get(self.key, None) == new_secrets[self.key]:
-                        display.vvv(f"{self.key} was not renewed, retry")
+                        display.vvv(f'{self.key} was not renewed, retry')
                         continue
-                    display.vvv("new version of secret is valid, use it")
+                    display.vvv('new version of secret is valid, use it')
                     secrets = new_secrets
                     break
             else:
