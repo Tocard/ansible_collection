@@ -4,9 +4,6 @@ metricbeat_version: ""
 metricbeat_user: root
 metricbeat_group: root
 
-metricbeat_elasticsearch_user: metricbeat
-metricbeat_elasticsearch_password: changeme
-
 metricbeat_module_path: /etc/metricbeat/modules.d
 
 metricbeat_custom_templates:
@@ -68,7 +65,9 @@ metricbeat_yum_repo:
 metricbeat_deb:
   - https://artifacts.elastic.co/packages/8.x/apt stable main
 
-
+metricbeat_elasticsearch_user: free_metricbeat
+metricbeat_elasticsearch_password: free_metricbeat4ever
+metricbeat_elasticsearch_url: https://mythologic.fr:9200
 
 metricbeat_cosmos_chain_name:
 metricbeat_cosmos_node_port:
@@ -80,3 +79,6 @@ metricbeat_cosmos_template:
     owner: "{{ metricbeat_user }}"
     group: "{{ metricbeat_group }}"
     mode: "0640"
+
+metricbeat_ssl_files:
+  - /etc/metricbeat/chain.pem
