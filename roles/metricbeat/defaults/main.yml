@@ -1,5 +1,5 @@
 ---
-metricbeat_version: ""
+metricbeat_version: "8.9.0"
 
 metricbeat_user: root
 metricbeat_group: root
@@ -9,37 +9,18 @@ metricbeat_module_path: /etc/metricbeat/modules.d
 metricbeat_custom_templates:
   - src: metricbeat.yml.j2
     dest: /etc/metricbeat/metricbeat.yml
-    owner: "{{ metricbeat_user }}"
-    group: "{{ metricbeat_group }}"
-    mode: "0640"
   - src: system.yml.j2
     dest: "{{ metricbeat_module_path }}/system.yml"
-    owner: "{{ metricbeat_user }}"
-    group: "{{ metricbeat_group }}"
-    mode: "0640"
 
 metricbeat_xpack_templates:
   - src: elasticsearch-xpack.yml.j2
     dest: "{{ metricbeat_module_path }}/elasticsearch-xpack.yml"
-    owner: "{{ metricbeat_user }}"
-    group: "{{ metricbeat_group }}"
-    mode: "0640"
-
-metricbeat_hddtemp_templates:
-  - src: hddtemp.yml.j2
-    dest: "{{ metricbeat_module_path }}/hddtemp.yml"
-    owner: "{{ metricbeat_user }}"
-    group: "{{ metricbeat_group }}"
-    mode: "0640"
 
 metricbeat_log_dir: /var/log/metricbeat
 
 metricbeat_custom_dirs:
   - path: "{{ metricbeat_log_dir }}"
     state: directory
-    owner: "{{ metricbeat_user }}"
-    group: "{{ metricbeat_group }}"
-    mode: "0750"
 
 metricbeat_filesystem_vg_name: olympus
 metricbeat_filesystem_lvs_mounts:
@@ -76,9 +57,6 @@ metricbeat_cosmos_node_enabled: false
 metricbeat_cosmos_template:
   - src: cosmos.yml.j2
     dest: "{{ metricbeat_module_path }}/cosmos.yml"
-    owner: "{{ metricbeat_user }}"
-    group: "{{ metricbeat_group }}"
-    mode: "0640"
 
 metricbeat_ssl_files:
   - /etc/metricbeat/chain.pem

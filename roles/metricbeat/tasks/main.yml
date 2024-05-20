@@ -16,7 +16,7 @@
   become: true
   become_method: "{{ metricbeat_custom_become_method }}"
   ansible.builtin.package:
-    name: "metricbeat{{ metricbeat_version }}"
+    name: "metricbeat={{ metricbeat_version }}"
     state: "{{ metricbeat_install_mode }}"
   notify:
     - metricbeat_need_restart
