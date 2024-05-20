@@ -5,7 +5,7 @@
   username: "{{ metricbeat_elasticsearch_user }}"
   password: "{{ metricbeat_elasticsearch_password }}"
 
-  ssl.certificate_authorities: "{{ metricbeat_ssl_files }}"
+  ssl.certificate_authorities: {{ metricbeat_ssl_files }}
 
   scope: node
   ssl.enabled: true
