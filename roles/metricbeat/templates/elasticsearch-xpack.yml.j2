@@ -2,10 +2,10 @@
   xpack.enabled: true
   period: 60s
   hosts: [ {{ metricbeat_elasticsearch_url }} ]
-  username: "{{ metricbeat_user }}"
-  password: "{{ metricbeat_password }}"
+  username: "{{ metricbeat_elasticsearch_user }}"
+  password: "{{ metricbeat_elasticsearch_password }}"
 
-  ssl.certificate_authorities: [ "/etc/letsencrypt/live/{{ ansible_host }}/fullchain.pem" ]
+  ssl.certificate_authorities: "{{ metricbeat_ssl_files }}"
 
   scope: node
   ssl.enabled: true
