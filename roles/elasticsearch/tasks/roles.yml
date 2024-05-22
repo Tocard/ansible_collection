@@ -1,7 +1,7 @@
 ---
 - name: Add elasticsearch roles
   run_once: true
-  uri:
+  ansible.builtin.uri:
     url: "{{ elasticsearch_url_security }}/role/{{ item.name }}"
     method: POST
     user: "{{ elasticsearch_elastic_user }}"

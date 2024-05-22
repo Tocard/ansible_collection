@@ -11,7 +11,7 @@
   become_method: "{{ elasticsearch_custom_become_method }}"
   block:
     - name: Create the keystore if it doesn't exist yet
-      command: >
+      ansible.builtin.command: >
        {{ elasticsearch_path_bin }}/bin/elasticsearch-keystore create
       args:
         creates: "{{ elasticsearch_path_config }}/elasticsearch.keystore"
@@ -20,7 +20,7 @@
       when: not elasticsearch_keystore_check.stat.exists
 
     - name: Check if bootstrap password is defined
-      command: >
+      ansible.builtin.command: >
        {{ elasticsearch_path_bin }}/bin/elasticsearch-keystore list
       register: list_keystore
       changed_when: false
@@ -28,7 +28,7 @@
         ES_PATH_CONF: "{{ elasticsearch_path_config }}"
 
     - name: Create bootstrap password for user elastic
-      shell: echo "{{ elasticsearch_elastic_password }}"
+      ansible.builtin.command: echo "{{ elasticsearch_elastic_password }}"
         | "{{ elasticsearch_path_bin }}"/bin/elasticsearch-keystore add -x 'bootstrap.password'
       when: list_keystore is defined and list_keystore.stdout_lines is defined and 'bootstrap.password' not in list_keystore.stdout_lines
       environment:
