@@ -35,7 +35,7 @@
     - metricbeat_need_restart
 
 - ansible.builtin.import_tasks: generic_ac.yml
-  when: metricbeat_use_generic_ac
+  when: metricbeat_use_generic_ac | bool
 
 - ansible.builtin.import_tasks: cerberus.yml
   when: "'cerberus' in groups"

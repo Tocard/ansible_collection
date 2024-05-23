@@ -1,0 +1,11 @@
+---
+## --------------------------------------------------------------------
+## Metricbeat
+## --------------------------------------------------------------------
+- hosts: '{{ target | default "all" }}'
+  tags:
+    - metricbeat
+  roles:
+    - role: tocard.utils.metricbeat
+      metricbeat_filesystem_lvs_mounts: []
+      metricbeat_use_generic_ac: true
