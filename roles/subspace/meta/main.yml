@@ -21,6 +21,7 @@ dependencies:
 
   - role: tocard.utils.filesystem
     filesystem_lvs_mounts: "{{ subspace_node_filesystem_lvs_mounts }}"
+    filesystem_disk_mounts: "{{ subspace_node_filesystem_disk_mounts }}"
     when: subspace_node_filesystem_enabled and subspace_node_install_enabled
     tags: [filesystem]
 
