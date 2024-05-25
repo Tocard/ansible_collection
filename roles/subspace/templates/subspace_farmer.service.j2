@@ -4,7 +4,7 @@ Description="subspace farmer"
 After=network-online.target
 
 [Service]
-User={{ subspace_owner}}
+User={{ subspace_user}}
 Group={{ subspace_group }}
 WorkingDirectory={{ subspace_farmer_install_path }}/
 ExecStart={{ subspace_farmer_binary_name }} farm \
