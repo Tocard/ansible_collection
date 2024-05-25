@@ -21,13 +21,6 @@ subspace_operator_directories:
 
 subspace_operator_filesystem_enabled: true
 subspace_operator_filesystem_lvs_mounts:
-  - lv: lv_chimera
-    vg: "{{ suspace_custom_vg_name }}"
-    size: 10g
-    path: "{{ subspace_install_path }}"
-    owner: "{{ subspace_user }}"
-    group: "{{ subspace_group }}"
-
   - lv: lv_subspace_operator_log
     vg: "{{ suspace_custom_vg_name }}"
     size: 2g
