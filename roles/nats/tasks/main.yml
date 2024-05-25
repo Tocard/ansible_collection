@@ -1,0 +1,68 @@
+---
+
+- name: Download NATS server tarball
+  ansible.builtin.get_url:
+    url: "https://github.com/nats-io/nats-server/releases/download/{{ nats_version }}/nats-server-{{ nats_version }}-linux-amd64.tar.gz"
+    dest: "/tmp/nats-server-{{ nats_version }}-linux-amd64.tar.gz"
+
+- name: Extract NATS server tarball
+  ansible.builtin.unarchive:
+    src: "/tmp/nats-server-{{ nats_version }}-linux-amd64.tar.gz"
+    dest: "/tmp"
+    remote_src: yes
+
+- name: Move NATS server binary to /usr/local/bin
+  ansible.builtin.copy:
+    src: "/tmp/nats-server-{{ nats_version }}-linux-amd64/nats-server"
+    dest: "{{ nats_bin_path }}"
+    mode: '0755'
+
+- name: Create configuration directory
+  ansible.builtin.file:
+    path: "{{ nats_config_dir }}"
+    state: directory
+    owner: "{{ nats_user }}"
+    group: "{{ nats_group }}"
+    mode: '0750'
+
+- name: Create data directory
+  ansible.builtin.file:
+    path: "{{ nats_data_dir }}"
+    state: directory
+    owner: "{{ nats_user }}"
+    group: "{{ nats_group }}"
+    mode: '0750'
+
+- name: Create log directory
+  ansible.builtin.file:
+    path: "{{ nats_log_dir }}"
+    state: directory
+    owner: "{{ nats_user }}"
+    group: "{{ nats_group }}"
+    mode: '0750'
+
+- name: Create NATS configuration file
+  ansible.builtin.template:
+    src: nats.conf.j2
+    dest: "{{ nats_config_dir }}/nats.conf"
+    owner: "{{ nats_user }}"
+    group: "{{ nats_group }}"
+    mode: '0640'
+  notify: restart nats
+
+- name: Create systemd service file for NATS
+  ansible.builtin.template:
+    src: nats.service.j2
+    dest: "/etc/systemd/system/{{ nats_service_name }}.service"
+    mode: '0644'
+  notify: restart nats
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: Start NATS service
+  ansible.builtin.systemd:
+    name: "{{ nats_service_name }}"
+    state: started
+    enabled: yes

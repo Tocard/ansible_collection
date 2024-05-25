@@ -1,0 +1,20 @@
+galaxy_info:
+  author: Douceur
+  description: this role configure nexus
+  
+  license: BSD-3-Clause
+
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 22
+  
+  galaxy_tags: [nexus]
+
+dependencies:
+  - role: tocard.utils.user
+    user_name: "{{ nats_user }}"
+    user_group: "{{ nats_group }}"
+    user_groups: "{{ nats_groups }}"

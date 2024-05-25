@@ -1,6 +1,7 @@
 ---
 
-subspace_operator_install_enabled: true
+subspace_operator_install_enabled: false
+
 subspace_operator_install_path: "{{ subspace_install_path }}/node"
 subspace_operator_binary_url: "{{ subspace_github_url }}/{{ subspace_snapshot }}/subspace-node-{{ subspace_binary }}-{{ subspace_snapshot}}"
 subspace_operator_binary_path: "/usr/bin/{{ subspace_operator_binary_name}}"
@@ -24,14 +25,14 @@ subspace_operator_filesystem_lvs_mounts:
     vg: "{{ suspace_custom_vg_name }}"
     size: 10g
     path: "{{ subspace_install_path }}"
-    owner: "{{ subsoace_user }}"
+    owner: "{{ subspace_user }}"
     group: "{{ subspace_group }}"
 
   - lv: lv_subspace_operator_log
     vg: "{{ suspace_custom_vg_name }}"
     size: 2g
     path: "{{ subspace_operator_log_folder }}"
-    owner: "{{ subsoace_user }}"
+    owner: "{{ subspace_user }}"
     group: "{{ subspace_group }}"
 
 

@@ -1,0 +1,6 @@
+---
+- name: restart nats
+  ansible.builtin.systemd:
+    name: nats
+    state: restarted
+    enabled: true

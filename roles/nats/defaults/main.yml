@@ -1,0 +1,13 @@
+---
+nats_version: v2.10.2
+nats_user: nats
+nats_group: nats
+nats_groups: []
+nats_password:
+nats_config_dir: /etc/nats
+nats_data_dir: /var/lib/nats
+nats_log_dir: /var/log/nats
+nats_bin_path: /usr/local/bin/nats-server
+nats_service_name: nats
+nats_port: 4222
+nats_http_port: 8222

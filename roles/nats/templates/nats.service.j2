@@ -1,0 +1,13 @@
+[Unit]
+Description=NATS Server
+After=network.target
+
+[Service]
+ExecStart={{ nats_bin_path }} -c {{ nats_config_dir }}/nats.conf
+User={{ nats_user }}
+Group={{ nats_group }}
+Restart=always
+LimitNOFILE=100000
+
+[Install]
+WantedBy=multi-user.target
