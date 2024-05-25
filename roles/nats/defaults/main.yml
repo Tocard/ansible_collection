@@ -11,3 +11,16 @@ nats_bin_path: /usr/local/bin/nats-server
 nats_service_name: nats
 nats_port: 4222
 nats_http_port: 8222
+
+
+nats_directories:
+  - "{{ nats_config_dir  }}"
+  - "{{ nats_data_dir }}"
+  - "{{ nats_log_dir }}"
+
+nats_templates:
+  - src: nats.conf.j2
+    dest: "{{ nats_config_dir }}/nats.conf"
+  - src: nats.service.j2
+    dest: "/etc/systemd/system/{{ nats_service_name }}.service"
+    mode: '0644'
