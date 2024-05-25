@@ -1,7 +1,9 @@
 ---
 
-subspace_user: chimera
-subspace_group: chimera
+subspace_user: subpace
+subspace_group: subpace
+
+susbpace_cluster_enabled: false
 
 subspace_donwload_binary: true
 
