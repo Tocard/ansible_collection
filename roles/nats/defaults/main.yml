@@ -13,10 +13,14 @@ nats_port: 4222
 nats_http_port: 8222
 
 
+nats_temp_folder: /tmp/nats
+
 nats_directories:
   - "{{ nats_config_dir  }}"
   - "{{ nats_data_dir }}"
   - "{{ nats_log_dir }}"
+  - "{{ nats_temp_folder }}"
+
 
 nats_templates:
   - src: nats.conf.j2
@@ -24,3 +28,5 @@ nats_templates:
   - src: nats.service.j2
     dest: "/etc/systemd/system/{{ nats_service_name }}.service"
     mode: '0644'
+
+nats_download_url: "https://github.com/nats-io/nats-server/releases/download/{{ nats_version }}/nats-server-{{ nats_version }}-linux-amd64.tar.gz"

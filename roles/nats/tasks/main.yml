@@ -3,27 +3,35 @@
 - name: Create directories
   become: true
   ansible.builtin.file:
-    path: "{{ nats_config_dir }}  "
+    path: "{{ nats_config_dir }}"
     state: directory
     owner: "{{ nats_user }}"
     group: "{{ nats_group }}"
-    mode: '0750'
+    mode: "0750"
   loop: "{{ nats_directories }}"
 
 - name: Extract NATS server tarball
   become: true
   ansible.builtin.unarchive:
-    src: "https://github.com/nats-io/nats-server/releases/download/{{ nats_version }}/nats-server-{{ nats_version }}-linux-amd64.tar.gz"
+    src: 
     dest: /tmp/nats
     creates: true
-    owner: "{{ nats_user }}"
-    group: "{{ nats_group }}"
+
+- name: Donwload & extract NATS
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ nats_download_url }}"
+    dest: "{{ nats_temp_folder }}"
+    owner: "{{ item.owner | default(nats_user) }}"
+    group: "{{ item.group | default(nats_group) }}"
     remote_src: true
+    mode: "0750"
+  notify: nexus_need_restart
 
 - name: copy binary
   become: true
   ansible.builtin.copy:
-    src: /tmp/nats/nats-server
+    src: "{{ nats_temp_folder}}/nats-server"
     dest: "{{ nats_bin_path }}"
     owner: "{{ nats_user }}"
     group: "{{ nats_group }}"
@@ -36,6 +44,6 @@
     dest: "{{ item.dest }}"
     owner: "{{ nats_user }}"
     group: "{{ nats_group }}"
-    mode: "{{ item.mode | default('0640') }}"
+    mode: "{{ item.mode | default("0640") }}"
   notify: restart nats
   loop: "{{ nats_templates }}"
