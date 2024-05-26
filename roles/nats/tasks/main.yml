@@ -24,7 +24,7 @@
 - name: copy binary
   become: true
   ansible.builtin.copy:
-    src: "{{ nats_temp_folder}}/nats-server"
+    src: "{{ nats_temp_folder}}/nats-server/nats-server-{{ nats_version }}-linux-amd64/"
     dest: "{{ nats_bin_path }}"
     owner: "{{ nats_user }}"
     group: "{{ nats_group }}"
