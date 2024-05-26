@@ -15,8 +15,8 @@
   ansible.builtin.unarchive:
     src: "{{ nats_download_url }}"
     dest: "{{ nats_temp_folder }}"
-    owner: "{{ item.owner | default(nats_user) }}"
-    group: "{{ item.group | default(nats_group) }}"
+    owner: "{{ nats_user }}"
+    group: "{{ nats_group }}"
     remote_src: true
     mode: "0750"
   notify: restart nats
