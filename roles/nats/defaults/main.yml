@@ -13,7 +13,7 @@ nats_port: 4222
 nats_http_port: 8222
 
 
-nats_temp_folder: /tmp/nats
+nats_temp_folder: /opt/nats
 
 nats_directories:
   - "{{ nats_config_dir  }}"
