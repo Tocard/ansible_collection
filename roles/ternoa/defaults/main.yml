@@ -7,7 +7,7 @@ ternoa_donwload_binary: true
 
 ternoa_github_url: https://github.com/capsule-corp-ternoa/ternoa-node/releases/download
 ternoa_node_binary_url: "{{ ternoa_github_url }}/v{{ ternoa_version }}/ternoa"
-ternoa_node_binary_path: "/usr/bin/{{ ternoa_node_binary_name}}"
+ternoa_node_binary_path: "/usr/bin/{{ ternoa_node_binary_name }}"
 ternoa_node_binary_name: ternoa_node
 ternoa_version: 1.3.2
 

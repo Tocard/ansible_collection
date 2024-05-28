@@ -14,7 +14,7 @@
   ansible.builtin.apt_repository:
     repo: "deb {{ item }}"
     state: present
-  loop: "{{ grafana_deb}}"
+  loop: "{{ grafana_deb }}"
 
 - name: Install binaries for grafana
   become: true

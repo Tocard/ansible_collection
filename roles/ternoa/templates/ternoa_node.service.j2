@@ -4,7 +4,7 @@ Description="ternoa node"
 After=network-online.target
 
 [Service]
-User={{ ternoa_owner}}
+User={{ ternoa_owner }}
 Group={{ ternoa_group }}
 WorkingDirectory={{ ternoa_node_install_path }}/
 ExecStart={{ ternoa_node_binary_name }} \
@@ -20,8 +20,8 @@ ExecStart={{ ternoa_node_binary_name }} \
     --state-pruning archive
 
 
-StandardOutput=append:{{ ternoa_node_log_folder}}/{{ ternoa_node_log_file }}
-StandardError=append:{{ ternoa_node_log_folder}}/{{ ternoa_node_log_file }}
+StandardOutput=append:{{ ternoa_node_log_folder }}/{{ ternoa_node_log_file }}
+StandardError=append:{{ ternoa_node_log_folder }}/{{ ternoa_node_log_file }}
 
 
 Restart=on-failure

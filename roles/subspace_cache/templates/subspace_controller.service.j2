@@ -1,0 +1,25 @@
+
+[Unit]
+Description="subspace farmer"
+After=network-online.target
+
+[Service]
+User={{ subspace_cache_user }}
+Group={{ subspace_cache_group }}
+WorkingDirectory={{ subspace_cache_install_path }}/
+ExecStart={{ subspace_cache_binary_name }} cluster \
+        --nats-server {{ subspace_cache_nats_ip }} \
+         cache \
+        --base-path {{ subspace_cache_install_path }} \
+        --node-rpc-url {{ subspace_cache_node_rpc_url }} \
+
+
+StandardOutput=append:{{ subspace_cache_log_folder }}/{{ subspace_cache_log_file }}
+StandardError=append:{{ subspace_cache_log_folder }}/{{ subspace_cache_log_file }}
+LimitNOFILE=infinity
+
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

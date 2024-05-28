@@ -1,9 +1,9 @@
 ---
 
 subspace_farmer_install_enabled: true
-subspace_farmer_binary_url: "{{ subspace_github_url }}/{{ subspace_snapshot }}/subspace-farmer-{{ subspace_binary }}-{{ subspace_snapshot}}"
+subspace_farmer_binary_url: "{{ subspace_github_url }}/{{ subspace_snapshot }}/subspace-farmer-{{ subspace_binary }}-{{ subspace_snapshot }}"
 subspace_farmer_install_path: "{{ subspace_install_path }}/farmer"
-subspace_farmer_binary_path: "/usr/bin/{{ subspace_farmer_binary_name}}"
+subspace_farmer_binary_path: "/usr/bin/{{ subspace_farmer_binary_name }}"
 
 
 subspace_farmer_binary_name: subspace_farmer

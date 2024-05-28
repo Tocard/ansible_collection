@@ -49,7 +49,7 @@ cosmos_node_filesystem_disk_mounts:
     group: "{{ cosmos_node_group }}"
 
 ## FILE
-cosmos_node_log_file: "{{ cosmos_node}}.log"
+cosmos_node_log_file: "{{ cosmos_node }}.log"
 
 
 # NODE
@@ -57,7 +57,7 @@ cosmos_node_moniker: "{{ ansible_hostname }}"
 
 cosmos_node_genesis_location: "{{ cosmos_node_config_path }}/genesis.json"
 cosmos_node_config_toml_path: "{{ cosmos_node_config_path }}/config.toml"
-cosmos_node_app_toml_path: "{{cosmos_node_config_path }}/app.toml"
+cosmos_node_app_toml_path: "{{ cosmos_node_config_path }}/app.toml"
 
 
 ## NODE CONFIG
@@ -81,9 +81,9 @@ cosmos_node_templates:
   - src: node.service.j2
     dest: "/etc/systemd/system/{{ cosmos_node }}.service"
 #  - src: app.toml.j2
-#    dest: "{{ cosmos_node_app_toml_path}}"
+#    dest: "{{ cosmos_node_app_toml_path }}"
 #  - src: config.toml.j2
-#    dest: "{{ cosmos_node_config_toml_path}}"
+#    dest: "{{ cosmos_node_config_toml_path }}"
 
 
 #CONVERT TO PARAM

@@ -20,8 +20,8 @@ subspace_controller_extra_package:
 
 suspace_custom_vg_name: olympus
 
-subspace_controller_binary_url: "{{ subspace_controller_github_url }}/{{ subspace_controller_snapshot }}/subspace-farmer-{{ subspace_controller_binary }}-{{ subspace_controller_snapshot}}"
-subspace_controller_binary_path: "/usr/bin/{{ subspace_controller_binary_name}}"
+subspace_controller_binary_url: "{{ subspace_controller_github_url }}/{{ subspace_controller_snapshot }}/subspace-farmer-{{ subspace_controller_binary }}-{{ subspace_controller_snapshot }}"
+subspace_controller_binary_path: "/usr/bin/{{ subspace_controller_binary_name }}"
 
 
 subspace_controller_binary_name: subspace_controller

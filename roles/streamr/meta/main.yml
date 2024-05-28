@@ -25,6 +25,6 @@ dependencies:
   - name: morgangraphics.ansible_role_nvm
     become: true
     become_user: "{{ streamr_user }}"
-    nodejs_version: "{{ streamr_nodejs_version}}"
+    nodejs_version: "{{ streamr_nodejs_version }}"
 
 

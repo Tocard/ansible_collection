@@ -1,0 +1,11 @@
+---
+
+- name: Restart Subspace cache
+  become: true
+  ansible.builtin.systemd:
+    name: subspace_cache
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: subspace_cache_need_restart
+

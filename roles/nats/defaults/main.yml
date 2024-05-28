@@ -29,6 +29,6 @@ nats_templates:
     dest: "{{ nats_config_directory }}/nats.conf"
   - src: nats.service.j2
     dest: "/etc/systemd/system/{{ nats_service_name }}.service"
-    mode: '0644'
+    mode: "0644"
 
 nats_download_url: "https://github.com/nats-io/nats-server/releases/download/{{ nats_version }}/nats-server-{{ nats_version }}-linux-amd64.tar.gz"

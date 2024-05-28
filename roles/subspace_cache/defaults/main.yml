@@ -1,0 +1,53 @@
+---
+
+subspace_cache_user: subpace_cache
+subspace_cache_group: subpace_cache
+
+subspace_cache_install_path: /opt/subspace_cache
+subspace_cache_github_url: https://github.com/subspace/subspace/releases/download
+subspace_cache_chain_id: gemini-3h
+subspace_cache_release_date: 2024-may-24
+subspace_cache_snapshot: "{{ subspace_cache_chain_id }}-{{ subspace_cache_release_date }}"
+
+subspace_cache_binary: ubuntu-x86_64-skylake
+
+
+subspace_cache_logrotate_folder: /etc/logrotate.d
+subspace_cache_logrotate_file: subspace_cache
+subspace_cache_extra_package:
+  - logrotate
+
+
+suspace_custom_vg_name: olympus
+
+subspace_cache_binary_url: "{{ subspace_cache_github_url }}/{{ subspace_cache_snapshot }}/subspace-farmer-{{ subspace_cache_binary }}-{{ subspace_cache_snapshot }}"
+subspace_cache_binary_path: "/usr/bin/{{ subspace_cache_binary_name }}"
+
+
+subspace_cache_binary_name: subspace_cache
+subspace_cache_templates:
+  - src: subspace_cache.service.j2
+    dest: /etc/systemd/system/subspace_cache.service
+    mode: "0640"
+  - src: subspace_cache.j2
+    dest: "{{ subspace_cache_logrotate_folder }}/{{ subspace_cache_logrotate_file }}"
+
+subspace_cache_log_file: cache.log
+subspace_cache_log_folder: /var/log/subspace_cache
+subspace_cache_directories:
+  - path: "{{ subspace_cache_install_path }}"
+  - path: "{{ subspace_cache_log_folder }}"
+
+
+subspace_cache_filesystem_enabled: true
+
+subspace_cache_filesystem_lvs_mounts:
+  - lv: lv_subspace_cache_log
+    vg: "{{ suspace_custom_vg_name }}"
+    size: 2g
+    path: "{{ subspace_cache_log_folder }}"
+    owner: "{{ subspace_cache_user }}"
+    group: "{{ subspace_cache_group }}"
+
+subspace_cache_node_rpc_url: ws://127.0.0.1:9944
+subspace_cache_nats_ip: nats://127.0.0.1:4222

@@ -1,0 +1,41 @@
+---
+
+- name: Install os binaries requiered by Subspace cache
+  become: true
+  ansible.builtin.package:
+    name: "{{ subspace_cache_extra_package }}"
+    state: present
+
+- name: Download Subspace cache binary
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ subspace_cache_binary_url }}"
+    dest: "{{ subspace_cache_binary_path }}"
+    owner: "{{ subspace_cache_user }}"
+    group: "{{ subspace_cache_group }}"
+    force: true
+    mode: '0750'
+  notify:
+    - subspace_cache_need_restart
+
+- name: Create subspace cache directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(subspace_cache_user) }}"
+    group: "{{ item.group | default(subspace_cache_group) }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+  loop: "{{ subspace_cache_directories }}"
+
+- name: Template Subspace cache file
+  become: true
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(subspace_cache_user) }}"
+    group: "{{ item.group | default(subspace_cache_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ subspace_cache_templates }}"
+  notify:
+    - subspace_cache_need_restart

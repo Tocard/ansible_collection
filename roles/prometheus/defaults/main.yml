@@ -5,7 +5,7 @@ prometheus_groups: [certbot]
 
 prometheus_custom_become_method: sudo
 
-prometheus_github_url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version}}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+prometheus_github_url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
 prometheus_version: 2.49.1
 
 prometheus_config_directory: /etc/prometheus
@@ -45,7 +45,7 @@ prometheus_filesystem_lvs_mounts:
 
   - lv: lv_prometheus_log
     vg: "{{ prometheus_virtual_group_name }}"
-    size: "{{ prometheus_filesystem_log_size}}"
+    size: "{{ prometheus_filesystem_log_size }}"
     path: "{{ prometheus_log_directory }}"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"

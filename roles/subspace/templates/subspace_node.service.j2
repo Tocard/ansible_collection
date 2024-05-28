@@ -4,7 +4,7 @@ Description="subspace node"
 After=network-online.target
 
 [Service]
-User={{ subspace_user}}
+User={{ subspace_user }}
 Group={{ subspace_group }}
 WorkingDirectory={{ subspace_node_install_path }}/
 ExecStart={{ subspace_node_binary_name }} run \
@@ -21,8 +21,8 @@ ExecStart={{ subspace_node_binary_name }} run \
     --dsn-listen-on /ip4/0.0.0.0/tcp/{{ subspace_node_dsn_port }} \
     --prometheus-listen-on 0.0.0.0:9080
 
-StandardOutput=append:{{subspace_node_log_folder}}/{{ subspace_node_log_file }}
-StandardError=append:{{subspace_node_log_folder}}/{{ subspace_node_log_file }}
+StandardOutput=append:{{ subspace_node_log_folder }}/{{ subspace_node_log_file }}
+StandardError=append:{{ subspace_node_log_folder }}/{{ subspace_node_log_file }}
 
 
 Restart=on-failure

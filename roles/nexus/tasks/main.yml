@@ -6,7 +6,7 @@
   ansible.builtin.package:
     name: "{{ item }}"
     state: present
-  loop: "{{ nexus_package}}"
+  loop: "{{ nexus_package }}"
 
 - name: Create nexus directories
   become: true
