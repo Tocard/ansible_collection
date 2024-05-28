@@ -7,7 +7,7 @@ After=network-online.target
 User={{ subspace_controller_user }}
 Group={{ subspace_controller_group }}
 WorkingDirectory={{ subspace_controller_install_path }}/
-ExecStart={{ subspace_controller_binary_name }} cluster
+ExecStart={{ subspace_controller_binary_name }} cluster \
         --nats-server {{ subspace_controller_nats_ip }} \
          controller \
         --base-path {{ subspace_controller_install_path }} \
