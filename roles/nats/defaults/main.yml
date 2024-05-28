@@ -12,6 +12,7 @@ nats_service_name: nats
 nats_port: 4222
 nats_http_port: 8222
 
+nats_payload_mb_size: 2MB
 
 nats_temp_folder: /opt/nats
 

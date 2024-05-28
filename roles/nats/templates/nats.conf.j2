@@ -2,13 +2,8 @@ port: {{ nats_port }}
 
 http: {{ nats_http_port }}
 
-authorization {
-  user: {{ nats_user }}
-  password: {{ nats_password }}
-}
-
 logtime: true
 debug: false
 trace: false
 
-# Optional: Add more configuration settings as needed
+max_payload: {{ nats_payload_mb_size }}
