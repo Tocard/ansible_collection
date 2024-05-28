@@ -3,7 +3,7 @@
 subspace_cache_user: subpace_cache
 subspace_cache_group: subpace_cache
 
-subspace_cache_install_path: /opt/subspace_cache
+subspace_cache_directory: /opt/subspace_cache
 subspace_cache_github_url: https://github.com/subspace/subspace/releases/download
 subspace_cache_chain_id: gemini-3h
 subspace_cache_release_date: 2024-may-24
@@ -35,7 +35,7 @@ subspace_cache_templates:
 subspace_cache_log_file: cache.log
 subspace_cache_log_folder: /var/log/subspace_cache
 subspace_cache_directories:
-  - path: "{{ subspace_cache_install_path }}"
+  - path: "{{ subspace_cache_directory }}"
   - path: "{{ subspace_cache_log_folder }}"
 
 
@@ -51,3 +51,11 @@ subspace_cache_filesystem_lvs_mounts:
 
 subspace_cache_node_rpc_url: ws://127.0.0.1:9944
 subspace_cache_nats_ip: nats://127.0.0.1:4222
+subspace_cache_size: 200G
+
+subspace_cache_disk_to_use: sdc
+subspace_cache_filesystem_disk_mounts:
+  - disk: "{{ subspace_cache_disk_to_use }}"
+    path: "{{ subspace_cache_user }}"
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ subspace_cache_group }}"

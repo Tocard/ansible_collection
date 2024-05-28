@@ -21,5 +21,6 @@ dependencies:
 
   - role: tocard.utils.filesystem
     filesystem_lvs_mounts: "{{ subspace_cache_filesystem_lvs_mounts }}"
-    when: subspace_cache_filesystem_enabled
+    filesyste_disk_mount: "{{ subspace_cache_filesystem_disk_mounts }}"
+    when: subspace_cache_filesystem_enabled | bool
     tags: [filesystem]

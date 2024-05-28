@@ -6,12 +6,11 @@ After=network-online.target
 [Service]
 User={{ subspace_cache_user }}
 Group={{ subspace_cache_group }}
-WorkingDirectory={{ subspace_cache_install_path }}/
+WorkingDirectory={{ subspace_cache_directory }}/
 ExecStart={{ subspace_cache_binary_name }} cluster \
         --nats-server {{ subspace_cache_nats_ip }} \
-         cache \
-        --base-path {{ subspace_cache_install_path }} \
-        --node-rpc-url {{ subspace_cache_node_rpc_url }} \
+        cache \
+        path={{ subspace_cache_directory }},size={{ subspace_cache_size }}
 
 
 StandardOutput=append:{{ subspace_cache_log_folder }}/{{ subspace_cache_log_file }}
