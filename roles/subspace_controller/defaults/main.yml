@@ -1,0 +1,53 @@
+---
+
+subspace_controller_user: subpace_controller
+subspace_controller_group: subpace_controller
+
+subspace_controller_install_path: /opt/subspace_controller
+subspace_controller_github_url: https://github.com/subspace/subspace/releases/download
+subspace_controller_chain_id: gemini-3h
+subspace_controller_release_date: 2024-may-24
+subspace_controller_snapshot: "{{ subspace_controller_chain_id }}-{{ subspace_controller_release_date }}"
+
+subspace_controller_binary: ubuntu-x86_64-skylake
+
+
+subspace_controller_logrotate_folder: /etc/logrotate.d
+subspace_controller_logrotate_file: subspace_controller
+subspace_controller_extra_package:
+  - logrotate
+
+
+suspace_custom_vg_name: olympus
+
+subspace_controller_binary_url: "{{ subspace_controller_github_url }}/{{ subspace_controller_snapshot }}/subspace-farmer-{{ subspace_controller_binary }}-{{ subspace_controller_snapshot}}"
+subspace_controller_binary_path: "/usr/bin/{{ subspace_controller_binary_name}}"
+
+
+subspace_controller_binary_name: subspace_controller
+subspace_controller_templates:
+  - src: subspace_controller.service.j2
+    dest: /etc/systemd/system/subspace_controller.service
+    mode: "0640"
+  - src: subspace_controller.j2
+    dest: "{{ subspace_controller_logrotate_folder }}/{{ subspace_controller_logrotate_file }}"
+
+subspace_controller_log_file: controller.log
+subspace_controller_log_folder: /var/log/subspace_controller
+subspace_controller_directories:
+  - path: "{{ subspace_controller_install_path }}"
+  - path: "{{ subspace_controller_log_folder }}"
+
+
+subspace_controller_filesystem_enabled: true
+
+subspace_controller_filesystem_lvs_mounts:
+  - lv: lv_subspace_controller_log
+    vg: "{{ suspace_custom_vg_name }}"
+    size: 2g
+    path: "{{ subspace_controller_log_folder }}"
+    owner: "{{ subspace_controller_user }}"
+    group: "{{ subspace_controller_group }}"
+
+subspace_controller_node_rpc_url: ws://127.0.0.1:9944
+subspace_controller_nats_ip: nats://127.0.0.1:4222

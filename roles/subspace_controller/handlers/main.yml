@@ -1,0 +1,11 @@
+---
+
+- name: Restart Subspace controller
+  become: true
+  ansible.builtin.systemd:
+    name: subspace_controller
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: subspace_controller_need_restart
+

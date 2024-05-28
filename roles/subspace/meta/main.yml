@@ -34,7 +34,3 @@ dependencies:
     filesystem_lvs_mounts: "{{ subspace_farmer_filesystem_lvs_mounts }}"
     when: subspace_farmer_filesystem_enabled and subspace_farmer_install_enabled
     tags: [filesystem]
-
-  - role: tocard.utils.nats
-    when: subspace_cluster_enabled | bool
-    tags: [nats]

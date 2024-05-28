@@ -1,0 +1,41 @@
+---
+
+- name: Install os binaries requiered by Subspace controller
+  become: true
+  ansible.builtin.package:
+    name: "{{ subspace_controller_extra_package }}"
+    state: present
+
+- name: Download Subspace Controller binary
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ subspace_controller_binary_url }}"
+    dest: "{{ subspace_controller_binary_path }}"
+    owner: "{{ subspace_controller_user }}"
+    group: "{{ subspace_controller_group }}"
+    force: true
+    mode: '0750'
+  notify:
+    - subspace_controller_need_restart
+
+- name: Create subspace controller directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(subspace_controller_user) }}"
+    group: "{{ item.group | default(subspace_controller_group) }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+  loop: "{{ subspace_controller_directories }}"
+
+- name: Template Subspace Controller file
+  become: true
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(subspace_controller_user) }}"
+    group: "{{ item.group | default(subspace_controller_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ subspace_controller_templates }}"
+  notify:
+    - subspace_controller_need_restart
