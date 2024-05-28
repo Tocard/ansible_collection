@@ -3,11 +3,13 @@ Description=NATS Server
 After=network.target
 
 [Service]
-ExecStart={{ nats_bin_path }} -c {{ nats_config_dir }}/nats.conf
+ExecStart={{ nats_bin_path }} -c {{ nats_config_directory }}/nats.conf
 User={{ nats_user }}
 Group={{ nats_group }}
 Restart=always
 LimitNOFILE=100000
+StandardOutput=append:{{ nats_log_directory }}/{{ nats_log_file }}
+StandardError=append:{{ nats_log_directory }}/{{ nats_log_file }}
 
 [Install]
 WantedBy=multi-user.target

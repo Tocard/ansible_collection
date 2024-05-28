@@ -14,8 +14,8 @@ ExecStart={{ subspace_controller_binary_name }} cluster \
         --node-rpc-url {{ subspace_controller_node_rpc_url }} \
 
 
-StandardOutput=append:{{subspace_controller_log_folder }}/{{ subspace_controller_log_file }}
-StandardError=append:{{subspace_controller_log_folder }}/{{ subspace_controller_log_file }}
+StandardOutput=append:{{ subspace_controller_log_folder }}/{{ subspace_controller_log_file }}
+StandardError=append:{{ subspace_controller_log_folder }}/{{ subspace_controller_log_file }}
 LimitNOFILE=infinity
 
 Restart=on-failure
