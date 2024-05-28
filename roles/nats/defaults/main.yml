@@ -6,7 +6,7 @@ nats_groups: []
 nats_password:
 nats_config_directory: /etc/nats
 nats_data_directory: /var/lib/nats
-nats_log_directoryectory: /var/log/nats
+nats_log_directory: /var/log/nats
 nats_bin_path: /usr/local/bin/nats-server
 nats_service_name: nats
 nats_port: 4222
@@ -20,7 +20,7 @@ nats_log_file: nats.log
 nats_directories:
   - "{{ nats_config_directory  }}"
   - "{{ nats_data_directory }}"
-  - "{{ nats_log_directoryectory }}"
+  - "{{ nats_log_directory }}"
   - "{{ nats_temp_folder }}"
 
 
