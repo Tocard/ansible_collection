@@ -1,0 +1,58 @@
+---
+
+subspace_farmer_user: subspace_farmer
+subspace_farmer_group: subspace_farmer
+
+subspace_farmer_install_path: /opt/subspace_farmer
+subspace_farmer_github_url: https://github.com/subspace/subspace/releases/download
+subspace_farmer_chain_id: gemini-3h
+subspace_farmer_release_date: 2024-may-24
+subspace_farmer_snapshot: "{{ subspace_farmer_chain_id }}-{{ subspace_farmer_release_date }}"
+
+subspace_farmer_binary: ubuntu-x86_64-skylake
+
+
+subspace_farmer_logrotate_folder: /etc/logrotate.d
+subspace_farmer_logrotate_file: subspace_farmer
+subspace_farmer_extra_package:
+  - logrotate
+
+
+suspace_custom_vg_name: olympus
+
+subspace_farmer_binary_url: "{{ subspace_farmer_github_url }}/{{ subspace_farmer_snapshot }}/subspace-farmer-{{ subspace_farmer_binary }}-{{ subspace_farmer_snapshot }}"
+subspace_farmer_binary_path: "/usr/bin/{{ subspace_farmer_binary_name }}"
+
+
+subspace_farmer_binary_name: subspace_farmer
+subspace_farmer_templates:
+  - src: subspace_farmer.service.j2
+    dest: /etc/systemd/system/subspace_farmer.service
+    mode: "0640"
+  - src: subspace_farmer.j2
+    dest: "{{ subspace_farmer_logrotate_folder }}/{{ subspace_farmer_logrotate_file }}"
+
+subspace_farmer_log_file: farmer.log
+subspace_farmer_log_folder: /var/log/subspace_farmer
+subspace_farmer_directories:
+  - path: "{{ subspace_farmer_install_path }}"
+  - path: "{{ subspace_farmer_log_folder }}"
+
+subspace_farmer_rreward_adress:
+
+subspace_farmer_filesystem_enabled: true
+
+subspace_farmer_filesystem_lvs_mounts:
+  - lv: lv_subspace_farmer_log
+    vg: "{{ suspace_custom_vg_name }}"
+    size: 2g
+    path: "{{ subspace_farmer_log_folder }}"
+    owner: "{{ subspace_farmer_user }}"
+    group: "{{ subspace_farmer_group }}"
+
+subspace_farmer_node_rpc_url: ws://127.0.0.1:9944
+subspace_farmer_nats_ip: nats://127.0.0.1:4222
+
+subspace_farmer_disks:
+  - path: /random/path
+  - size: 1G

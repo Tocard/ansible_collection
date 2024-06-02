@@ -22,7 +22,7 @@ subspace_farmer_directories:
   - path: "{{ subspace_farmer_log_folder }}"
   - path: "{{ subspace_farmer_install_path }}/ssd"
   - path: "{{ subspace_farmer_install_path }}/nvme"
-subpace_farmer_plot_size: 10g
+subspace_farmer_plot_size: 10g
 
 subspace_farmer_filesystem_enabled: true
 

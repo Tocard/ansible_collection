@@ -1,0 +1,25 @@
+galaxy_info:
+  author: Douceur
+  description: this role simply install & configure subspace farmer
+  
+  license: BSD-3-Clause
+
+  min_ansible_version: 2.9
+
+  platforms:
+    - role: Ubuntu
+      versions:
+        - 22
+  
+  galaxy_tags: [subspace, subspace_farmer]
+
+dependencies:
+  - role: tocard.utils.user
+    user_name: "{{ subspace_farmer_user }}"
+    user_group: "{{ subspace_farmer_group }}"
+    tags: [user]
+
+  - role: tocard.utils.filesystem
+    filesystem_lvs_mounts: "{{ subspace_farmer_filesystem_lvs_mounts }}"
+    when: subspace_farmer_filesystem_enabled
+    tags: [filesystem]

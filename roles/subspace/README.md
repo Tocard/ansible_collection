@@ -6,7 +6,7 @@ this role simply install & configure subspace node & farmer
 
 - [Requirements](#requirements)
 - [Default Variables](#default-variables)
-  - [subpace_farmer_plot_size](#subpace_farmer_plot_size)
+  - [subspace_farmer_plot_size](#subspace_farmer_plot_size)
   - [subspace_binary](#subspace_binary)
   - [subspace_chain_id](#subspace_chain_id)
   - [subspace_custom_become_method](#subspace_custom_become_method)
@@ -76,12 +76,12 @@ this role simply install & configure subspace node & farmer
 
 ## Default Variables
 
-### subpace_farmer_plot_size
+### subspace_farmer_plot_size
 
 #### Default value
 
 ```YAML
-subpace_farmer_plot_size: 10g
+subspace_farmer_plot_size: 10g
 ```
 
 ### subspace_binary

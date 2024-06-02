@@ -1,0 +1,11 @@
+---
+
+- name: Restart Subspace farmer
+  become: true
+  ansible.builtin.systemd:
+    name: subspace_farmer
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: subspace_farmer_need_restart
+
