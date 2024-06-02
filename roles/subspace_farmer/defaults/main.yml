@@ -50,6 +50,8 @@ subspace_farmer_filesystem_lvs_mounts:
     owner: "{{ subspace_farmer_user }}"
     group: "{{ subspace_farmer_group }}"
 
+subspace_farmer_filesystem_disk:
+
 subspace_farmer_node_rpc_url: ws://127.0.0.1:9944
 subspace_farmer_nats_ip: nats://127.0.0.1:4222
 
