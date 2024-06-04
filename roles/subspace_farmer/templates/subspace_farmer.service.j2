@@ -11,9 +11,10 @@ WorkingDirectory={{ subspace_farmer_install_path }}/
 ExecStart={{ subspace_farmer_binary_name }} cluster \
         --nats-server {{ subspace_farmer_nats_ip }} \
          farmer \
-        --reward-address {{ subspace_farmer_reward_adress }} \
         {% for disk_info in subspace_farmer_disks %}path={{ disk_info.path }},size={{ disk_info.size }} \
         {% endfor -%}
+        --reward-address {{ subspace_farmer_reward_adress }}
+
 
 StandardOutput=append:{{ subspace_farmer_log_folder }}/{{ subspace_farmer_log_file }}
 StandardError=append:{{ subspace_farmer_log_folder }}/{{ subspace_farmer_log_file }}

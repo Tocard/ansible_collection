@@ -12,7 +12,7 @@ ExecStart={{ subspace_controller_binary_name }} cluster \
         --nats-server {{ subspace_controller_nats_ip }} \
          controller \
         --base-path {{ subspace_controller_install_path }} \
-        --node-rpc-url {{ subspace_controller_node_rpc_url }} \
+        --node-rpc-url {{ subspace_controller_node_rpc_url }}
 
 
 StandardOutput=append:{{ subspace_controller_log_folder }}/{{ subspace_controller_log_file }}
