@@ -1,0 +1,32 @@
+
+[Unit]
+Description="subspace node"
+After=network-online.target
+
+[Service]
+User={{ subspace_node_user }}
+Group={{ subspace_node_group }}
+WorkingDirectory={{ subspace_node_install_path }}/
+ExecStart={{ subspace_node_binary_name }} run \
+    --farmer \
+    --chain {{ subspace_node_chain_id }} \
+    --timekeeper \
+    --timekeeper-cpu-cores 0-10 \
+    --name {{ ansible_hostname }} \
+    --base-path {{ subspace_node_install_path }}/ \
+    --blocks-pruning archive \
+    --state-pruning archive \
+    --listen-on /ip4/0.0.0.0/tcp/{{ subspace_node_p2p_port }} \
+    --dsn-listen-on /ip4/0.0.0.0/udp/{{ subspace_node_dsn_port }}/quic-v1 \
+    --dsn-listen-on /ip4/0.0.0.0/tcp/{{ subspace_node_dsn_port }} \
+    --prometheus-listen-on 0.0.0.0:9080
+
+StandardOutput=append:{{ subspace_node_log_folder }}/{{ subspace_node_log_file }}
+StandardError=append:{{ subspace_node_log_folder }}/{{ subspace_node_log_file }}
+
+
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

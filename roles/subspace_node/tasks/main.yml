@@ -1,0 +1,42 @@
+---
+
+- name: Install binaries for Subspace
+  become: true
+  ansible.builtin.package:
+    name: "{{ subspace_node_extra_package }}"
+    state: present
+
+- name: Download Node binary
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ subspace_node_binary_url }}"
+    dest: "{{ subspace_node_binary_path }}"
+    owner: "{{ subspace_node_user }}"
+    group: "{{ subspace_node_group }}"
+    mode: "0750"
+    force: true
+  notify:
+    - subspace_node_need_restart
+  when: subspace_node_donwload_binary
+
+- name: Create node directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(subspace_node_user) }}"
+    group: "{{ item.group | default(subspace_node_group) }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+  loop: "{{ subspace_node_directories }}"
+
+- name: Template Subspace Node file
+  become: true
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(subspace_node_user) }}"
+    group: "{{ item.group | default(subspace_node_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ subspace_node_templates }}"
+  notify:
+    - subspace_node_need_restart
