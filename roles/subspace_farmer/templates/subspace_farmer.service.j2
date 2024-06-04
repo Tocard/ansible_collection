@@ -1,7 +1,8 @@
 
 [Unit]
 Description="subspace farmer"
-After=network-online.target
+Requires=nats.service subspace_node.service subspace_cache.service subspace_controller.service
+After=nats.service subspace_node.service subspace_cache.service subspace_controller.service
 
 [Service]
 User={{ subspace_farmer_user }}
@@ -10,7 +11,7 @@ WorkingDirectory={{ subspace_farmer_install_path }}/
 ExecStart={{ subspace_farmer_binary_name }} cluster \
         --nats-server {{ subspace_farmer_nats_ip }} \
          farmer \
-        --reward-address {{ subspace_farmer_rreward_adress }} \
+        --reward-address {{ subspace_farmer_reward_adress }} \
         {% for disk_info in subspace_farmer_disks %}path={{ disk_info.path }},size={{ disk_info.size }} \
         {% endfor -%}
 

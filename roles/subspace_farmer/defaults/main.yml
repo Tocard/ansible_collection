@@ -38,7 +38,7 @@ subspace_farmer_directories:
   - path: "{{ subspace_farmer_install_path }}"
   - path: "{{ subspace_farmer_log_folder }}"
 
-subspace_farmer_rreward_adress:
+subspace_farmer_reward_adress:
 
 subspace_farmer_filesystem_enabled: true
 
