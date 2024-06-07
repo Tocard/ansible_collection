@@ -1,0 +1,7 @@
+frontend nats_frontend
+    bind *:4222
+    default_backend nats_backend
+
+backend nats_backend
+    server nats1 chimera-alpha.mythologic.fr:4222 check
+
