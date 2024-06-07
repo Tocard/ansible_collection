@@ -1,7 +1,7 @@
 frontend subspace_frontend
     bind *:9944
-    default_backend nats_backend
+    default_backend subspace_backend
 
 backend subspace_backend
-    server nats1 chimera-alpha.mythologic.fr:9944 check
+    server chimera-alpha chimera-alpha.mythologic.fr:9944 check
 
