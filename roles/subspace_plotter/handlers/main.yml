@@ -1,0 +1,11 @@
+---
+
+- name: Restart Subspace plotter
+  become: true
+  ansible.builtin.systemd:
+    name: subspace_plotter
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: subspace_plotter_need_restart
+

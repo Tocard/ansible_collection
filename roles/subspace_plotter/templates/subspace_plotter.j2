@@ -1,0 +1,10 @@
+{{ subspace_plotter_log_folder }}/{{ subspace_plotter_log_file }} {
+    rotate 7
+    daily
+    missingok
+    notifempty
+    compress
+    delaycompress
+    create 644 {{ subspace_plotter_user }} {{ subspace_plotter_group }}
+    endscript
+}

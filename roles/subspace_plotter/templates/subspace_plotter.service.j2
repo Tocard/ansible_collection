@@ -1,0 +1,24 @@
+
+[Unit]
+Description="subspace plotter"
+Requires=nats.service subspace_farmer.service
+After=nats.service subspace_farmer.service
+
+
+[Service]
+User={{ subspace_plotter_user }}
+Group={{ subspace_plotter_group }}
+WorkingDirectory={{ subspace_plotter_directory }}/
+ExecStart={{ subspace_plotter_binary_name }} cluster \
+        --nats-server {{ subspace_plotter_nats_ip }} \
+        plotter \
+
+StandardOutput=append:{{ subspace_plotter_log_folder }}/{{ subspace_plotter_log_file }}
+StandardError=append:{{ subspace_plotter_log_folder }}/{{ subspace_plotter_log_file }}
+LimitNOFILE=infinity
+
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

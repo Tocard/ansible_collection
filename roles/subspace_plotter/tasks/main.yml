@@ -1,0 +1,41 @@
+---
+
+- name: Install os binaries requiered by Subspace cache
+  become: true
+  ansible.builtin.package:
+    name: "{{ subspace_plotter_extra_package }}"
+    state: present
+
+- name: Download Subspace cache binary
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ subspace_plotter_binary_url }}"
+    dest: "{{ subspace_plotter_binary_path }}"
+    owner: "{{ subspace_plotter_user }}"
+    group: "{{ subspace_plotter_group }}"
+    force: true
+    mode: '0750'
+  notify:
+    - subspace_plotter_need_restart
+
+- name: Create subspace cache directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(subspace_plotter_user) }}"
+    group: "{{ item.group | default(subspace_plotter_group) }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+  loop: "{{ subspace_plotter_directories }}"
+
+- name: Template Subspace cache file
+  become: true
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(subspace_plotter_user) }}"
+    group: "{{ item.group | default(subspace_plotter_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ subspace_plotter_templates }}"
+  notify:
+    - subspace_plotter_need_restart
