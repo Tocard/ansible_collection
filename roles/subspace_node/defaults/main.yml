@@ -32,7 +32,7 @@ subspace_node_templates:
   - src: subspace_node.j2
     dest: "{{ subspace_node_logrotate_folder }}/{{ subspace_node_logrotate_file }}"
 subspace_node_log_file: node.log
-subspace_node_log_folder: /var/log/chimera/subspace_node
+subspace_node_log_folder: /var/log/subspace_node
 subspace_node_directories:
   - path: "{{ subspace_node_install_path }}"
   - path: "{{ subspace_node_log_folder }}"
