@@ -1,8 +1,8 @@
 
 [Unit]
 Description="subspace farmer"
-Requires=nats.service subspace_node.service subspace_cache.service subspace_controller.service
-After=nats.service subspace_node.service subspace_cache.service subspace_controller.service
+Requires=network-online.target
+After=network-online.target
 
 [Service]
 User={{ subspace_farmer_user }}

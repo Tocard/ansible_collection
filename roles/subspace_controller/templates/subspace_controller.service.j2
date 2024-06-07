@@ -1,8 +1,8 @@
 
 [Unit]
 Description="subspace controller"
-Requires=nats.service subspace_node.service
-After=nats.service subspace_node.service
+Requires=network-online.target
+After=network-online.target
 
 [Service]
 User={{ subspace_controller_user }}

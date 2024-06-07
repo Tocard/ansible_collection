@@ -1,8 +1,8 @@
 
 [Unit]
 Description="subspace plotter"
-Requires=nats.service subspace_farmer.service
-After=nats.service subspace_farmer.service
+Requires=network-online.target
+After=network-online.target
 
 
 [Service]
