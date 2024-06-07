@@ -29,6 +29,9 @@ haproxy_templates:
   - src: nats.cfg.j2
     dest: /etc/haproxy/nats.cfg
     mode: "0640"
+  - src: subspace.cfg.j2
+    dest: /etc/haproxy/subspace.cfg
+    mode: "0640"
   - src: haproxy.service.j2
     dest: /lib/systemd/system/haproxy.service
     mode: "0644"
