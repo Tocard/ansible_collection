@@ -57,4 +57,4 @@ subspace_farmer_nats_ip: nats://127.0.0.1:4222
 
 subspace_farmer_disks:
   - path: /random/path
-  - size: 1G
+    size: 1G
