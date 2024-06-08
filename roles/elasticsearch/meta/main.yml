@@ -21,7 +21,7 @@ dependencies:
 
   - role: tocard.utils.filesystem
     filesystem_lvs_mounts: "{{ elasticsearch_filesystem_lvs_mounts }}"
-    filesyste_disk_mount: "{{ elasticsearch_filesystem_disk_mounts }}"
+    filesyste_disk_mounts: "{{ elasticsearch_filesystem_disk_mounts }}"
 
 
 
