@@ -56,6 +56,6 @@ subspace_cache_size: 200G
 subspace_cache_disk_to_use: sdc
 subspace_cache_filesystem_disk_mounts:
   - disk: "{{ subspace_cache_disk_to_use }}"
-    path: "{{ subspace_cache_user }}"
-    owner: "{{ elasticsearch_user }}"
+    path: "{{ subspace_cache_directory }}"
+    owner: "{{ subspace_cache_user }}"
     group: "{{ subspace_cache_group }}"
