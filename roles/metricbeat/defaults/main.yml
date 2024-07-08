@@ -1,5 +1,5 @@
 ---
-metricbeat_version: "8.9.0"
+metricbeat_version: "8.14.2"
 
 metricbeat_user: root
 metricbeat_group: root
