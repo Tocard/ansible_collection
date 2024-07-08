@@ -6,7 +6,7 @@ subspace_controller_group: subspace_controller
 subspace_controller_install_path: /opt/subspace_controller
 subspace_controller_github_url: https://github.com/subspace/subspace/releases/download
 subspace_controller_chain_id: gemini-3h
-subspace_controller_release_date: 2024-jun-18
+subspace_controller_release_date: 2024-jul-05
 subspace_controller_snapshot: "{{ subspace_controller_chain_id }}-{{ subspace_controller_release_date }}"
 
 subspace_controller_binary: ubuntu-x86_64-skylake
