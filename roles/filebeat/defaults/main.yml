@@ -4,8 +4,9 @@ filebeat_version: ""
 filebeat_user: root
 filebeat_group: root
 
-filebeat_elasticsearch_user: filebeat
-filebeat_elacsticsearch_password: changeme
+filebeat_elasticsearch_user: free_filebeat
+filebeat_elasticsearch_password: free_filebeat4ever
+filebeat_elasticsearch_url: https://mythologic.fr:9200
 
 filebeat_module_path: /etc/filebeat/modules.d
 
@@ -58,3 +59,5 @@ filebeat_gpg_key:
 filebeat_deb:
   - https://artifacts.elastic.co/packages/8.x/apt stable main
 
+filebeat_ssl_files:
+  - /etc/filebeat/chain.pem

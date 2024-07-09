@@ -46,32 +46,14 @@ name: {{ ansible_hostname }}
 
 # ---------------------------- Elasticsearch Output ----------------------------
 output.elasticsearch:
-{% if filebeat_use_generic_ac %}
-  hosts: [ {{ free_filebeat_elasticsearch_url }} ]
-{% else %}
   hosts: [ {{ filebeat_elasticsearch_url }} ]
-{% endif %}
   protocol: "https"
-
-{% if filebeat_use_generic_ac %}
-  username: "{{ free_filebeat_user }}"
-  password: "{{ free_filebeat_password }}"
-{% else %}
   username: "{{ filebeat_elasticsearch_user }}"
   password: "{{ filebeat_elasticsearch_password }}"
-{% endif %}
 
+  ssl.certificate_authorities: {{ filebeat_ssl_files }}
 
-{% if filebeat_use_generic_ac %}
-  ssl.certificate_authorities: [ "/etc/filebeat/chain.pem" ]
-{% else %}
-  ssl.certificate_authorities: [ "/etc/letsencrypt/live/{{ ansible_host }}/fullchain.pem" ]
-{% endif %}
   allow_older_versions: true
-
-{% if filebeat_use_generic_ac %}
-{% else %}
-{% endif %}
 
 # ================================== Logging ===================================
 
