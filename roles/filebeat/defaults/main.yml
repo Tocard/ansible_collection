@@ -4,8 +4,8 @@ filebeat_version: ""
 filebeat_user: root
 filebeat_group: root
 
-filebeat_user: filebeat
-filebeat_password: changeme
+filebeat_elasticsearch_user: filebeat
+filebeat_elacsticsearch_password: changeme
 
 filebeat_module_path: /etc/filebeat/modules.d
 

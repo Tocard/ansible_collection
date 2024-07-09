@@ -57,8 +57,8 @@ output.elasticsearch:
   username: "{{ free_filebeat_user }}"
   password: "{{ free_filebeat_password }}"
 {% else %}
-  username: "{{ filebeat_user }}"
-  password: "{{ filebeat_password }}"
+  username: "{{ filebeat_elasticsearch_user }}"
+  password: "{{ filebeat_elasticsearch_password }}"
 {% endif %}
 
 
