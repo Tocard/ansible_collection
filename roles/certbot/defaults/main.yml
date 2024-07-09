@@ -34,6 +34,8 @@ certbot_directories:
 certbot_templates:
   - src: certbot.sh.j2
     dest: "{{ certbot_home }}/certbot.sh"
+  - src: certbot_force.sh.j2
+    dest: "{{ certbot_home }}/certbot_force.sh"
   - src: certbot.cred.j2
     dest: "{{ certbot_cred_path }}"
   - src: certbot_eden.sh.j2
