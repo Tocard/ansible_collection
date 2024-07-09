@@ -60,3 +60,5 @@ metricbeat_cosmos_template:
 
 metricbeat_ssl_files:
   - /etc/metricbeat/chain.pem
+
+metricbeat_filesystem_enabled: true

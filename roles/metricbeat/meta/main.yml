@@ -16,5 +16,6 @@ galaxy_info:
 dependencies:
   - name: tocard.utils.filesystem
     filesystem_lvs_mounts: "{{ metricbeat_filesystem_lvs_mounts }}"
+    when: metricbeat_filesystem_enabled
 
 
