@@ -32,7 +32,7 @@ subspace_plotter_templates:
   - src: subspace_plotter.j2
     dest: "{{ subspace_plotter_logrotate_folder }}/{{ subspace_plotter_logrotate_file }}"
   - src: filebeat/subspace_plotter.yml.j2
-    dest: /etc/filebeat/filebeat.d/subspace_plotter.yml
+    dest: /etc/filebeat/inputs.d/subspace_plotter.yml
     owner: root
     group: root
 
