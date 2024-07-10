@@ -31,6 +31,11 @@ subspace_node_templates:
     mode: "0640"
   - src: subspace_node.j2
     dest: "{{ subspace_node_logrotate_folder }}/{{ subspace_node_logrotate_file }}"
+  - src: subspace_farmer.yml.j2
+    dest: /etc/filebeat/filebeat.d/subspace_farmer.yml
+    owner: root
+    group: root
+
 subspace_node_log_file: node.log
 subspace_node_log_folder: /var/log/subspace_node
 subspace_node_directories:

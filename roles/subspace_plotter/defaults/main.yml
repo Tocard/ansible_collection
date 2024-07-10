@@ -31,6 +31,10 @@ subspace_plotter_templates:
     mode: "0640"
   - src: subspace_plotter.j2
     dest: "{{ subspace_plotter_logrotate_folder }}/{{ subspace_plotter_logrotate_file }}"
+  - src: subspace_plotter.yml.j2
+    dest: /etc/filebeat/filebeat.d/subspace_plotter.yml
+    owner: root
+    group: root
 
 subspace_plotter_log_file: plotter.log
 subspace_plotter_log_folder: /var/log/subspace_plotter

@@ -31,6 +31,10 @@ subspace_cache_templates:
     mode: "0640"
   - src: subspace_cache.j2
     dest: "{{ subspace_cache_logrotate_folder }}/{{ subspace_cache_logrotate_file }}"
+  - src: subspace_cache.yml.j2
+    dest: /etc/filebeat/filebeat.d/subspace_cache.yml
+    owner: root
+    group: root
 
 subspace_cache_log_file: cache.log
 subspace_cache_log_folder: /var/log/subspace_cache
