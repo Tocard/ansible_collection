@@ -31,7 +31,7 @@ subspace_controller_templates:
     mode: "0640"
   - src: subspace_controller.j2
     dest: "{{ subspace_controller_logrotate_folder }}/{{ subspace_controller_logrotate_file }}"
-  - src: subspace_controller.yml.j2
+  - src: filebeat/subspace_controller.yml.j2
     dest: /etc/filebeat/filebeat.d/subspace_controller.yml
     owner: root
     group: root
