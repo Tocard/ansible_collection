@@ -1,5 +1,0 @@
----
-
-free_filebeat_user: free_filebeat
-free_filebeat_password: free_filebeat4ever
-free_filebeat_elasticsearch_url: https://pegasus.mythologic.fr:9200
