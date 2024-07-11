@@ -1,5 +1,5 @@
 ---
-nats_version: v2.10.2
+nats_version: v2.10.17
 nats_user: nats
 nats_group: nats
 nats_groups: []
