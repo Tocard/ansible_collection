@@ -2,3 +2,7 @@
   id: "{{ subspace_controller_binary_name }}"
   paths:
     - "{{ subspace_controller_log_folder }}/*.log"
+  processors:
+    - add_tags:
+        tags: subspace_controller
+        target: subspace_app

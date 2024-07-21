@@ -2,3 +2,7 @@
   id: "{{ subspace_plotter_binary_name }}"
   paths:
     - "{{ subspace_plotter_log_folder }}/*.log"
+  processors:
+    - add_tags:
+        tags: subspace_plotter
+        target: subspace_app
