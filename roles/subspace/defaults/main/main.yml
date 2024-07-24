@@ -10,7 +10,7 @@ subspace_donwload_binary: true
 subspace_install_path: /opt/chimera
 subspace_github_url: https://github.com/subspace/subspace/releases/download
 subspace_chain_id: gemini-3h
-subspace_snapshot: "{{ subspace_chain_id }}-2024-jul-16"
+subspace_snapshot: "{{ subspace_chain_id }}-2024-jul-24"
 
 
 subspace_binary: ubuntu-x86_64-skylake
