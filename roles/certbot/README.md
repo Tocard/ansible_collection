@@ -58,7 +58,7 @@ certbot_cred_path: '{{ certbot_home }}/certbot.cred'
 
 ```YAML
 certbot_credential_dns_ovh_application_key: "{{ lookup('hashi_vault', hashi_certbot_path
-  ~ '/ovh:dns_ovh_application_key ' ~ hashi_connect) }}"
+  ~ '/certbot/ovh:dns_ovh_application_key ' ~ hashi_connect) }}"
 ```
 
 ### certbot_credential_dns_ovh_application_secret
@@ -67,7 +67,7 @@ certbot_credential_dns_ovh_application_key: "{{ lookup('hashi_vault', hashi_cert
 
 ```YAML
 certbot_credential_dns_ovh_application_secret: "{{ lookup('hashi_vault', hashi_certbot_path
-  ~ '/ovh:dns_ovh_application_secret ' ~ hashi_connect) }}"
+  ~ '/certbot/ovh:dns_ovh_application_secret ' ~ hashi_connect) }}"
 ```
 
 ### certbot_credential_dns_ovh_consumer_key
@@ -76,7 +76,7 @@ certbot_credential_dns_ovh_application_secret: "{{ lookup('hashi_vault', hashi_c
 
 ```YAML
 certbot_credential_dns_ovh_consumer_key: "{{ lookup('hashi_vault', hashi_certbot_path
-  ~ '/ovh:dns_ovh_consumer_key ' ~ hashi_connect) }}"
+  ~ '/certbot/ovh:dns_ovh_consumer_key ' ~ hashi_connect) }}"
 ```
 
 ### certbot_credential_dns_ovh_endpoint
@@ -85,7 +85,7 @@ certbot_credential_dns_ovh_consumer_key: "{{ lookup('hashi_vault', hashi_certbot
 
 ```YAML
 certbot_credential_dns_ovh_endpoint: "{{ lookup('hashi_vault', hashi_certbot_path
-  ~ '/ovh:dns_ovh_endpoint ' ~ hashi_connect) }}"
+  ~ '/certbot/ovh:dns_ovh_endpoint ' ~ hashi_connect) }}"
 ```
 
 ### certbot_custom_become_method
