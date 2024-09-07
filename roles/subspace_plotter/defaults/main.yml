@@ -6,7 +6,7 @@ subspace_plotter_group: subspace_plotter
 subspace_plotter_directory: /opt/subspace_plotter
 subspace_plotter_github_url: https://github.com/subspace/subspace/releases/download
 subspace_plotter_chain_id: gemini-3h
-subspace_plotter_release_date: 2024-jul-22
+subspace_plotter_release_date: 2024-sep-03
 subspace_plotter_snapshot: "{{ subspace_plotter_chain_id }}-{{ subspace_plotter_release_date }}"
 
 subspace_plotter_binary: ubuntu-x86_64-skylake
