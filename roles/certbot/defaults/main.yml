@@ -42,9 +42,9 @@ certbot_templates:
     dest: /usr/bin/certbot_eden.sh
     mode: "0770"
 
-certbot_credential_dns_ovh_endpoint: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/certbot/ovh:dns_ovh_endpoint ' ~ hashi_connect) }}"
-certbot_credential_dns_ovh_application_key: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/certbot/ovh:dns_ovh_application_key ' ~ hashi_connect) }}"
-certbot_credential_dns_ovh_application_secret: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/certbot/ovh:dns_ovh_application_secret ' ~ hashi_connect) }}"
-certbot_credential_dns_ovh_consumer_key: "{{ lookup('hashi_vault', hashi_certbot_path ~ '/certbot/ovh:dns_ovh_consumer_key ' ~ hashi_connect) }}"
+certbot_credential_dns_ovh_endpoint: ""
+certbot_credential_dns_ovh_application_key: ""
+certbot_credential_dns_ovh_application_secret: ""
+certbot_credential_dns_ovh_consumer_key: ""
 
 certbot_custom_become_method: sudo
