@@ -9,16 +9,6 @@
     daemon_reload: true
   listen: subspace_node_need_restart
 
-- name: Restart Subspace Farmer
-  become: true
-  become_method: "{{ subspace_custom_become_method }}"
-  ansible.builtin.systemd:
-    name: subspace_farmer
-    state: restarted
-    enabled: true
-    daemon_reload: true
-  listen: subspace_farmer_need_restart
-
 - name: Restart Subspace Operator
   become: true
   become_method: "{{ subspace_custom_become_method }}"

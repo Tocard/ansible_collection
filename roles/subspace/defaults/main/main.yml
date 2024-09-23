@@ -3,27 +3,21 @@
 subspace_user: subspace
 subspace_group: subspace
 
-susbpace_cluster_enabled: false
+subspace_donwload_binary_enabled: true
 
-subspace_donwload_binary: true
-
-subspace_install_path: /opt/chimera
+subspace_install_path: /opt/subspace
 subspace_github_url: https://github.com/subspace/subspace/releases/download
 subspace_chain_id: gemini-3h
 subspace_snapshot: "{{ subspace_chain_id }}-2024-sep-17"
 
 
 subspace_binary: ubuntu-x86_64-skylake
-# subspace_binary: subspace-farmer-ubuntu-x86_64-v2
 
 subspace_logrotate_folder: /etc/logrotate.d
 
 subspace_extra_package:
   - libgomp1
-  - nginx
   - logrotate
 
 subspace_custom_become_method: sudo
-
-subspace_log_path_to_watch: []
 suspace_custom_vg_name: olympus

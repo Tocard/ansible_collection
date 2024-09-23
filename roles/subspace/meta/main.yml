@@ -30,7 +30,3 @@ dependencies:
     when: subspace_operator_filesystem_enabled and subspace_operator_install_enabled
     tags: [filesystem]
 
-  - role: tocard.utils.filesystem
-    filesystem_lvs_mounts: "{{ subspace_farmer_filesystem_lvs_mounts }}"
-    when: subspace_farmer_filesystem_enabled and subspace_farmer_install_enabled
-    tags: [filesystem]
