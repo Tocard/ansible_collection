@@ -1,0 +1,10 @@
+---
+
+- name: Restart Subspace Operator
+  become: true
+  ansible.builtin.systemd:
+    name: subspace_operator
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  listen: subspace_operator_need_restart

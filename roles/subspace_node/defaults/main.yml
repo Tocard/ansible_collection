@@ -7,7 +7,7 @@ subspace_node_donwload_binary: true
 
 subspace_node_github_url: https://github.com/subspace/subspace/releases/download
 subspace_node_chain_id: gemini-3h
-subspace_node_snapshot: "{{ subspace_node_chain_id }}-2024-sep-17"
+subspace_node_snapshot: "{{ subspace_node_chain_id }}-2024-oct-10"
 
 
 subspace_node_binary: ubuntu-x86_64-skylake

@@ -1,0 +1,10 @@
+{{ subspace_operator_log_folder }}/{{ subspace_operator_log_file }} {
+    rotate 7
+    daily
+    missingok
+    notifempty
+    compress
+    delaycompress
+    create 644 chimera chimera
+    endscript
+}

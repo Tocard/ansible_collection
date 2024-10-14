@@ -1,0 +1,42 @@
+---
+
+- name: Install binaries for Subspace Operator
+  become: true
+  ansible.builtin.package:
+    name: "{{ subspace_operator_extra_package }}"
+    state: present
+
+- name: Download Subspace binary
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ subspace_operator_binary_url }}"
+    dest: "{{ subspace_operator_binary_path }}"
+    owner: "{{ subspace_operator_user }}"
+    group: "{{ subspace_operator_group }}"
+    mode: '0750'
+    force: true
+  notify:
+    - subspace_operator_need_restart
+  when: subspace_operator_donwload_binary_enabled | bool
+
+- name: Create subspace operator directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default(subspace_user) }}"
+    group: "{{ item.group | default(subspace_group) }}"
+    mode: "{{ item.mode | default('0750') }}"
+    state: "{{ item.state | default('directory') }}"
+  loop: "{{ subspace_operator_directories }}"
+
+- name: Template Subspace Operator file
+  become: true
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(subspace_user) }}"
+    group: "{{ item.group | default(subspace_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ subspace_operator_templates }}"
+  notify:
+    - subspace_operator_need_restart

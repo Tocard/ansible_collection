@@ -1,0 +1,68 @@
+---
+
+subspace_operator_root_path: /opt/subspace
+
+subspace_operator_donwload_binary_enabled: true
+subspace_operator_github_url: https://github.com/subspace/subspace/releases/download
+subspace_operator_chain_id: gemini-3h
+subspace_operator_snapshot: "{{ subspace_chain_id }}-2024-oct-10"
+subspace_operator_binary: ubuntu-x86_64-skylake
+
+
+subspace_operator_node_path: "{{ subspace_install_path }}/node"
+subspace_operator_binary_url: "{{ subspace_github_url }}/{{ subspace_snapshot }}/subspace-node-{{ subspace_binary }}-{{ subspace_snapshot }}"
+subspace_operator_binary_path: "/usr/bin/{{ subspace_operator_binary_name }}"
+subspace_operator_binary_name: subspace
+subspace_operator_logrotate_file: subspace
+
+
+subspace_operator_templates:
+  - src: subspace_operator.service.j2
+    dest: /etc/systemd/system/subspace_operator.service
+    mode: "0640"
+  - src: subspace_operator.j2
+    dest: "{{ subspace_logrotate_folder }}/{{ subspace_operator_logrotate_file }}"
+
+subspace_operator_log_folder: /var/log/subspace/subspace_operator
+subspace_operator_log_file: operator.log
+subspace_operator_directories:
+  - path: "{{ subspace_operator_root_path }}"
+  - path: "{{ subspace_operator_node_path }}"
+  - path: "{{ subspace_operator_log_folder }}"
+
+subspace_operator_filesystem_enabled: true
+
+subspace_operator_filesystem_disk_mounts:
+  - disk: sdb
+    path: "{{ subspace_operator_root_path }}"
+    owner: "{{ subspace_operator_user }}"
+    group: "{{ subspace_operator_group }}"
+
+subspace_operator_filesystem_lvs_mounts:
+  - lv: lv_subspace_operator_log
+    vg: "{{ suspace_operator_custom_vg_name }}"
+    size: 2g
+    path: "{{ subspace_operator_log_folder }}"
+    owner: "{{ subspace_operator_user }}"
+    group: "{{ subspace_operator_group }}"
+
+subspace_operator_prometheus_port: 9615
+subspace_operator_p2p_port: 30333
+subspace_operator_dsn_port: 30433
+
+subspace_operator_user: subspace
+subspace_operator_group: subspace
+
+
+subspace_operator_logrotate_folder: /etc/logrotate.d
+
+subspace_operator_extra_package:
+  - logrotate
+
+suspace_operator_custom_vg_name: olympus
+
+
+
+
+
+
