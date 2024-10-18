@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TOKEN=$1
-BUILD_PATH="/build"
+BUILD_PATH="build"
 
 if [ -z "${TOKEN}" ]; then
   echo 'please pass token as parameter'
