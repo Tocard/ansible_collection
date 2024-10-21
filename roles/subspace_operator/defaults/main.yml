@@ -5,15 +5,14 @@ subspace_operator_root_path: /opt/subspace
 subspace_operator_donwload_binary_enabled: true
 subspace_operator_github_url: https://github.com/subspace/subspace/releases/download
 subspace_operator_chain_id: gemini-3h
-subspace_operator_snapshot: "{{ subspace_chain_id }}-2024-oct-10"
+subspace_operator_snapshot: "{{ subspace_operator_chain_id }}-2024-oct-10"
 subspace_operator_binary: ubuntu-x86_64-skylake
 
 
-subspace_operator_node_path: "{{ subspace_install_path }}/node"
-subspace_operator_binary_url: "{{ subspace_github_url }}/{{ subspace_snapshot }}/subspace-node-{{ subspace_binary }}-{{ subspace_snapshot }}"
+subspace_operator_node_path: "{{ subspace_operator_root_path }}/node"
+subspace_operator_binary_url: "{{ subspace_operator_github_url }}/{{ subspace_operator_snapshot }}/subspace-node-{{ subspace_operator_binary }}-{{ subspace_operator_snapshot }}"
 subspace_operator_binary_path: "/usr/bin/{{ subspace_operator_binary_name }}"
 subspace_operator_binary_name: subspace
-subspace_operator_logrotate_file: subspace
 
 
 subspace_operator_templates:
@@ -53,7 +52,7 @@ subspace_operator_dsn_port: 30433
 subspace_operator_user: subspace
 subspace_operator_group: subspace
 
-
+subspace_operator_logrotate_file: subspace
 subspace_operator_logrotate_folder: /etc/logrotate.d
 
 subspace_operator_extra_package:

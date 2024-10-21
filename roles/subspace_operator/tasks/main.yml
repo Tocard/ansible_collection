@@ -23,8 +23,8 @@
   become: true
   ansible.builtin.file:
     path: "{{ item.path }}"
-    owner: "{{ item.owner | default(subspace_user) }}"
-    group: "{{ item.group | default(subspace_group) }}"
+    owner: "{{ item.owner | default(subspace_operator_user) }}"
+    group: "{{ item.group | default(subspace_operator_group) }}"
     mode: "{{ item.mode | default('0750') }}"
     state: "{{ item.state | default('directory') }}"
   loop: "{{ subspace_operator_directories }}"
@@ -34,8 +34,8 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "{{ item.owner | default(subspace_user) }}"
-    group: "{{ item.group | default(subspace_group) }}"
+    owner: "{{ item.owner | default(subspace_operator_user) }}"
+    group: "{{ item.group | default(subspace_operator_group) }}"
     mode: "{{ item.mode | default('0640') }}"
   loop: "{{ subspace_operator_templates }}"
   notify:

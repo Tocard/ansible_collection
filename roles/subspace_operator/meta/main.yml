@@ -15,8 +15,8 @@ galaxy_info:
 
 dependencies:
   - role: tocard.utils.user
-    user_name: "{{ subspace_user }}"
-    user_group: "{{ subspace_group }}"
+    user_name: "{{ subspace_operator_user }}"
+    user_group: "{{ subspace_operator_group }}"
     tags: [user]
 
   - role: tocard.utils.filesystem

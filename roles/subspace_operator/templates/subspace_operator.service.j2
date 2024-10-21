@@ -4,11 +4,11 @@ Description="subspace node"
 After=network-online.target
 
 [Service]
-User={{ subspace_user }}
-Group={{ subspace_group }}
+User={{ subspace_operator_user }}
+Group={{ subspace_operator_group }}
 WorkingDirectory={{ subspace_operator_install_path }}/
 ExecStart={{ subspace_operator_binary_name }} \
-    --chain {{ subspace_chain_id }} \
+    --chain {{ subspace_operator_chain_id }} \
     --name {{ ansible_hostname }} \
     --base-path {{ subspace_operator_install_path }}/ \
     --blocks-pruning 256 \
