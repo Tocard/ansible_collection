@@ -1,11 +1,10 @@
 ---
 user_group:
 user_name:
-user_shell: "/bin/bash"
+user_shell: /bin/bash
 user_groups:
 user_expires: -1
-user_changed: false
+user_changed: False
 user_password: "{{ lookup('community.general.random_string', min_lower=12, min_upper=12, min_special=12, min_numeric=12, length=64) }}"
-user_system: false
+user_system: False
 
-user_become_method: sudo

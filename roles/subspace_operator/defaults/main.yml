@@ -20,7 +20,7 @@ subspace_operator_templates:
     dest: /etc/systemd/system/subspace_operator.service
     mode: "0640"
   - src: subspace_operator.j2
-    dest: "{{ subspace_logrotate_folder }}/{{ subspace_operator_logrotate_file }}"
+    dest: "{{ subspace_operator_logrotate_folder }}/{{ subspace_operator_logrotate_file }}"
 
 subspace_operator_log_folder: /var/log/subspace/subspace_operator
 subspace_operator_log_file: operator.log
