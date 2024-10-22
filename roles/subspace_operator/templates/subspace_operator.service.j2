@@ -6,16 +6,16 @@ After=network-online.target
 [Service]
 User={{ subspace_operator_user }}
 Group={{ subspace_operator_group }}
-WorkingDirectory={{ subspace_operator_root_path }} run /
-ExecStart={{ subspace_operator_binary_name }} \
+WorkingDirectory={{ subspace_operator_root_path }} /
+ExecStart={{ subspace_operator_binary_name }} run \
     --chain {{ subspace_operator_chain_id }} \
-    --name {{ ansible_hostname }} \
     --base-path {{ subspace_operator_node_path }}/ \
-    --blocks-pruning archive-canonical \
-    --state-pruning archive-canonical \
-    --prometheus-listen-on 0.0.0.0:9080 \
-    --sync full  \
-    -- --domain-id 1 \
+    --name {{ ansible_hostname }} \
+    --blocks-pruning archive \
+    --state-pruning archive \
+    --sync full \
+    -- \
+    --domain-id 0 \
     --operator-id 143
 
 StandardOutput=append:{{ subspace_operator_log_folder }}/{{ subspace_operator_log_file }}
