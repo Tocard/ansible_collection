@@ -6,7 +6,7 @@ After=network-online.target
 [Service]
 User={{ subspace_operator_user }}
 Group={{ subspace_operator_group }}
-WorkingDirectory={{ subspace_operator_root_path }} /
+WorkingDirectory={{ subspace_operator_root_path }}
 ExecStart={{ subspace_operator_binary_name }} run \
     --chain {{ subspace_operator_chain_id }} \
     --base-path {{ subspace_operator_node_path }}/ \
