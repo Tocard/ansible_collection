@@ -11,7 +11,7 @@ this role simply install & configure vault server
   - [vault_bind_port](#vault_bind_port)
   - [vault_custom_become_method](#vault_custom_become_method)
   - [vault_custom_templates](#vault_custom_templates)
-  - [vault_filesystem_list](#vault_filesystem_list)
+  - [vault_filesystem_lvs_mounts](#vault_filesystem_lvs_mounts)
   - [vault_filesystem_vg_name](#vault_filesystem_vg_name)
   - [vault_gpg_key](#vault_gpg_key)
   - [vault_group](#vault_group)
@@ -82,26 +82,24 @@ vault_custom_templates:
     mode: '0640'
 ```
 
-### vault_filesystem_list
+### vault_filesystem_lvs_mounts
 
 #### Default value
 
 ```YAML
-vault_filesystem_list:
+vault_filesystem_lvs_mounts:
   - lv: lv_vault_data
     vg: '{{ vault_filesystem_vg_name }}'
     size: 5g
     path: '{{ vault_path_data }}'
     owner: '{{ vault_user }}'
     group: '{{ vault_group }}'
-    mode: '0750'
   - lv: lv_vault_log
     vg: '{{ vault_filesystem_vg_name }}'
     size: 1g
     path: '{{ vault_log_path }}'
     owner: '{{ vault_user }}'
     group: '{{ vault_group }}'
-    mode: '0750'
 ```
 
 ### vault_filesystem_vg_name
@@ -166,7 +164,7 @@ vault_package_list:
 #### Default value
 
 ```YAML
-vault_path_data: '{{ vault_base_path}}/data'
+vault_path_data: '{{ vault_base_path }}/data'
 ```
 
 ### vault_ssl_enabled

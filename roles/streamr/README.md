@@ -9,7 +9,7 @@ this role simply install streamr with npm
   - [streamr_directories](#streamr_directories)
   - [streamr_exec_start_command](#streamr_exec_start_command)
   - [streamr_filesystem_enabled](#streamr_filesystem_enabled)
-  - [streamr_filesystem_list](#streamr_filesystem_list)
+  - [streamr_filesystem_lvs_mounts](#streamr_filesystem_lvs_mounts)
   - [streamr_group](#streamr_group)
   - [streamr_install_dir](#streamr_install_dir)
   - [streamr_log_color_enabled](#streamr_log_color_enabled)
@@ -62,7 +62,7 @@ streamr_directories:
 #### Default value
 
 ```YAML
-streamr_exec_start_command: sh {{ streamr_install_dir}}/{{ streamr_run_script_name
+streamr_exec_start_command: sh {{ streamr_install_dir }}/{{ streamr_run_script_name
   }}
 ```
 
@@ -74,32 +74,24 @@ streamr_exec_start_command: sh {{ streamr_install_dir}}/{{ streamr_run_script_na
 streamr_filesystem_enabled: true
 ```
 
-### streamr_filesystem_list
+### streamr_filesystem_lvs_mounts
 
 #### Default value
 
 ```YAML
-streamr_filesystem_list:
+streamr_filesystem_lvs_mounts:
   - lv: lv_streamr_data
     vg: '{{ streamr_virtual_group_name }}'
     size: '{{ streamr_lv_data_size }}'
     path: '{{ streamr_install_dir }}'
     owner: '{{ streamr_user }}'
     group: '{{ streamr_group }}'
-    mode: '0750'
-    fstype: xfs
-    force: false
-    shrink: false
   - lv: lv_streamr_log
     vg: '{{ streamr_virtual_group_name }}'
     size: '{{ streamr_lv_log_size }}'
     path: '{{ streamr_log_dir }}'
     owner: '{{ streamr_user }}'
     group: '{{ streamr_group }}'
-    mode: '0750'
-    fstype: xfs
-    force: false
-    shrink: false
 ```
 
 ### streamr_group
@@ -291,7 +283,7 @@ streamr_templates:
   - src: default.json.j2
     dest: '{{ streamr_install_dir }}/default.json'
   - src: run_node.sh.j2
-    dest: '{{ streamr_install_dir }}/{{ streamr_run_script_name}}'
+    dest: '{{ streamr_install_dir }}/{{ streamr_run_script_name }}'
   - src: streamr.service.j2
     dest: /etc/systemd/system/streamr.service
   - src: logrotate_streamr_node.j2

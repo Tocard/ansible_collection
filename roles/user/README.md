@@ -6,7 +6,6 @@ this role simply install user & group to linux os
 
 - [Requirements](#requirements)
 - [Default Variables](#default-variables)
-  - [user_become_method](#user_become_method)
   - [user_changed](#user_changed)
   - [user_expires](#user_expires)
   - [user_group](#user_group)
@@ -26,14 +25,6 @@ this role simply install user & group to linux os
 - Minimum Ansible version: `2.9`
 
 ## Default Variables
-
-### user_become_method
-
-#### Default value
-
-```YAML
-user_become_method: sudo
-```
 
 ### user_changed
 

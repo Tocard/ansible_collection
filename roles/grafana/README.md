@@ -13,17 +13,23 @@ this role simply install & configure grafana
   - [grafana_data_dir](#grafana_data_dir)
   - [grafana_deb](#grafana_deb)
   - [grafana_directories](#grafana_directories)
-  - [grafana_filesystem_list](#grafana_filesystem_list)
+  - [grafana_directories_patch](#grafana_directories_patch)
+  - [grafana_enforce_domain](#grafana_enforce_domain)
+  - [grafana_filesystem_lvs_mounts](#grafana_filesystem_lvs_mounts)
   - [grafana_filesystem_vg_name](#grafana_filesystem_vg_name)
   - [grafana_gpg_key](#grafana_gpg_key)
   - [grafana_group](#grafana_group)
+  - [grafana_groups](#grafana_groups)
   - [grafana_http_port](#grafana_http_port)
   - [grafana_log_dir](#grafana_log_dir)
-  - [grafana_owner](#grafana_owner)
   - [grafana_packages](#grafana_packages)
   - [grafana_public_domain](#grafana_public_domain)
+  - [grafana_root_url](#grafana_root_url)
+  - [grafana_secret](#grafana_secret)
   - [grafana_ssl_file](#grafana_ssl_file)
   - [grafana_ssl_location](#grafana_ssl_location)
+  - [grafana_sub_path_enabled](#grafana_sub_path_enabled)
+  - [grafana_user](#grafana_user)
 - [Dependencies](#dependencies)
 - [License](#license)
 - [Author](#author)
@@ -97,32 +103,47 @@ grafana_deb:
 ```YAML
 grafana_directories:
   - path: '{{ grafana_ssl_location }}'
-  - path: /usr/share/grafana
-  - path: '{{ grafana_data_dir }}'
-  - path: /var/run/grafana
   - path: '{{ grafana_log_dir }}'
 ```
 
-### grafana_filesystem_list
+### grafana_directories_patch
 
 #### Default value
 
 ```YAML
-grafana_filesystem_list:
+grafana_directories_patch:
+  - path: /usr/share/grafana
+  - path: '{{ grafana_data_dir }}'
+  - path: /var/run/grafana
+  - path: /etc/grafana
+```
+
+### grafana_enforce_domain
+
+#### Default value
+
+```YAML
+grafana_enforce_domain: false
+```
+
+### grafana_filesystem_lvs_mounts
+
+#### Default value
+
+```YAML
+grafana_filesystem_lvs_mounts:
   - lv: lv_grafana_data
     vg: '{{ grafana_filesystem_vg_name }}'
-    size: 1G
+    size: 1g
     path: '{{ grafana_data_dir }}'
-    owner: '{{ grafana_owner }}'
-    group: '{{ grafana_owner }}'
-    mode: '0750'
+    owner: '{{ grafana_user }}'
+    group: '{{ grafana_user }}'
   - lv: lv_grafana_log
     vg: '{{ grafana_filesystem_vg_name }}'
-    size: 500M
+    size: 500m
     path: '{{ grafana_log_dir }}'
-    owner: '{{ grafana_owner }}'
-    group: '{{ grafana_owner }}'
-    mode: '0750'
+    owner: '{{ grafana_user }}'
+    group: '{{ grafana_user }}'
 ```
 
 ### grafana_filesystem_vg_name
@@ -150,6 +171,14 @@ grafana_gpg_key:
 grafana_group: grafana
 ```
 
+### grafana_groups
+
+#### Default value
+
+```YAML
+grafana_groups: [certbot]
+```
+
 ### grafana_http_port
 
 #### Default value
@@ -166,21 +195,13 @@ grafana_http_port: 3000
 grafana_log_dir: /var/log/grafana
 ```
 
-### grafana_owner
-
-#### Default value
-
-```YAML
-grafana_owner: grafana
-```
-
 ### grafana_packages
 
 #### Default value
 
 ```YAML
 grafana_packages:
-  - grafana=10.4.2
+  - grafana-enterprise=10.4.2
 ```
 
 ### grafana_public_domain
@@ -188,7 +209,23 @@ grafana_packages:
 #### Default value
 
 ```YAML
-grafana_public_domain: mythologic.fr
+grafana_public_domain: '{{ ansible_hostname }}'
+```
+
+### grafana_root_url
+
+#### Default value
+
+```YAML
+grafana_root_url: '%(protocol)s://%(domain)s:%(http_port)s/grafana/'
+```
+
+### grafana_secret
+
+#### Default value
+
+```YAML
+grafana_secret: change_me
 ```
 
 ### grafana_ssl_file
@@ -213,6 +250,22 @@ grafana_ssl_file:
 
 ```YAML
 grafana_ssl_location: /etc/grafana/ssl
+```
+
+### grafana_sub_path_enabled
+
+#### Default value
+
+```YAML
+grafana_sub_path_enabled: true
+```
+
+### grafana_user
+
+#### Default value
+
+```YAML
+grafana_user: grafana
 ```
 
 

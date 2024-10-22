@@ -6,11 +6,14 @@ this role simply create filesystem on linux
 
 - [Requirements](#requirements)
 - [Default Variables](#default-variables)
-  - [filesystem_custom_become_method](#filesystem_custom_become_method)
-  - [filesystem_list](#filesystem_list)
-  - [filesystem_physical_volumes_list](#filesystem_physical_volumes_list)
-  - [filesystem_volume_create_enabled](#filesystem_volume_create_enabled)
-  - [filesystem_volume_group_name](#filesystem_volume_group_name)
+  - [filesystem_disk_mounts](#filesystem_disk_mounts)
+  - [filesystem_lvs_mounts](#filesystem_lvs_mounts)
+  - [filesystem_mountpoint_group](#filesystem_mountpoint_group)
+  - [filesystem_mountpoint_mode](#filesystem_mountpoint_mode)
+  - [filesystem_mountpoint_user](#filesystem_mountpoint_user)
+  - [filesystem_mounts](#filesystem_mounts)
+  - [filesystem_nfs_mounts](#filesystem_nfs_mounts)
+  - [filesystem_vgs_to_create](#filesystem_vgs_to_create)
 - [Dependencies](#dependencies)
 - [License](#license)
 - [Author](#author)
@@ -23,45 +26,69 @@ this role simply create filesystem on linux
 
 ## Default Variables
 
-### filesystem_custom_become_method
+### filesystem_disk_mounts
 
 #### Default value
 
 ```YAML
-filesystem_custom_become_method: sudo
+filesystem_disk_mounts: []
 ```
 
-### filesystem_list
+### filesystem_lvs_mounts
 
 #### Default value
 
 ```YAML
-filesystem_list: []
+filesystem_lvs_mounts: []
 ```
 
-### filesystem_physical_volumes_list
+### filesystem_mountpoint_group
 
 #### Default value
 
 ```YAML
-filesystem_physical_volumes_list:
-  - /dev/sdb
+filesystem_mountpoint_group: root
 ```
 
-### filesystem_volume_create_enabled
+### filesystem_mountpoint_mode
 
 #### Default value
 
 ```YAML
-filesystem_volume_create_enabled: false
+filesystem_mountpoint_mode: '0750'
 ```
 
-### filesystem_volume_group_name
+### filesystem_mountpoint_user
 
 #### Default value
 
 ```YAML
-filesystem_volume_group_name: appli_vg
+filesystem_mountpoint_user: root
+```
+
+### filesystem_mounts
+
+#### Default value
+
+```YAML
+filesystem_mounts: '{{ filesystem_lvs_mounts | union(filesystem_nfs_mounts) | union(filesystem_disk_mounts)
+  }}'
+```
+
+### filesystem_nfs_mounts
+
+#### Default value
+
+```YAML
+filesystem_nfs_mounts: []
+```
+
+### filesystem_vgs_to_create
+
+#### Default value
+
+```YAML
+filesystem_vgs_to_create: []
 ```
 
 

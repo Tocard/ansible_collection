@@ -15,16 +15,18 @@ this role simply install & configure metricbeat
   - [metricbeat_custom_dirs](#metricbeat_custom_dirs)
   - [metricbeat_custom_templates](#metricbeat_custom_templates)
   - [metricbeat_deb](#metricbeat_deb)
-  - [metricbeat_filesystem_list](#metricbeat_filesystem_list)
+  - [metricbeat_elasticsearch_password](#metricbeat_elasticsearch_password)
+  - [metricbeat_elasticsearch_url](#metricbeat_elasticsearch_url)
+  - [metricbeat_elasticsearch_user](#metricbeat_elasticsearch_user)
+  - [metricbeat_filesystem_enabled](#metricbeat_filesystem_enabled)
+  - [metricbeat_filesystem_lvs_mounts](#metricbeat_filesystem_lvs_mounts)
   - [metricbeat_filesystem_vg_name](#metricbeat_filesystem_vg_name)
   - [metricbeat_gpg_key](#metricbeat_gpg_key)
   - [metricbeat_group](#metricbeat_group)
-  - [metricbeat_hddtemp_templates](#metricbeat_hddtemp_templates)
   - [metricbeat_install_mode](#metricbeat_install_mode)
   - [metricbeat_log_dir](#metricbeat_log_dir)
   - [metricbeat_module_path](#metricbeat_module_path)
-  - [metricbeat_owner](#metricbeat_owner)
-  - [metricbeat_password](#metricbeat_password)
+  - [metricbeat_ssl_files](#metricbeat_ssl_files)
   - [metricbeat_use_generic_ac](#metricbeat_use_generic_ac)
   - [metricbeat_user](#metricbeat_user)
   - [metricbeat_version](#metricbeat_version)
@@ -82,9 +84,6 @@ metricbeat_cosmos_node_port:
 metricbeat_cosmos_template:
   - src: cosmos.yml.j2
     dest: '{{ metricbeat_module_path }}/cosmos.yml'
-    owner: '{{ metricbeat_owner }}'
-    group: '{{ metricbeat_group }}'
-    mode: '0640'
 ```
 
 ### metricbeat_custom_become_method
@@ -103,9 +102,6 @@ metricbeat_custom_become_method: sudo
 metricbeat_custom_dirs:
   - path: '{{ metricbeat_log_dir }}'
     state: directory
-    owner: '{{ metricbeat_owner }}'
-    group: '{{ metricbeat_group }}'
-    mode: '0750'
 ```
 
 ### metricbeat_custom_templates
@@ -116,14 +112,8 @@ metricbeat_custom_dirs:
 metricbeat_custom_templates:
   - src: metricbeat.yml.j2
     dest: /etc/metricbeat/metricbeat.yml
-    owner: '{{ metricbeat_owner }}'
-    group: '{{ metricbeat_group }}'
-    mode: '0640'
   - src: system.yml.j2
     dest: '{{ metricbeat_module_path }}/system.yml'
-    owner: '{{ metricbeat_owner }}'
-    group: '{{ metricbeat_group }}'
-    mode: '0640'
 ```
 
 ### metricbeat_deb
@@ -135,19 +125,50 @@ metricbeat_deb:
   - https://artifacts.elastic.co/packages/8.x/apt stable main
 ```
 
-### metricbeat_filesystem_list
+### metricbeat_elasticsearch_password
 
 #### Default value
 
 ```YAML
-metricbeat_filesystem_list:
+metricbeat_elasticsearch_password: free_metricbeat4ever
+```
+
+### metricbeat_elasticsearch_url
+
+#### Default value
+
+```YAML
+metricbeat_elasticsearch_url: https://mythologic.fr:9200
+```
+
+### metricbeat_elasticsearch_user
+
+#### Default value
+
+```YAML
+metricbeat_elasticsearch_user: free_metricbeat
+```
+
+### metricbeat_filesystem_enabled
+
+#### Default value
+
+```YAML
+metricbeat_filesystem_enabled: true
+```
+
+### metricbeat_filesystem_lvs_mounts
+
+#### Default value
+
+```YAML
+metricbeat_filesystem_lvs_mounts:
   - lv: lv_metricbeat_log
     vg: '{{ metricbeat_filesystem_vg_name }}'
     size: 1g
     path: '{{ metricbeat_log_dir }}'
-    owner: '{{ metricbeat_owner }}'
+    owner: '{{ metricbeat_user }}'
     group: '{{ metricbeat_group }}'
-    mode: '0750'
 ```
 
 ### metricbeat_filesystem_vg_name
@@ -175,19 +196,6 @@ metricbeat_gpg_key:
 metricbeat_group: root
 ```
 
-### metricbeat_hddtemp_templates
-
-#### Default value
-
-```YAML
-metricbeat_hddtemp_templates:
-  - src: hddtemp.yml.j2
-    dest: '{{ metricbeat_module_path }}/hddtemp.yml'
-    owner: '{{ metricbeat_owner }}'
-    group: '{{ metricbeat_group }}'
-    mode: '0640'
-```
-
 ### metricbeat_install_mode
 
 #### Default value
@@ -212,20 +220,13 @@ metricbeat_log_dir: /var/log/metricbeat
 metricbeat_module_path: /etc/metricbeat/modules.d
 ```
 
-### metricbeat_owner
+### metricbeat_ssl_files
 
 #### Default value
 
 ```YAML
-metricbeat_owner: root
-```
-
-### metricbeat_password
-
-#### Default value
-
-```YAML
-metricbeat_password: changeme
+metricbeat_ssl_files:
+  - /etc/metricbeat/chain.pem
 ```
 
 ### metricbeat_use_generic_ac
@@ -241,7 +242,7 @@ metricbeat_use_generic_ac: false
 #### Default value
 
 ```YAML
-metricbeat_user: metricbeat
+metricbeat_user: root
 ```
 
 ### metricbeat_version
@@ -249,7 +250,7 @@ metricbeat_user: metricbeat
 #### Default value
 
 ```YAML
-metricbeat_version: ''
+metricbeat_version: 8.14.2
 ```
 
 ### metricbeat_xpack_templates
@@ -260,9 +261,6 @@ metricbeat_version: ''
 metricbeat_xpack_templates:
   - src: elasticsearch-xpack.yml.j2
     dest: '{{ metricbeat_module_path }}/elasticsearch-xpack.yml'
-    owner: '{{ metricbeat_owner }}'
-    group: '{{ metricbeat_group }}'
-    mode: '0640'
 ```
 
 ### metricbeat_yum_repo

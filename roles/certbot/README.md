@@ -21,9 +21,9 @@ this role configure certbot on server and create script to auto renew cert
   - [certbot_group](#certbot_group)
   - [certbot_home](#certbot_home)
   - [certbot_main_domain](#certbot_main_domain)
-  - [certbot_owner](#certbot_owner)
   - [certbot_package](#certbot_package)
   - [certbot_templates](#certbot_templates)
+  - [certbot_user](#certbot_user)
 - [Dependencies](#dependencies)
 - [License](#license)
 - [Author](#author)
@@ -57,8 +57,7 @@ certbot_cred_path: '{{ certbot_home }}/certbot.cred'
 #### Default value
 
 ```YAML
-certbot_credential_dns_ovh_application_key: "{{ lookup('hashi_vault', hashi_certbot_path
-  ~ '/certbot/ovh:dns_ovh_application_key ' ~ hashi_connect) }}"
+certbot_credential_dns_ovh_application_key: ''
 ```
 
 ### certbot_credential_dns_ovh_application_secret
@@ -66,8 +65,7 @@ certbot_credential_dns_ovh_application_key: "{{ lookup('hashi_vault', hashi_cert
 #### Default value
 
 ```YAML
-certbot_credential_dns_ovh_application_secret: "{{ lookup('hashi_vault', hashi_certbot_path
-  ~ '/certbot/ovh:dns_ovh_application_secret ' ~ hashi_connect) }}"
+certbot_credential_dns_ovh_application_secret: ''
 ```
 
 ### certbot_credential_dns_ovh_consumer_key
@@ -75,8 +73,7 @@ certbot_credential_dns_ovh_application_secret: "{{ lookup('hashi_vault', hashi_c
 #### Default value
 
 ```YAML
-certbot_credential_dns_ovh_consumer_key: "{{ lookup('hashi_vault', hashi_certbot_path
-  ~ '/certbot/ovh:dns_ovh_consumer_key ' ~ hashi_connect) }}"
+certbot_credential_dns_ovh_consumer_key: ''
 ```
 
 ### certbot_credential_dns_ovh_endpoint
@@ -84,8 +81,7 @@ certbot_credential_dns_ovh_consumer_key: "{{ lookup('hashi_vault', hashi_certbot
 #### Default value
 
 ```YAML
-certbot_credential_dns_ovh_endpoint: "{{ lookup('hashi_vault', hashi_certbot_path
-  ~ '/certbot/ovh:dns_ovh_endpoint ' ~ hashi_connect) }}"
+certbot_credential_dns_ovh_endpoint: ''
 ```
 
 ### certbot_custom_become_method
@@ -168,14 +164,6 @@ certbot_home: /opt/certbot
 certbot_main_domain: '{{ certbot_final_name_pattern }}.mythologic.fr'
 ```
 
-### certbot_owner
-
-#### Default value
-
-```YAML
-certbot_owner: certbot
-```
-
 ### certbot_package
 
 #### Default value
@@ -197,11 +185,21 @@ certbot_package:
 certbot_templates:
   - src: certbot.sh.j2
     dest: '{{ certbot_home }}/certbot.sh'
+  - src: certbot_force.sh.j2
+    dest: '{{ certbot_home }}/certbot_force.sh'
   - src: certbot.cred.j2
     dest: '{{ certbot_cred_path }}'
   - src: certbot_eden.sh.j2
     dest: /usr/bin/certbot_eden.sh
     mode: '0770'
+```
+
+### certbot_user
+
+#### Default value
+
+```YAML
+certbot_user: certbot
 ```
 
 

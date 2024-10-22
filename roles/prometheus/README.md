@@ -13,19 +13,20 @@ this role simply install & configure prometheus
   - [prometheus_deb](#prometheus_deb)
   - [prometheus_directories](#prometheus_directories)
   - [prometheus_filesystem_enabled](#prometheus_filesystem_enabled)
-  - [prometheus_filesystem_list](#prometheus_filesystem_list)
   - [prometheus_filesystem_log_size](#prometheus_filesystem_log_size)
+  - [prometheus_filesystem_lvs_mounts](#prometheus_filesystem_lvs_mounts)
   - [prometheus_filesystem_storage_size](#prometheus_filesystem_storage_size)
   - [prometheus_github_url](#prometheus_github_url)
   - [prometheus_gpg_key](#prometheus_gpg_key)
   - [prometheus_group](#prometheus_group)
+  - [prometheus_groups](#prometheus_groups)
   - [prometheus_listen_address](#prometheus_listen_address)
   - [prometheus_log_directory](#prometheus_log_directory)
   - [prometheus_log_filename](#prometheus_log_filename)
   - [prometheus_log_service_filename](#prometheus_log_service_filename)
-  - [prometheus_owner](#prometheus_owner)
   - [prometheus_storage_directory](#prometheus_storage_directory)
   - [prometheus_templates](#prometheus_templates)
+  - [prometheus_user](#prometheus_user)
   - [prometheus_version](#prometheus_version)
   - [prometheus_virtual_group_name](#prometheus_virtual_group_name)
 - [Dependencies](#dependencies)
@@ -101,32 +102,32 @@ prometheus_directories:
 prometheus_filesystem_enabled: false
 ```
 
-### prometheus_filesystem_list
-
-#### Default value
-
-```YAML
-prometheus_filesystem_list:
-  - lv: lv_prometheus_storage
-    vg: '{{ prometheus_virtual_group_name }}'
-    size: '{{ prometheus_filesystem_storage_size }}'
-    path: '{{ prometheus_storage_directory }}'
-    owner: '{{ prometheus_owner }}'
-    group: '{{ prometheus_group }}'
-  - lv: lv_prometheus_log
-    vg: '{{ prometheus_virtual_group_name }}'
-    size: '{{ prometheus_filesystem_log_size}}'
-    path: '{{ prometheus_log_directory }}'
-    owner: '{{ prometheus_owner }}'
-    group: '{{ prometheus_group }}'
-```
-
 ### prometheus_filesystem_log_size
 
 #### Default value
 
 ```YAML
 prometheus_filesystem_log_size: 2G
+```
+
+### prometheus_filesystem_lvs_mounts
+
+#### Default value
+
+```YAML
+prometheus_filesystem_lvs_mounts:
+  - lv: lv_prometheus_storage
+    vg: '{{ prometheus_virtual_group_name }}'
+    size: '{{ prometheus_filesystem_storage_size }}'
+    path: '{{ prometheus_storage_directory }}'
+    owner: '{{ prometheus_user }}'
+    group: '{{ prometheus_group }}'
+  - lv: lv_prometheus_log
+    vg: '{{ prometheus_virtual_group_name }}'
+    size: '{{ prometheus_filesystem_log_size }}'
+    path: '{{ prometheus_log_directory }}'
+    owner: '{{ prometheus_user }}'
+    group: '{{ prometheus_group }}'
 ```
 
 ### prometheus_filesystem_storage_size
@@ -143,7 +144,7 @@ prometheus_filesystem_storage_size: 10g
 
 ```YAML
 prometheus_github_url: https://github.com/prometheus/prometheus/releases/download/v{{
-  prometheus_version}}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz
+  prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz
 ```
 
 ### prometheus_gpg_key
@@ -161,6 +162,14 @@ prometheus_gpg_key:
 
 ```YAML
 prometheus_group: prometheus
+```
+
+### prometheus_groups
+
+#### Default value
+
+```YAML
+prometheus_groups: [certbot]
 ```
 
 ### prometheus_listen_address
@@ -195,14 +204,6 @@ prometheus_log_filename: prometheus.log
 prometheus_log_service_filename: prometheus_service.log
 ```
 
-### prometheus_owner
-
-#### Default value
-
-```YAML
-prometheus_owner: prometheus
-```
-
 ### prometheus_storage_directory
 
 #### Default value
@@ -221,6 +222,14 @@ prometheus_templates:
     dest: '{{ prometheus_config_path }}'
   - src: prometheus.services.j2
     dest: '{{ prometheus_config_directory }}/prometheus.service'
+```
+
+### prometheus_user
+
+#### Default value
+
+```YAML
+prometheus_user: prometheus
 ```
 
 ### prometheus_version
