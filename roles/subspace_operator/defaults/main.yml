@@ -68,3 +68,5 @@ subspace_operator_download_binary_enabled: true
 
 subspace_operator_force_keys_create_enabled: false
 subspace_operator_manage_key_enabled: true
+
+subspace_operator_no_log_enabled: true

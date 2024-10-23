@@ -1,3 +1,1118 @@
-#!/bin/bash
+(venv) moz@ACE-ALPHA:/mnt/c/Users/Moz/PycharmProjects/deploy-mox$ ansible-playbook deploy.yml -i inventory/olympus/hosts -k -K -u moz -v -c paramiko -D --tags subspace_operator -e subspace_operator_force_keys_create_enabled=True
+Using /mnt/c/Users/Moz/PycharmProjects/deploy-mox/ansible.cfg as config file
+SSH password:
+BECOME password[defaults to SSH password]:
+[WARNING]: Collection tocard.utils does not support Ansible version 2.16.10
 
-{{ subspace_operator_binary_name }} domain key create --base-path {{ subspace_operator_node_path }} --domain-id {{ subspace_operator_domain_id }}
+PLAY [localhost] *******************************************************************************************************************************************************************
+[WARNING]: Could not match supplied host pattern, ignoring: hades
+
+PLAY [hades] ***********************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [olympus] *********************************************************************************************************************************************************************
+
+PLAY [certbot] *********************************************************************************************************************************************************************
+
+PLAY [olympus] *********************************************************************************************************************************************************************
+[WARNING]: Could not match supplied host pattern, ignoring: basilisk
+
+PLAY [basilisk] ********************************************************************************************************************************************************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: cerberus
+
+PLAY [cerberus] ********************************************************************************************************************************************************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: mermaid
+
+PLAY [mermaid] *********************************************************************************************************************************************************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: pegasus
+[WARNING]: Could not match supplied host pattern, ignoring: hermes
+
+PLAY [pegasus:hermes] **************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [mermaid] *********************************************************************************************************************************************************************
+skipping: no hosts matched
+[WARNING]: Could not match supplied host pattern, ignoring: hephaestus
+
+PLAY [hephaestus] ******************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [subspace_node:&subspace] *****************************************************************************************************************************************************
+
+PLAY [subspace_controller:&subspace] ***********************************************************************************************************************************************
+
+PLAY [subspace_cache:&subspace] ****************************************************************************************************************************************************
+
+PLAY [subspace_farmer:&subspace] ***************************************************************************************************************************************************
+
+PLAY [subspace_plotter:&subspace] **************************************************************************************************************************************************
+
+PLAY [subspace_operator] ***********************************************************************************************************************************************************
+
+TASK [tocard.utils.user : Group creation] ******************************************************************************************************************************************
+ok: [operator_subspace] => changed=false
+  gid: 1001
+  name: subspace
+  state: present
+  system: false
+
+TASK [tocard.utils.user : User creation] *******************************************************************************************************************************************
+changed: [operator_subspace] => changed=true
+  append: true
+  comment: ''
+  group: 1001
+  groups: ''
+  home: /home/subspace
+  move_home: false
+  name: subspace
+  password: NOT_LOGGING_PASSWORD
+  shell: /bin/bash
+  state: present
+  uid: 1001
+
+TASK [tocard.utils.filesystem : Create mountpoint folder] **************************************************************************************************************************
+ok: [operator_subspace] => (item={'lv': 'lv_subspace_operator_log', 'vg': 'olympus', 'size': '2g', 'path': '/var/log/subspace/subspace_operator', 'owner': 'subspace', 'group': 'subspace'}) => changed=false
+  ansible_loop_var: item
+  gid: 1001
+  group: subspace
+  item:
+    group: subspace
+    lv: lv_subspace_operator_log
+    owner: subspace
+    path: /var/log/subspace/subspace_operator
+    size: 2g
+    vg: olympus
+  mode: '0750'
+  owner: subspace
+  path: /var/log/subspace/subspace_operator
+  size: 26
+  state: directory
+  uid: 1001
+ok: [operator_subspace] => (item={'disk': 'sdb', 'path': '/opt/subspace', 'owner': 'subspace', 'group': 'subspace'}) => changed=false
+  ansible_loop_var: item
+  gid: 1001
+  group: subspace
+  item:
+    disk: sdb
+    group: subspace
+    owner: subspace
+    path: /opt/subspace
+  mode: '0750'
+  owner: subspace
+  path: /opt/subspace
+  size: 18
+  state: directory
+  uid: 1001
+
+TASK [tocard.utils.filesystem : Process lvs filesystem] ****************************************************************************************************************************
+included: /home/moz/.ansible/collections/ansible_collections/tocard/utils/roles/filesystem/tasks/lvs.yml for operator_subspace => (item={'lv': 'lv_subspace_operator_log', 'vg': 'olympus', 'size': '2g', 'path': '/var/log/subspace/subspace_operator', 'owner': 'subspace', 'group': 'subspace'})
+
+TASK [tocard.utils.filesystem : Create Volume Group] *******************************************************************************************************************************
+skipping: [operator_subspace] => changed=false
+  skipped_reason: No items in the list
+
+TASK [tocard.utils.filesystem : Create the logical volume] *************************************************************************************************************************
+ok: [operator_subspace] => changed=false
+  lv: lv_subspace_operator_log
+  size: 2.0
+  vg: olympus
+
+TASK [tocard.utils.filesystem : Extend or format the fs for volume group] **********************************************************************************************************
+ok: [operator_subspace] => changed=false
+  msg: XFS filesystem is using the whole device /dev/olympus/lv_subspace_operator_log
+
+TASK [tocard.utils.filesystem : Mount the fs] **************************************************************************************************************************************
+ok: [operator_subspace] => changed=false
+  backup_file: ''
+  boot: 'yes'
+  dump: '0'
+  fstab: /etc/fstab
+  fstype: xfs
+  name: /var/log/subspace/subspace_operator
+  opts: defaults
+  passno: '0'
+  src: /dev/olympus/lv_subspace_operator_log
+
+TASK [tocard.utils.filesystem : Mount in all namespaces] ***************************************************************************************************************************
+ok: [operator_subspace] => changed=false
+  name: /var/log/subspace/subspace_operator
+  state: started
+  status:
+    ActiveEnterTimestamp: Wed 2024-10-23 20:41:09 UTC
+    ActiveEnterTimestampMonotonic: '4643415'
+    ActiveExitTimestamp: n/a
+    ActiveExitTimestampMonotonic: '0'
+    ActiveState: active
+    After: -.mount "blockdev@dev-mapper-olympus\\x2dlv_subspace_operator_log.target" local-fs-pre.target dev-olympus-lv_subspace_operator_log.device var-log.mount system.slice var.mount "dev-mapper-olympus\\x2dlv_subspace_operator_log.device" blockdev@dev-olympus-lv_subspace_operator_log.target systemd-journald.socket
+    AllowIsolate: 'no'
+    AssertResult: 'yes'
+    AssertTimestamp: Wed 2024-10-23 20:41:09 UTC
+    AssertTimestampMonotonic: '4570462'
+    Before: umount.target local-fs.target
+    BlockIOAccounting: 'no'
+    BlockIOWeight: '[not set]'
+    CPUAccounting: 'yes'
+    CPUAffinityFromNUMA: 'no'
+    CPUQuotaPerSecUSec: infinity
+    CPUQuotaPeriodUSec: infinity
+    CPUSchedulingPolicy: '0'
+    CPUSchedulingPriority: '0'
+    CPUSchedulingResetOnFork: 'no'
+    CPUShares: '[not set]'
+    CPUUsageNSec: '4401000'
+    CPUWeight: '[not set]'
+    CacheDirectoryMode: '0755'
+    CanFreeze: 'no'
+    CanIsolate: 'no'
+    CanReload: 'yes'
+    CanStart: 'yes'
+    CanStop: 'yes'
+    CapabilityBoundingSet: cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_fsetid cap_kill cap_setgid cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service
+cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot cap_sys_n
+ice cap_sys_resource cap_sys_time cap_sys_tty_config cap_mknod cap_lease cap_audit_write cap_audit_control cap_setfcap cap_mac_override cap_mac_admin cap_syslog cap_wake_alarm cap_block_suspend cap_audit_read cap_perfmon cap_bpf cap_checkpoint_restore
+    CollectMode: inactive
+    ConditionResult: 'yes'
+    ConditionTimestamp: Wed 2024-10-23 20:41:09 UTC
+    ConditionTimestampMonotonic: '4570460'
+    ConfigurationDirectoryMode: '0755'
+    Conflicts: umount.target
+    ControlGroup: /system.slice/var-log-subspace-subspace_operator.mount
+    ControlPID: '0'
+    CoredumpFilter: '0x33'
+    DefaultDependencies: 'yes'
+    DefaultMemoryLow: '0'
+    DefaultMemoryMin: '0'
+    Delegate: 'no'
+    Description: /var/log/subspace/subspace_operator
+    DevicePolicy: auto
+    DirectoryMode: '0755'
+    Documentation: '"man:fstab(5)" "man:systemd-fstab-generator(8)"'
+    DynamicUser: 'no'
+    ExecMount: '{ path=/bin/mount ; argv[]=/bin/mount /dev/olympus/lv_subspace_operator_log /var/log/subspace/subspace_operator -t xfs ; ignore_errors=no ; start_time=[Wed 2024-10-23 20:41:09 UTC] ; stop_time=[Wed 2024-10-23 20:41:09 UTC] ; pid=754 ; code=exited ; status=0 }'
+    FailureAction: none
+    FinalKillSignal: '9'
+    ForceUnmount: 'no'
+    FragmentPath: /run/systemd/generator/var-log-subspace-subspace_operator.mount
+    FreezerState: running
+    GID: '[not set]'
+    IOAccounting: 'no'
+    IOReadBytes: '18446744073709551615'
+    IOReadOperations: '18446744073709551615'
+    IOSchedulingClass: '2'
+    IOSchedulingPriority: '4'
+    IOWeight: '[not set]'
+    IOWriteBytes: '18446744073709551615'
+    IOWriteOperations: '18446744073709551615'
+    IPAccounting: 'no'
+    IPEgressBytes: '[no data]'
+    IPEgressPackets: '[no data]'
+    IPIngressBytes: '[no data]'
+    IPIngressPackets: '[no data]'
+    Id: var-log-subspace-subspace_operator.mount
+    IgnoreOnIsolate: 'yes'
+    IgnoreSIGPIPE: 'yes'
+    InactiveEnterTimestamp: n/a
+    InactiveEnterTimestampMonotonic: '0'
+    InactiveExitTimestamp: Wed 2024-10-23 20:41:09 UTC
+    InactiveExitTimestampMonotonic: '4572490'
+    InvocationID: e3cb05b198d748cdb6a2c0aea7c11ba1
+    JobRunningTimeoutUSec: infinity
+    JobTimeoutAction: none
+    JobTimeoutUSec: infinity
+    KeyringMode: shared
+    KillMode: control-group
+    KillSignal: '15'
+    LazyUnmount: 'no'
+    LimitAS: infinity
+    LimitASSoft: infinity
+    LimitCORE: infinity
+    LimitCORESoft: '0'
+    LimitCPU: infinity
+    LimitCPUSoft: infinity
+    LimitDATA: infinity
+    LimitDATASoft: infinity
+    LimitFSIZE: infinity
+    LimitFSIZESoft: infinity
+    LimitLOCKS: infinity
+    LimitLOCKSSoft: infinity
+    LimitMEMLOCK: '65536'
+    LimitMEMLOCKSoft: '65536'
+    LimitMSGQUEUE: '819200'
+    LimitMSGQUEUESoft: '819200'
+    LimitNICE: '0'
+    LimitNICESoft: '0'
+    LimitNOFILE: '524288'
+    LimitNOFILESoft: '1024'
+    LimitNPROC: '3110'
+    LimitNPROCSoft: '3110'
+    LimitRSS: infinity
+    LimitRSSSoft: infinity
+    LimitRTPRIO: '0'
+    LimitRTPRIOSoft: '0'
+    LimitRTTIME: infinity
+    LimitRTTIMESoft: infinity
+    LimitSIGPENDING: '3110'
+    LimitSIGPENDINGSoft: '3110'
+    LimitSTACK: infinity
+    LimitSTACKSoft: '8388608'
+    LoadState: loaded
+    LockPersonality: 'no'
+    LogLevelMax: '-1'
+    LogRateLimitBurst: '0'
+    LogRateLimitIntervalUSec: '0'
+    LogsDirectoryMode: '0755'
+    ManagedOOMMemoryPressure: auto
+    ManagedOOMMemoryPressureLimit: '0'
+    ManagedOOMPreference: none
+    ManagedOOMSwap: auto
+    MemoryAccounting: 'yes'
+    MemoryAvailable: infinity
+    MemoryCurrent: '8192'
+    MemoryDenyWriteExecute: 'no'
+    MemoryHigh: infinity
+    MemoryLimit: infinity
+    MemoryLow: '0'
+    MemoryMax: infinity
+    MemoryMin: '0'
+    MemorySwapMax: infinity
+    MountAPIVFS: 'no'
+    NUMAPolicy: n/a
+    Names: var-log-subspace-subspace_operator.mount
+    NeedDaemonReload: 'no'
+    Nice: '0'
+    NoNewPrivileges: 'no'
+    NonBlocking: 'no'
+    OOMScoreAdjust: '0'
+    OnFailureJobMode: replace
+    OnSuccessJobMode: fail
+    Options: rw,relatime,attr2,inode64,logbufs=8,logbsize=32k,noquota
+    Perpetual: 'no'
+    PrivateDevices: 'no'
+    PrivateIPC: 'no'
+    PrivateMounts: 'no'
+    PrivateNetwork: 'no'
+    PrivateTmp: 'no'
+    PrivateUsers: 'no'
+    ProcSubset: all
+    ProtectClock: 'no'
+    ProtectControlGroups: 'no'
+    ProtectHome: 'no'
+    ProtectHostname: 'no'
+    ProtectKernelLogs: 'no'
+    ProtectKernelModules: 'no'
+    ProtectKernelTunables: 'no'
+    ProtectProc: default
+    ProtectSystem: 'no'
+    ReadWriteOnly: 'no'
+    RefuseManualStart: 'no'
+    RefuseManualStop: 'no'
+    RemoveIPC: 'no'
+    RequiredBy: local-fs.target
+    Requires: dev-olympus-lv_subspace_operator_log.device var-log.mount var.mount -.mount "dev-mapper-olympus\\x2dlv_subspace_operator_log.device" system.slice
+    RequiresMountsFor: /var/log/subspace /dev/olympus/lv_subspace_operator_log
+    RestartKillSignal: '15'
+    RestrictNamespaces: 'no'
+    RestrictRealtime: 'no'
+    RestrictSUIDSGID: 'no'
+    Result: success
+    RuntimeDirectoryMode: '0755'
+    RuntimeDirectoryPreserve: 'no'
+    SameProcessGroup: 'yes'
+    SecureBits: '0'
+    SendSIGHUP: 'no'
+    SendSIGKILL: 'yes'
+    Slice: system.slice
+    SloppyOptions: 'no'
+    SourcePath: /etc/fstab
+    StandardError: inherit
+    StandardInput: 'null'
+    StandardOutput: journal
+    StartLimitAction: none
+    StartLimitBurst: '5'
+    StartLimitIntervalUSec: 10s
+    StartupBlockIOWeight: '[not set]'
+    StartupCPUShares: '[not set]'
+    StartupCPUWeight: '[not set]'
+    StartupIOWeight: '[not set]'
+    StateChangeTimestamp: Wed 2024-10-23 20:41:09 UTC
+    StateChangeTimestampMonotonic: '4643415'
+    StateDirectoryMode: '0755'
+    StopPropagatedFrom: '"dev-mapper-olympus\\x2dlv_subspace_operator_log.device" dev-olympus-lv_subspace_operator_log.device'
+    StopWhenUnneeded: 'no'
+    SubState: mounted
+    SuccessAction: none
+    SyslogFacility: '3'
+    SyslogLevel: '6'
+    SyslogLevelPrefix: 'yes'
+    SyslogPriority: '30'
+    SystemCallErrorNumber: '2147483646'
+    TTYReset: 'no'
+    TTYVHangup: 'no'
+    TTYVTDisallocate: 'no'
+    TasksAccounting: 'yes'
+    TasksCurrent: '0'
+    TasksMax: '933'
+    TimeoutCleanUSec: infinity
+    TimeoutUSec: 1min 30s
+    TimerSlackNSec: '50000'
+    Transient: 'no'
+    Type: xfs
+    UID: '[not set]'
+    UMask: '0022'
+    UnitFilePreset: enabled
+    UnitFileState: generated
+    UtmpMode: init
+    WatchdogSignal: '6'
+    What: /dev/mapper/olympus-lv_subspace_operator_log
+    Where: /var/log/subspace/subspace_operator
+
+TASK [tocard.utils.filesystem : Update mount] **************************************************************************************************************************************
+skipping: [operator_subspace] => changed=false
+  false_condition: _filesystem_fstab_changed is changed or _filesystem_changed is changed
+  skip_reason: Conditional result was False
+
+TASK [tocard.utils.filesystem : Process disk filesystem] ***************************************************************************************************************************
+included: /home/moz/.ansible/collections/ansible_collections/tocard/utils/roles/filesystem/tasks/disk.yml for operator_subspace => (item={'disk': 'sdb', 'path': '/opt/subspace', 'owner': 'subspace', 'group': 'subspace'})
+
+TASK [tocard.utils.filesystem : Extend or format the fs for whole disk] ************************************************************************************************************
+ok: [operator_subspace] => changed=false
+  msg: XFS filesystem is using the whole device /dev/sdb
+
+TASK [tocard.utils.filesystem : Mount disk] ****************************************************************************************************************************************
+ok: [operator_subspace] => changed=false
+  backup_file: ''
+  boot: 'yes'
+  dump: '0'
+  fstab: /etc/fstab
+  fstype: xfs
+  name: /opt/subspace
+  opts: defaults
+  passno: '0'
+  src: /dev/sdb
+
+TASK [tocard.utils.filesystem : Mount in all namespaces] ***************************************************************************************************************************
+ok: [operator_subspace] => changed=false
+  name: /opt/subspace
+  state: started
+  status:
+    ActiveEnterTimestamp: Wed 2024-10-23 20:41:09 UTC
+    ActiveEnterTimestampMonotonic: '4444929'
+    ActiveExitTimestamp: n/a
+    ActiveExitTimestampMonotonic: '0'
+    ActiveState: active
+    After: systemd-journald.socket blockdev@dev-sdb.target dev-sdb.device -.mount local-fs-pre.target system.slice opt.mount
+    AllowIsolate: 'no'
+    AssertResult: 'yes'
+    AssertTimestamp: Wed 2024-10-23 20:41:09 UTC
+    AssertTimestampMonotonic: '4417661'
+    Before: umount.target local-fs.target
+    BlockIOAccounting: 'no'
+    BlockIOWeight: '[not set]'
+    CPUAccounting: 'yes'
+    CPUAffinityFromNUMA: 'no'
+    CPUQuotaPerSecUSec: infinity
+    CPUQuotaPeriodUSec: infinity
+    CPUSchedulingPolicy: '0'
+    CPUSchedulingPriority: '0'
+    CPUSchedulingResetOnFork: 'no'
+    CPUShares: '[not set]'
+    CPUUsageNSec: '3951000'
+    CPUWeight: '[not set]'
+    CacheDirectoryMode: '0755'
+    CanFreeze: 'no'
+    CanIsolate: 'no'
+    CanReload: 'yes'
+    CanStart: 'yes'
+    CanStop: 'yes'
+    CapabilityBoundingSet: cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_fsetid cap_kill cap_setgid cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service
+cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot cap_sys_n
+ice cap_sys_resource cap_sys_time cap_sys_tty_config cap_mknod cap_lease cap_audit_write cap_audit_control cap_setfcap cap_mac_override cap_mac_admin cap_syslog cap_wake_alarm cap_block_suspend cap_audit_read cap_perfmon cap_bpf cap_checkpoint_restore
+    CollectMode: inactive
+    ConditionResult: 'yes'
+    ConditionTimestamp: Wed 2024-10-23 20:41:09 UTC
+    ConditionTimestampMonotonic: '4417660'
+    ConfigurationDirectoryMode: '0755'
+    Conflicts: umount.target
+    ControlGroup: /system.slice/opt-subspace.mount
+    ControlPID: '0'
+    CoredumpFilter: '0x33'
+    DefaultDependencies: 'yes'
+    DefaultMemoryLow: '0'
+    DefaultMemoryMin: '0'
+    Delegate: 'no'
+    Description: /opt/subspace
+    DevicePolicy: auto
+    DirectoryMode: '0755'
+    Documentation: '"man:fstab(5)" "man:systemd-fstab-generator(8)"'
+    DynamicUser: 'no'
+    ExecMount: '{ path=/bin/mount ; argv[]=/bin/mount /dev/sdb /opt/subspace -t xfs ; ignore_errors=no ; start_time=[Wed 2024-10-23 20:41:09 UTC] ; stop_time=[Wed 2024-10-23 20:41:09 UTC] ; pid=734 ; code=exited ; status=0 }'
+    FailureAction: none
+    FinalKillSignal: '9'
+    ForceUnmount: 'no'
+    FragmentPath: /run/systemd/generator/opt-subspace.mount
+    FreezerState: running
+    GID: '[not set]'
+    IOAccounting: 'no'
+    IOReadBytes: '18446744073709551615'
+    IOReadOperations: '18446744073709551615'
+    IOSchedulingClass: '2'
+    IOSchedulingPriority: '4'
+    IOWeight: '[not set]'
+    IOWriteBytes: '18446744073709551615'
+    IOWriteOperations: '18446744073709551615'
+    IPAccounting: 'no'
+    IPEgressBytes: '[no data]'
+    IPEgressPackets: '[no data]'
+    IPIngressBytes: '[no data]'
+    IPIngressPackets: '[no data]'
+    Id: opt-subspace.mount
+    IgnoreOnIsolate: 'yes'
+    IgnoreSIGPIPE: 'yes'
+    InactiveEnterTimestamp: n/a
+    InactiveEnterTimestampMonotonic: '0'
+    InactiveExitTimestamp: Wed 2024-10-23 20:41:09 UTC
+    InactiveExitTimestampMonotonic: '4418639'
+    InvocationID: 9e9cfa0130d44c938c6fbd23379cccdc
+    JobRunningTimeoutUSec: infinity
+    JobTimeoutAction: none
+    JobTimeoutUSec: infinity
+    KeyringMode: shared
+    KillMode: control-group
+    KillSignal: '15'
+    LazyUnmount: 'no'
+    LimitAS: infinity
+    LimitASSoft: infinity
+    LimitCORE: infinity
+    LimitCORESoft: '0'
+    LimitCPU: infinity
+    LimitCPUSoft: infinity
+    LimitDATA: infinity
+    LimitDATASoft: infinity
+    LimitFSIZE: infinity
+    LimitFSIZESoft: infinity
+    LimitLOCKS: infinity
+    LimitLOCKSSoft: infinity
+    LimitMEMLOCK: '65536'
+    LimitMEMLOCKSoft: '65536'
+    LimitMSGQUEUE: '819200'
+    LimitMSGQUEUESoft: '819200'
+    LimitNICE: '0'
+    LimitNICESoft: '0'
+    LimitNOFILE: '524288'
+    LimitNOFILESoft: '1024'
+    LimitNPROC: '3110'
+    LimitNPROCSoft: '3110'
+    LimitRSS: infinity
+    LimitRSSSoft: infinity
+    LimitRTPRIO: '0'
+    LimitRTPRIOSoft: '0'
+    LimitRTTIME: infinity
+    LimitRTTIMESoft: infinity
+    LimitSIGPENDING: '3110'
+    LimitSIGPENDINGSoft: '3110'
+    LimitSTACK: infinity
+    LimitSTACKSoft: '8388608'
+    LoadState: loaded
+    LockPersonality: 'no'
+    LogLevelMax: '-1'
+    LogRateLimitBurst: '0'
+    LogRateLimitIntervalUSec: '0'
+    LogsDirectoryMode: '0755'
+    ManagedOOMMemoryPressure: auto
+    ManagedOOMMemoryPressureLimit: '0'
+    ManagedOOMPreference: none
+    ManagedOOMSwap: auto
+    MemoryAccounting: 'yes'
+    MemoryAvailable: infinity
+    MemoryCurrent: '8192'
+    MemoryDenyWriteExecute: 'no'
+    MemoryHigh: infinity
+    MemoryLimit: infinity
+    MemoryLow: '0'
+    MemoryMax: infinity
+    MemoryMin: '0'
+    MemorySwapMax: infinity
+    MountAPIVFS: 'no'
+    NUMAPolicy: n/a
+    Names: opt-subspace.mount
+    NeedDaemonReload: 'no'
+    Nice: '0'
+    NoNewPrivileges: 'no'
+    NonBlocking: 'no'
+    OOMScoreAdjust: '0'
+    OnFailureJobMode: replace
+    OnSuccessJobMode: fail
+    Options: rw,relatime,attr2,inode64,logbufs=8,logbsize=32k,noquota
+    Perpetual: 'no'
+    PrivateDevices: 'no'
+    PrivateIPC: 'no'
+    PrivateMounts: 'no'
+    PrivateNetwork: 'no'
+    PrivateTmp: 'no'
+    PrivateUsers: 'no'
+    ProcSubset: all
+    ProtectClock: 'no'
+    ProtectControlGroups: 'no'
+    ProtectHome: 'no'
+    ProtectHostname: 'no'
+    ProtectKernelLogs: 'no'
+    ProtectKernelModules: 'no'
+    ProtectKernelTunables: 'no'
+    ProtectProc: default
+    ProtectSystem: 'no'
+    ReadWriteOnly: 'no'
+    RefuseManualStart: 'no'
+    RefuseManualStop: 'no'
+    RemoveIPC: 'no'
+    RequiredBy: local-fs.target
+    Requires: -.mount system.slice dev-sdb.device opt.mount
+    RequiresMountsFor: /dev/sdb /opt
+    RestartKillSignal: '15'
+    RestrictNamespaces: 'no'
+    RestrictRealtime: 'no'
+    RestrictSUIDSGID: 'no'
+    Result: success
+    RuntimeDirectoryMode: '0755'
+    RuntimeDirectoryPreserve: 'no'
+    SameProcessGroup: 'yes'
+    SecureBits: '0'
+    SendSIGHUP: 'no'
+    SendSIGKILL: 'yes'
+    Slice: system.slice
+    SloppyOptions: 'no'
+    SourcePath: /etc/fstab
+    StandardError: inherit
+    StandardInput: 'null'
+    StandardOutput: journal
+    StartLimitAction: none
+    StartLimitBurst: '5'
+    StartLimitIntervalUSec: 10s
+    StartupBlockIOWeight: '[not set]'
+    StartupCPUShares: '[not set]'
+    StartupCPUWeight: '[not set]'
+    StartupIOWeight: '[not set]'
+    StateChangeTimestamp: Wed 2024-10-23 20:41:09 UTC
+    StateChangeTimestampMonotonic: '4444929'
+    StateDirectoryMode: '0755'
+    StopPropagatedFrom: dev-sdb.device
+    StopWhenUnneeded: 'no'
+    SubState: mounted
+    SuccessAction: none
+    SyslogFacility: '3'
+    SyslogLevel: '6'
+    SyslogLevelPrefix: 'yes'
+    SyslogPriority: '30'
+    SystemCallErrorNumber: '2147483646'
+    TTYReset: 'no'
+    TTYVHangup: 'no'
+    TTYVTDisallocate: 'no'
+    TasksAccounting: 'yes'
+    TasksCurrent: '0'
+    TasksMax: '933'
+    TimeoutCleanUSec: infinity
+    TimeoutUSec: 1min 30s
+    TimerSlackNSec: '50000'
+    Transient: 'no'
+    Type: xfs
+    UID: '[not set]'
+    UMask: '0022'
+    UnitFilePreset: enabled
+    UnitFileState: generated
+    UtmpMode: init
+    WatchdogSignal: '6'
+    What: /dev/sdb
+    Where: /opt/subspace
+
+TASK [tocard.utils.filesystem : Update mount] **************************************************************************************************************************************
+skipping: [operator_subspace] => changed=false
+  false_condition: _filesystem_fstab_changed is changed or _filesystem_changed is changed
+  skip_reason: Conditional result was False
+
+TASK [tocard.utils.filesystem : Process nfs filesystem] ****************************************************************************************************************************
+skipping: [operator_subspace] => changed=false
+  skipped_reason: No items in the list
+
+TASK [tocard.utils.filesystem : Ensure right are correctly set] ********************************************************************************************************************
+ok: [operator_subspace] => (item={'lv': 'lv_subspace_operator_log', 'vg': 'olympus', 'size': '2g', 'path': '/var/log/subspace/subspace_operator', 'owner': 'subspace', 'group': 'subspace'}) => changed=false
+  ansible_loop_var: item
+  gid: 1001
+  group: subspace
+  item:
+    group: subspace
+    lv: lv_subspace_operator_log
+    owner: subspace
+    path: /var/log/subspace/subspace_operator
+    size: 2g
+    vg: olympus
+  mode: '0750'
+  owner: subspace
+  path: /var/log/subspace/subspace_operator
+  size: 26
+  state: directory
+  uid: 1001
+ok: [operator_subspace] => (item={'disk': 'sdb', 'path': '/opt/subspace', 'owner': 'subspace', 'group': 'subspace'}) => changed=false
+  ansible_loop_var: item
+  gid: 1001
+  group: subspace
+  item:
+    disk: sdb
+    group: subspace
+    owner: subspace
+    path: /opt/subspace
+  mode: '0750'
+  owner: subspace
+  path: /opt/subspace
+  size: 18
+  state: directory
+  uid: 1001
+
+TASK [tocard.utils.subspace_operator : Install binaries for Subspace Operator] *****************************************************************************************************
+ok: [operator_subspace] => changed=false
+  cache_update_time: 1729565184
+  cache_updated: false
+
+TASK [tocard.utils.subspace_operator : Download Subspace binary] *******************************************************************************************************************
+ok: [operator_subspace] => changed=false
+  checksum_dest: cd85c9d919ae35a8a8903456cbace99d68f1da46
+  checksum_src: cd85c9d919ae35a8a8903456cbace99d68f1da46
+  dest: /usr/bin/subspace
+  elapsed: 1
+  gid: 1001
+  group: subspace
+  md5sum: 0b477032b3f08e5c571d8fcd9050f67c
+  mode: '0750'
+  msg: OK (71508064 bytes)
+  owner: subspace
+  size: 71508064
+  src: /home/moz/.ansible/tmp/ansible-tmp-1729724565.213365-237506-256674544906723/tmpu3p2uqa3
+  state: file
+  status_code: 200
+  uid: 1001
+  url: https://github.com/subspace/subspace/releases/download/gemini-3h-2024-oct-10/subspace-node-ubuntu-x86_64-skylake-gemini-3h-2024-oct-10
+
+TASK [tocard.utils.subspace_operator : Create subspace operator directory] *********************************************************************************************************
+ok: [operator_subspace] => (item={'path': '/opt/subspace'}) => changed=false
+  ansible_loop_var: item
+  gid: 1001
+  group: subspace
+  item:
+    path: /opt/subspace
+  mode: '0750'
+  owner: subspace
+  path: /opt/subspace
+  size: 18
+  state: directory
+  uid: 1001
+ok: [operator_subspace] => (item={'path': '/opt/subspace/node'}) => changed=false
+  ansible_loop_var: item
+  gid: 1001
+  group: subspace
+  item:
+    path: /opt/subspace/node
+  mode: '0750'
+  owner: subspace
+  path: /opt/subspace/node
+  size: 46
+  state: directory
+  uid: 1001
+ok: [operator_subspace] => (item={'path': '/var/log/subspace/subspace_operator'}) => changed=false
+  ansible_loop_var: item
+  gid: 1001
+  group: subspace
+  item:
+    path: /var/log/subspace/subspace_operator
+  mode: '0750'
+  owner: subspace
+  path: /var/log/subspace/subspace_operator
+  size: 26
+  state: directory
+  uid: 1001
+
+TASK [tocard.utils.subspace_operator : Template Subspace Operator file] ************************************************************************************************************
+ok: [operator_subspace] => (item={'src': 'subspace_operator.service.j2', 'dest': '/etc/systemd/system/subspace_operator.service', 'mode': '0640'}) => changed=false
+  ansible_loop_var: item
+  checksum: 973cf17becf0b4276510785362b0239d623402b0
+  dest: /etc/systemd/system/subspace_operator.service
+  gid: 1001
+  group: subspace
+  item:
+    dest: /etc/systemd/system/subspace_operator.service
+    mode: '0640'
+    src: subspace_operator.service.j2
+  mode: '0640'
+  owner: subspace
+  path: /etc/systemd/system/subspace_operator.service
+  size: 780
+  state: file
+  uid: 1001
+ok: [operator_subspace] => (item={'src': 'subspace_operator.j2', 'dest': '/etc/logrotate.d/subspace'}) => changed=false
+  ansible_loop_var: item
+  checksum: 8ce86d59faebe7ed85c912a725e3992f325eabc0
+  dest: /etc/logrotate.d/subspace
+  gid: 1001
+  group: subspace
+  item:
+    dest: /etc/logrotate.d/subspace
+    src: subspace_operator.j2
+  mode: '0640'
+  owner: subspace
+  path: /etc/logrotate.d/subspace
+  size: 182
+  state: file
+  uid: 1001
+--- before: /usr/bin/subspace-key
++++ after: /home/moz/.ansible/tmp/ansible-local-237241t17j0mz7/tmpki0h9pd7/subspace-key.j2
+@@ -1,3 +1,3 @@
+ #!/bin/bash
+
+-subspace domain key delete --base-path /opt/subspace/node --domain-id 1
++subspace domain key create --base-path /opt/subspace/node --domain-id 1
+
+changed: [operator_subspace] => (item={'src': 'subspace-key.j2', 'dest': '/usr/bin/subspace-key', 'mode': '0770'}) => changed=true
+  ansible_loop_var: item
+  checksum: bcef4ff42a1b1f42195c193ed05dd30a02215466
+  dest: /usr/bin/subspace-key
+  gid: 1001
+  group: subspace
+  item:
+    dest: /usr/bin/subspace-key
+    mode: '0770'
+    src: subspace-key.j2
+  md5sum: b310600b03b83cfb28d1f7bebbaa2c2e
+  mode: '0770'
+  owner: subspace
+  size: 85
+  src: /home/moz/.ansible/tmp/ansible-tmp-1729724579.606982-237542-65099930571045/source
+  state: file
+  uid: 1001
+
+TASK [tocard.utils.subspace_operator : Check if key are already created] ***********************************************************************************************************
+ok: [operator_subspace] => changed=false
+  stat:
+    atime: 1729717467.3403707
+    attr_flags: ''
+    attributes: []
+    block_size: 4096
+    blocks: 0
+    charset: unknown
+    ctime: 1729717462.6803167
+    dev: 2064
+    device_type: 0
+    executable: true
+    exists: true
+    gid: 1001
+    gr_name: subspace
+    inode: 268640388
+    isblk: false
+    ischr: false
+    isdir: true
+    isfifo: false
+    isgid: false
+    islnk: false
+    isreg: false
+    issock: false
+    isuid: false
+    mimetype: unknown
+    mode: '0775'
+    mtime: 1729717462.6803167
+    nlink: 2
+    path: /opt/subspace/node/domains/1/keystore
+    pw_name: subspace
+    readable: true
+    rgrp: true
+    roth: true
+    rusr: true
+    size: 166
+    uid: 1001
+    version: '1997626796'
+    wgrp: true
+    woth: false
+    writeable: true
+    wusr: true
+    xgrp: true
+    xoth: true
+    xusr: true
+
+TASK [tocard.utils.subspace_operator : Create keys] ********************************************************************************************************************************
+changed: [operator_subspace] => changed=true
+  cmd:
+  - subspace-key
+  delta: '0:00:00.011423'
+  end: '2024-10-23 23:03:11.853876'
+  msg: ''
+  rc: 0
+  start: '2024-10-23 23:03:11.842453'
+  stderr: ''
+  stderr_lines: <omitted>
+  stdout: |-
+    2024-10-23T23:03:11.852967Z  INFO subspace_node::commands::domain_key: Successfully generated and imported keypair!
+    2024-10-23T23:03:11.853010Z  INFO subspace_node::commands::domain_key: Public key: 0x0427c84213f878184ad54075780962ab1f05d6167cb7a3c3089a5e3784f5b765
+    2024-10-23T23:03:11.853013Z  INFO subspace_node::commands::domain_key: Seed: "token onion cloth average bargain sock define unfold lunar episode feature love"
+    2024-10-23T23:03:11.853015Z  WARN subspace_node::commands::domain_key: ⚠ Make sure to keep ^ seed secure and never share with anyone to avoid loss of funds ⚠
+  stdout_lines: <omitted>
+
+RUNNING HANDLER [tocard.utils.subspace_operator : Restart Subspace Operator] *******************************************************************************************************
+changed: [operator_subspace] => changed=true
+  enabled: true
+  name: subspace_operator
+  state: started
+  status:
+    ActiveEnterTimestamp: Wed 2024-10-23 23:03:10 UTC
+    ActiveEnterTimestampMonotonic: '8524852311'
+    ActiveExitTimestamp: Wed 2024-10-23 23:03:10 UTC
+    ActiveExitTimestampMonotonic: '8524853631'
+    ActiveState: activating
+    After: opt-subspace.mount opt.mount system.slice basic.target network-online.target -.mount sysinit.target
+    AllowIsolate: 'no'
+    AssertResult: 'yes'
+    AssertTimestamp: Wed 2024-10-23 23:03:10 UTC
+    AssertTimestampMonotonic: '8524850416'
+    Before: multi-user.target shutdown.target
+    BlockIOAccounting: 'no'
+    BlockIOWeight: '[not set]'
+    CPUAccounting: 'yes'
+    CPUAffinityFromNUMA: 'no'
+    CPUQuotaPerSecUSec: infinity
+    CPUQuotaPeriodUSec: infinity
+    CPUSchedulingPolicy: '0'
+    CPUSchedulingPriority: '0'
+    CPUSchedulingResetOnFork: 'no'
+    CPUShares: '[not set]'
+    CPUUsageNSec: '1554000'
+    CPUWeight: '[not set]'
+    CacheDirectoryMode: '0755'
+    CanFreeze: 'yes'
+    CanIsolate: 'no'
+    CanReload: 'no'
+    CanStart: 'yes'
+    CanStop: 'yes'
+    CapabilityBoundingSet: cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_fsetid cap_kill cap_setgid cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service
+cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot cap_sys_n
+ice cap_sys_resource cap_sys_time cap_sys_tty_config cap_mknod cap_lease cap_audit_write cap_audit_control cap_setfcap cap_mac_override cap_mac_admin cap_syslog cap_wake_alarm cap_block_suspend cap_audit_read cap_perfmon cap_bpf cap_checkpoint_restore
+    CleanResult: success
+    CollectMode: inactive
+    ConditionResult: 'yes'
+    ConditionTimestamp: Wed 2024-10-23 23:03:10 UTC
+    ConditionTimestampMonotonic: '8524850413'
+    ConfigurationDirectoryMode: '0755'
+    Conflicts: shutdown.target
+    ControlPID: '0'
+    CoredumpFilter: '0x33'
+    DefaultDependencies: 'yes'
+    DefaultMemoryLow: '0'
+    DefaultMemoryMin: '0'
+    Delegate: 'no'
+    Description: '"subspace node"'
+    DevicePolicy: auto
+    DynamicUser: 'no'
+    ExecMainCode: '1'
+    ExecMainExitTimestamp: Wed 2024-10-23 23:03:10 UTC
+    ExecMainExitTimestampMonotonic: '8524853367'
+    ExecMainPID: '8838'
+    ExecMainStartTimestamp: Wed 2024-10-23 23:03:10 UTC
+    ExecMainStartTimestampMonotonic: '8524851902'
+    ExecMainStatus: '200'
+    ExecStart: '{ path=subspace ; argv[]=subspace run --chain gemini-3h --base-path /opt/subspace/node/ --name subspace-operator --blocks-pruning archive --state-pruning archive --
+sync full -- --domain-id 1 --operator-id 143 --listen-on /ip4/0.0.0.0/tcp/40333 --bootstrap-node /dns/bootstrap-0.autoid.gemini-3h.subspace.network/tcp/30334/p2p/12D3KooWFoiz2iTkmnnSqiL2oQRhGzaqgtUjYNz2jyWKQqgPXgx9 ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }'
+    ExecStartEx: '{ path=subspace ; argv[]=subspace run --chain gemini-3h --base-path /opt/subspace/node/ --name subspace-operator --blocks-pruning archive --state-pruning archive
+--sync full -- --domain-id 1 --operator-id 143 --listen-on /ip4/0.0.0.0/tcp/40333 --bootstrap-node /dns/bootstrap-0.autoid.gemini-3h.subspace.network/tcp/30334/p2p/12D3KooWFoiz2iTkmnnSqiL2oQRhGzaqgtUjYNz2jyWKQqgPXgx9 ; flags= ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }'
+    FailureAction: none
+    FileDescriptorStoreMax: '0'
+    FinalKillSignal: '9'
+    FragmentPath: /etc/systemd/system/subspace_operator.service
+    FreezerState: running
+    GID: '[not set]'
+    Group: subspace
+    GuessMainPID: 'yes'
+    IOAccounting: 'no'
+    IOReadBytes: '18446744073709551615'
+    IOReadOperations: '18446744073709551615'
+    IOSchedulingClass: '2'
+    IOSchedulingPriority: '4'
+    IOWeight: '[not set]'
+    IOWriteBytes: '18446744073709551615'
+    IOWriteOperations: '18446744073709551615'
+    IPAccounting: 'no'
+    IPEgressBytes: '[no data]'
+    IPEgressPackets: '[no data]'
+    IPIngressBytes: '[no data]'
+    IPIngressPackets: '[no data]'
+    Id: subspace_operator.service
+    IgnoreOnIsolate: 'no'
+    IgnoreSIGPIPE: 'yes'
+    InactiveEnterTimestamp: Wed 2024-10-23 23:03:10 UTC
+    InactiveEnterTimestampMonotonic: '8524853631'
+    InactiveExitTimestamp: Wed 2024-10-23 23:03:10 UTC
+    InactiveExitTimestampMonotonic: '8524854086'
+    InvocationID: aa153ffef63e4ba6b68d05bdd201cc8a
+    JobRunningTimeoutUSec: infinity
+    JobTimeoutAction: none
+    JobTimeoutUSec: infinity
+    KeyringMode: private
+    KillMode: control-group
+    KillSignal: '15'
+    LimitAS: infinity
+    LimitASSoft: infinity
+    LimitCORE: infinity
+    LimitCORESoft: '0'
+    LimitCPU: infinity
+    LimitCPUSoft: infinity
+    LimitDATA: infinity
+    LimitDATASoft: infinity
+    LimitFSIZE: infinity
+    LimitFSIZESoft: infinity
+    LimitLOCKS: infinity
+    LimitLOCKSSoft: infinity
+    LimitMEMLOCK: '65536'
+    LimitMEMLOCKSoft: '65536'
+    LimitMSGQUEUE: '819200'
+    LimitMSGQUEUESoft: '819200'
+    LimitNICE: '0'
+    LimitNICESoft: '0'
+    LimitNOFILE: '524288'
+    LimitNOFILESoft: '1024'
+    LimitNPROC: '3110'
+    LimitNPROCSoft: '3110'
+    LimitRSS: infinity
+    LimitRSSSoft: infinity
+    LimitRTPRIO: '0'
+    LimitRTPRIOSoft: '0'
+    LimitRTTIME: infinity
+    LimitRTTIMESoft: infinity
+    LimitSIGPENDING: '3110'
+    LimitSIGPENDINGSoft: '3110'
+    LimitSTACK: infinity
+    LimitSTACKSoft: '8388608'
+    LoadState: loaded
+    LockPersonality: 'no'
+    LogLevelMax: '-1'
+    LogRateLimitBurst: '0'
+    LogRateLimitIntervalUSec: '0'
+    LogsDirectoryMode: '0755'
+    MainPID: '0'
+    ManagedOOMMemoryPressure: auto
+    ManagedOOMMemoryPressureLimit: '0'
+    ManagedOOMPreference: none
+    ManagedOOMSwap: auto
+    MemoryAccounting: 'yes'
+    MemoryAvailable: infinity
+    MemoryCurrent: '[not set]'
+    MemoryDenyWriteExecute: 'no'
+    MemoryHigh: infinity
+    MemoryLimit: infinity
+    MemoryLow: '0'
+    MemoryMax: infinity
+    MemoryMin: '0'
+    MemorySwapMax: infinity
+    MountAPIVFS: 'no'
+    NFileDescriptorStore: '0'
+    NRestarts: '1623'
+    NUMAPolicy: n/a
+    Names: subspace_operator.service
+    NeedDaemonReload: 'no'
+    Nice: '0'
+    NoNewPrivileges: 'no'
+    NonBlocking: 'no'
+    NotifyAccess: none
+    OOMPolicy: stop
+    OOMScoreAdjust: '0'
+    OnFailureJobMode: replace
+    OnSuccessJobMode: fail
+    Perpetual: 'no'
+    PrivateDevices: 'no'
+    PrivateIPC: 'no'
+    PrivateMounts: 'no'
+    PrivateNetwork: 'no'
+    PrivateTmp: 'no'
+    PrivateUsers: 'no'
+    ProcSubset: all
+    ProtectClock: 'no'
+    ProtectControlGroups: 'no'
+    ProtectHome: 'no'
+    ProtectHostname: 'no'
+    ProtectKernelLogs: 'no'
+    ProtectKernelModules: 'no'
+    ProtectKernelTunables: 'no'
+    ProtectProc: default
+    ProtectSystem: 'no'
+    RefuseManualStart: 'no'
+    RefuseManualStop: 'no'
+    ReloadResult: success
+    RemainAfterExit: 'no'
+    RemoveIPC: 'no'
+    Requires: system.slice opt.mount -.mount opt-subspace.mount sysinit.target
+    RequiresMountsFor: /opt/subspace
+    Restart: on-failure
+    RestartKillSignal: '15'
+    RestartUSec: 5s
+    RestrictNamespaces: 'no'
+    RestrictRealtime: 'no'
+    RestrictSUIDSGID: 'no'
+    Result: exit-code
+    RootDirectoryStartOnly: 'no'
+    RuntimeDirectoryMode: '0755'
+    RuntimeDirectoryPreserve: 'no'
+    RuntimeMaxUSec: infinity
+    SameProcessGroup: 'no'
+    SecureBits: '0'
+    SendSIGHUP: 'no'
+    SendSIGKILL: 'yes'
+    Slice: system.slice
+    StandardError: append
+    StandardInput: 'null'
+    StandardOutput: append
+    StartLimitAction: none
+    StartLimitBurst: '5'
+    StartLimitIntervalUSec: 10s
+    StartupBlockIOWeight: '[not set]'
+    StartupCPUShares: '[not set]'
+    StartupCPUWeight: '[not set]'
+    StartupIOWeight: '[not set]'
+    StateChangeTimestamp: Wed 2024-10-23 23:03:10 UTC
+    StateChangeTimestampMonotonic: '8524854086'
+    StateDirectoryMode: '0755'
+    StatusErrno: '0'
+    StopWhenUnneeded: 'no'
+    SubState: auto-restart
+    SuccessAction: none
+    SyslogFacility: '3'
+    SyslogLevel: '6'
+    SyslogLevelPrefix: 'yes'
+    SyslogPriority: '30'
+    SystemCallErrorNumber: '2147483646'
+    TTYReset: 'no'
+    TTYVHangup: 'no'
+    TTYVTDisallocate: 'no'
+    TasksAccounting: 'yes'
+    TasksCurrent: '[not set]'
+    TasksMax: '933'
+    TimeoutAbortUSec: 1min 30s
+    TimeoutCleanUSec: infinity
+    TimeoutStartFailureMode: terminate
+    TimeoutStartUSec: 1min 30s
+    TimeoutStopFailureMode: terminate
+    TimeoutStopUSec: 1min 30s
+    TimerSlackNSec: '50000'
+    Transient: 'no'
+    Type: simple
+    UID: '[not set]'
+    UMask: '0022'
+    UnitFilePreset: enabled
+    UnitFileState: enabled
+    User: subspace
+    UtmpMode: init
+    WantedBy: multi-user.target
+    WatchdogSignal: '6'
+    WatchdogTimestamp: n/a
+    WatchdogTimestampMonotonic: '0'
+    WatchdogUSec: '0'
+    WorkingDirectory: /opt/subspace
+
+PLAY [olympus] *********************************************************************************************************************************************************************
+
+PLAY RECAP *************************************************************************************************************************************************************************operator_subspace          : ok=20   changed=4    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0
+
+(venv) moz@ACE-ALPHA:/mnt/c/Users/Moz/PycharmProjects/deploy-mox$

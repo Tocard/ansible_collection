@@ -10,3 +10,4 @@
   become: true
   ansible.builtin.command: subspace-key
   when: _operator_node_keys.stat.exists == False or subspace_operator_force_keys_create_enabled
+  no_log: "{{ subspace_operator_no_log_enabled }}"
