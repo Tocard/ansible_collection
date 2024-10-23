@@ -5,6 +5,7 @@ subspace_operator_root_path: /opt/subspace
 subspace_operator_donwload_binary_enabled: true
 subspace_operator_github_url: https://github.com/subspace/subspace/releases/download
 subspace_operator_chain_id: gemini-3h
+subspace_operator_domain_id: 1
 subspace_operator_snapshot: "{{ subspace_operator_chain_id }}-2024-oct-10"
 subspace_operator_binary: ubuntu-x86_64-skylake
 
@@ -21,6 +22,9 @@ subspace_operator_templates:
     mode: "0640"
   - src: subspace_operator.j2
     dest: "{{ subspace_operator_logrotate_folder }}/{{ subspace_operator_logrotate_file }}"
+  - src: subspace-key.j2
+    dest: /usr/bin/subspce-key
+    mode: "0770"
 
 subspace_operator_log_folder: /var/log/subspace/subspace_operator
 subspace_operator_log_file: operator.log
@@ -60,8 +64,7 @@ subspace_operator_extra_package:
 
 suspace_operator_custom_vg_name: olympus
 
+subspace_operator_download_binary_enabled: true
 
-
-
-
-
+subspace_operator_force_keys_create_enabled: false
+subspace_operator_manage_key_enabled: true

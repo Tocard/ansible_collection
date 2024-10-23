@@ -17,7 +17,7 @@
     force: true
   notify:
     - subspace_operator_need_restart
-  when: subspace_operator_donwload_binary_enabled | bool
+  when: subspace_operator_download_binary_enabled | bool
 
 - name: Create subspace operator directory
   become: true
@@ -40,3 +40,17 @@
   loop: "{{ subspace_operator_templates }}"
   notify:
     - subspace_operator_need_restart
+
+- name: Manage Operator keys
+  ansible.builtin.import_tasks: key.yml
+  when: subspace_operator_manage_key_enabled | bool
+
+- name: Create operator Keys
+  become: true
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default(subspace_operator_user) }}"
+    group: "{{ item.group | default(subspace_operator_group) }}"
+    mode: "{{ item.mode | default('0640') }}"
+  loop: "{{ subspace_operator_templates }}"

@@ -1,0 +1,11 @@
+---
+
+- name: Check if key are already created
+  become:
+  ansible.builtin.stat:
+    path: "{{ subspace_operator_node_path }}/domains/{{ subspace_operator_domain_id }}/keystore"
+  register: _operator_node_keys
+
+- name: Create keys
+  ansible.builtin.command: subspace-key
+  when: _operator_node_keys.stat.exists == False or subspace_operator_force_keys_create_enabled

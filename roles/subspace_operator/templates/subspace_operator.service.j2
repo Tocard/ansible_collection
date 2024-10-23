@@ -15,8 +15,10 @@ ExecStart={{ subspace_operator_binary_name }} run \
     --state-pruning archive \
     --sync full \
     -- \
-    --domain-id 0 \
-    --operator-id 143
+    --domain-id {{ subspace_operator_domain_id }} \
+    --operator-id 143 \
+    --listen-on /ip4/0.0.0.0/tcp/40333 \
+    --bootstrap-node /dns/bootstrap-0.autoid.gemini-3h.subspace.network/tcp/30334/p2p/12D3KooWFoiz2iTkmnnSqiL2oQRhGzaqgtUjYNz2jyWKQqgPXgx9
 
 StandardOutput=append:{{ subspace_operator_log_folder }}/{{ subspace_operator_log_file }}
 StandardError=append:{{ subspace_operator_log_folder }}/{{ subspace_operator_log_file }}
