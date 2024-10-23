@@ -23,7 +23,7 @@ subspace_operator_templates:
   - src: subspace_operator.j2
     dest: "{{ subspace_operator_logrotate_folder }}/{{ subspace_operator_logrotate_file }}"
   - src: subspace-key.j2
-    dest: /usr/bin/subspce-key
+    dest: /usr/bin/subspace-key
     mode: "0770"
 
 subspace_operator_log_folder: /var/log/subspace/subspace_operator
