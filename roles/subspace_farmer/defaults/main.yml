@@ -9,7 +9,7 @@ subspace_farmer_chain_id: mainnet
 subspace_farmer_release_date: 2024-nov-06
 subspace_farmer_snapshot: "{{ subspace_farmer_chain_id }}-{{ subspace_farmer_release_date }}"
 
-subspace_farmer_binary: ubuntu-x86_64-skylake
+subspace_farmer_binary: rocm-ubuntu-x86_64-skylake
 
 
 subspace_farmer_logrotate_folder: /etc/logrotate.d
@@ -21,6 +21,7 @@ subspace_farmer_extra_package:
 suspace_custom_vg_name: olympus
 
 subspace_farmer_binary_url: "{{ subspace_farmer_github_url }}/{{ subspace_farmer_snapshot }}/subspace-farmer-{{ subspace_farmer_binary }}-{{ subspace_farmer_snapshot }}"
+
 subspace_farmer_binary_path: "/usr/bin/{{ subspace_farmer_binary_name }}"
 
 

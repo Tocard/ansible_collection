@@ -6,7 +6,19 @@
     name: "{{ subspace_farmer_extra_package }}"
     state: present
 
-- name: Download Subspace Controller binary
+- name: Download Subspace binary
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ subspace_farmer_binary_url }}"
+    dest: "{{ subspace_farmer_binary_path }}"
+    owner: "{{ subspace_farmer_user }}"
+    group: "{{ subspace_farmer_group }}"
+    force: true
+    mode: '0750'
+  notify:
+    - subspace_farmer_need_restart
+
+- name: Download Subspace rocm binary
   become: true
   ansible.builtin.get_url:
     url: "{{ subspace_farmer_binary_url }}"
