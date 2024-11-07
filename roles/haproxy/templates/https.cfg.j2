@@ -9,7 +9,7 @@ frontend https
     acl rest_nexus_acl path_beg /service/rest/repository/browse
     acl grafana_acl path_beg /grafana
     acl kibana_acl path_beg /kibana
-
+    acl arcture_acl hdr(host) -i arcture.eu www.arcture.eu
 
     use_backend backend_kibana if kibana_acl
 
@@ -17,6 +17,7 @@ frontend https
     use_backend backend_nexus if nexus_acl
     use_backend backend_rest_nexus if rest_nexus_acl
     use_backend backend_grafana if grafana_acl
+    use_backend backend_arcture if arcture_acl
 
 backend backend_nexus
     mode http
@@ -58,3 +59,14 @@ backend backend_kibana
 
     server mermaid-alpha mermaid-alpha.mythologic.fr:5601
 
+backend backend_arcture
+    mode http
+    http-request set-header X-Forwarded-Proto https if { ssl_fc }
+    http-request set-header X-Forwarded-Proto https if !{ ssl_fc }
+    http-request set-header X-Forwarded-Host arcture.eu
+    http-request set-header Host arcture.eu
+    option forwardfor
+    timeout server 30s  # Increase server timeout
+
+
+    server wordpress1 zaza.mythologic.fr:80 check
