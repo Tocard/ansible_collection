@@ -74,7 +74,7 @@ subspace_binary: ubuntu-x86_64-skylake
 #### Default value
 
 ```YAML
-subspace_chain_id: gemini-3h
+subspace_chain_id: mainnet
 ```
 
 ### subspace_custom_become_method
@@ -420,7 +420,7 @@ subspace_operator_templates:
 #### Default value
 
 ```YAML
-subspace_snapshot: '{{ subspace_chain_id }}-2024-oct-10'
+subspace_snapshot: '{{ subspace_chain_id }}-2024-nov-06'
 ```
 
 ### subspace_user

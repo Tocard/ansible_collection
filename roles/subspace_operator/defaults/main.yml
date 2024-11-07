@@ -4,9 +4,9 @@ subspace_operator_root_path: /opt/subspace
 
 subspace_operator_donwload_binary_enabled: true
 subspace_operator_github_url: https://github.com/subspace/subspace/releases/download
-subspace_operator_chain_id: gemini-3h
+subspace_operator_chain_id: mainnet
 subspace_operator_domain_id: 1
-subspace_operator_snapshot: "{{ subspace_operator_chain_id }}-2024-oct-10"
+subspace_operator_snapshot: "{{ subspace_operator_chain_id }}-2024-nov-06"
 subspace_operator_binary: ubuntu-x86_64-skylake
 
 

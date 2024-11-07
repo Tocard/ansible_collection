@@ -81,7 +81,7 @@ subspace_node_binary_url: '{{ subspace_node_github_url }}/{{ subspace_node_snaps
 #### Default value
 
 ```YAML
-subspace_node_chain_id: gemini-3h
+subspace_node_chain_id: mainnet
 ```
 
 ### subspace_node_directories
@@ -230,7 +230,7 @@ subspace_node_prometheus_port: 9615
 #### Default value
 
 ```YAML
-subspace_node_snapshot: '{{ subspace_node_chain_id }}-2024-oct-10'
+subspace_node_snapshot: '{{ subspace_node_chain_id }}-2024-nov-06'
 ```
 
 ### subspace_node_templates

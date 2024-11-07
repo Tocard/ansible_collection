@@ -80,7 +80,7 @@ subspace_controller_binary_url: '{{ subspace_controller_github_url }}/{{ subspac
 #### Default value
 
 ```YAML
-subspace_controller_chain_id: gemini-3h
+subspace_controller_chain_id: mainnet
 ```
 
 ### subspace_controller_directories
@@ -201,7 +201,7 @@ subspace_controller_node_rpc_url: ws://127.0.0.1:9944
 #### Default value
 
 ```YAML
-subspace_controller_release_date: 2024-oct-10
+subspace_controller_release_date: 2024-nov-06
 ```
 
 ### subspace_controller_snapshot

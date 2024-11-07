@@ -79,7 +79,7 @@ subspace_plotter_binary_url: '{{ subspace_plotter_github_url }}/{{ subspace_plot
 #### Default value
 
 ```YAML
-subspace_plotter_chain_id: gemini-3h
+subspace_plotter_chain_id: mainnet
 ```
 
 ### subspace_plotter_directories
@@ -200,7 +200,7 @@ subspace_plotter_node_rpc_url: ws://127.0.0.1:9944
 #### Default value
 
 ```YAML
-subspace_plotter_release_date: 2024-oct-10
+subspace_plotter_release_date: 2024-nov-06
 ```
 
 ### subspace_plotter_snapshot

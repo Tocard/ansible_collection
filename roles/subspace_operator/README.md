@@ -82,7 +82,7 @@ subspace_operator_binary_url: '{{ subspace_operator_github_url }}/{{ subspace_op
 #### Default value
 
 ```YAML
-subspace_operator_chain_id: gemini-3h
+subspace_operator_chain_id: mainnet
 ```
 
 ### subspace_operator_directories
@@ -240,7 +240,7 @@ subspace_operator_root_path: /opt/subspace
 #### Default value
 
 ```YAML
-subspace_operator_snapshot: '{{ subspace_operator_chain_id }}-2024-oct-10'
+subspace_operator_snapshot: '{{ subspace_operator_chain_id }}-2024-nov-06'
 ```
 
 ### subspace_operator_templates
