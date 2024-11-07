@@ -9,7 +9,7 @@ subspace_controller_chain_id: mainnet
 subspace_controller_release_date: 2024-nov-06
 subspace_controller_snapshot: "{{ subspace_controller_chain_id }}-{{ subspace_controller_release_date }}"
 
-subspace_controller_binary: ubuntu-x86_64-skylake
+subspace_controller_binary: rocm-ubuntu-x86_64-skylake
 
 
 subspace_controller_logrotate_folder: /etc/logrotate.d

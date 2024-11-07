@@ -11,7 +11,6 @@ subspace_node_snapshot: "{{ subspace_node_chain_id }}-2024-nov-06"
 
 
 subspace_node_binary: ubuntu-x86_64-skylake
-# subspace_binary: subspace-farmer-ubuntu-x86_64-v2
 
 subspace_node_logrotate_folder: /etc/logrotate.d
 
