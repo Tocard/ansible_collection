@@ -54,7 +54,9 @@ subspace_cache_filesystem_lvs_mounts:
     group: "{{ subspace_cache_group }}"
 
 subspace_cache_node_rpc_url: ws://127.0.0.1:9944
-subspace_cache_nats_ip: nats://127.0.0.1:4222
+subspace_cache_nats_server:
+ - nats://127.0.0.1:4222
+
 subspace_cache_size: 200G
 
 subspace_cache_disk_to_use: sdc

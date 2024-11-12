@@ -10,8 +10,9 @@ User={{ subspace_cache_user }}
 Group={{ subspace_cache_group }}
 WorkingDirectory={{ subspace_cache_directory }}/
 ExecStart={{ subspace_cache_binary_name }} cluster \
-        --nats-server {{ subspace_cache_nats_ip }} \
+        {% for subspace_cache_nats_server %} --nats-server {{ item }} {% endfor %} \
         cache \
+        --cache-group "{{ ansible_hostname }}" \
         path={{ subspace_cache_directory }},size={{ subspace_cache_size }}
 
 

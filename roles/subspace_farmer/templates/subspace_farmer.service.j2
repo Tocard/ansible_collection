@@ -9,7 +9,7 @@ User={{ subspace_farmer_user }}
 Group={{ subspace_farmer_group }}
 WorkingDirectory={{ subspace_farmer_install_path }}/
 ExecStart={{ subspace_farmer_binary_name }} cluster \
-        --nats-server {{ subspace_farmer_nats_ip }} \
+        {% for subspace_farmer_nats_server %} --nats-server {{ item }} {% endfor %} \
          farmer \
         {% for disk_info in subspace_farmer_disks %}path={{ disk_info.path }},size={{ disk_info.size }} \
         {% endfor -%}

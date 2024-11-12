@@ -9,8 +9,9 @@ User={{ subspace_controller_user }}
 Group={{ subspace_controller_group }}
 WorkingDirectory={{ subspace_controller_install_path }}/
 ExecStart={{ subspace_controller_binary_name }} cluster \
-        --nats-server {{ subspace_controller_nats_ip }} \
+        {% for subspace_controller_nats_server %} --nats-server {{ item }} {% endfor %} \
          controller \
+        --cache-group "{{ ansible_hostname }}" \
         --base-path {{ subspace_controller_install_path }} \
         --node-rpc-url {{ subspace_controller_node_rpc_url }}
 

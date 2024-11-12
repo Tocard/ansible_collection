@@ -54,4 +54,6 @@ subspace_plotter_filesystem_lvs_mounts:
     group: "{{ subspace_plotter_group }}"
 
 subspace_plotter_node_rpc_url: ws://127.0.0.1:9944
-subspace_plotter_nats_ip: nats://127.0.0.1:4222
+
+subspace_plotter_nats_server:
+ - nats://127.0.0.1:4222
