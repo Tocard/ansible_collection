@@ -221,7 +221,7 @@ subspace_farmer_node_rpc_url: ws://127.0.0.1:9944
 #### Default value
 
 ```YAML
-subspace_farmer_release_date: 2024-nov-06
+subspace_farmer_release_date: 2024-nov-13
 ```
 
 ### subspace_farmer_reward_adress

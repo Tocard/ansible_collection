@@ -201,7 +201,7 @@ subspace_controller_node_rpc_url: ws://127.0.0.1:9944
 #### Default value
 
 ```YAML
-subspace_controller_release_date: 2024-nov-06
+subspace_controller_release_date: 2024-nov-13
 ```
 
 ### subspace_controller_snapshot

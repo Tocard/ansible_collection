@@ -420,7 +420,7 @@ subspace_operator_templates:
 #### Default value
 
 ```YAML
-subspace_snapshot: '{{ subspace_chain_id }}-2024-nov-06'
+subspace_snapshot: '{{ subspace_chain_id }}-2024-nov-13'
 ```
 
 ### subspace_user
