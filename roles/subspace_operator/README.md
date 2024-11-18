@@ -240,7 +240,7 @@ subspace_operator_root_path: /opt/subspace
 #### Default value
 
 ```YAML
-subspace_operator_snapshot: '{{ subspace_operator_chain_id }}-2024-nov-13'
+subspace_operator_snapshot: '{{ subspace_operator_chain_id }}-2024-nov-18'
 ```
 
 ### subspace_operator_templates
