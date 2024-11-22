@@ -56,7 +56,7 @@ class HVAC:
             if not self.client.is_authenticated():
                 display.warning('client is not authenticated')
         except VaultError as e:
-            raise AnsibleError('Unable to init hvac client for address {}', os.getenv('VAULT_URL'), e)
+            raise AnsibleError('Unable to init hvac client for address {} {}', os.getenv('VAULT_URL'), e)
 
     def read_path(self, mount_point: str, path: str) -> dict:
         try:
