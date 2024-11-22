@@ -21,7 +21,7 @@ bump2version patch --verbose
 VERSION=$(cat marker)
 
 # Build and publish Ansible Galaxy Collection
-ansible-galaxy collection build . --force --output-path  ${BUILD_PATH} --timeout 0 --verbose
+ansible-galaxy collection build . --force --output-path  ${BUILD_PATH} --verbose
 ansible-galaxy collection publish "${BUILD_PATH}/tocard-utils-${VERSION}.tar.gz" --token "${TOKEN}"
 
 # Create tag and push to Git
