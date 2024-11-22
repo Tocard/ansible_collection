@@ -9,7 +9,7 @@ subspace_farmer_chain_id: mainnet
 subspace_farmer_release_date: 2024-nov-18
 subspace_farmer_snapshot: "{{ subspace_farmer_chain_id }}-{{ subspace_farmer_release_date }}"
 
-subspace_farmer_binary: rocm-ubuntu-x86_64-skylake
+subspace_farmer_binary: ubuntu-x86_64-skylake
 
 
 subspace_farmer_logrotate_folder: /etc/logrotate.d
