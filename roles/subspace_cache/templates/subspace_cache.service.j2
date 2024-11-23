@@ -10,6 +10,7 @@ User={{ subspace_cache_user }}
 Group={{ subspace_cache_group }}
 WorkingDirectory={{ subspace_cache_directory }}/
 ExecStart={{ subspace_cache_binary_name }} cluster \
+        --prometheus-listen-on 0.0.0.0:8080 \
         {% for item in subspace_cache_nats_server %} --nats-server {{ item }} {% endfor %} \
         cache \
         --cache-group "{{ ansible_hostname }}" \
