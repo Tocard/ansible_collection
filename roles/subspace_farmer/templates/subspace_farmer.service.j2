@@ -10,6 +10,7 @@ Group={{ subspace_farmer_group }}
 WorkingDirectory={{ subspace_farmer_install_path }}/
 ExecStart={{ subspace_farmer_binary_name }} cluster \
         {% for item in subspace_farmer_nats_server %} --nats-server {{ item }} {% endfor %} \
+        -prometheus-listen-on 0.0.0.0:8080
          farmer \
         {% for disk_info in subspace_farmer_disks %}path={{ disk_info.path }},size={{ disk_info.size }} \
         {% endfor -%}

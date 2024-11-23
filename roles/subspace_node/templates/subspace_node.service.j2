@@ -20,6 +20,7 @@ ExecStart={{ subspace_node_binary_name }} run \
     --dsn-listen-on /ip4/0.0.0.0/udp/{{ subspace_node_dsn_port }}/quic-v1 \
     --dsn-listen-on /ip4/0.0.0.0/tcp/{{ subspace_node_dsn_port }} \
     --prometheus-listen-on 0.0.0.0:9080 \
+    --rpc-listen-on 0.0.0.0:9944 \
     --sync full
 
 StandardOutput=append:{{ subspace_node_log_folder }}/{{ subspace_node_log_file }}
