@@ -10,8 +10,6 @@ WorkingDirectory={{ subspace_node_install_path }}/
 ExecStart={{ subspace_node_binary_name }} run \
     --farmer \
     --chain {{ subspace_node_chain_id }} \
-    --timekeeper \
-    --timekeeper-cpu-cores 0-10 \
     --name {{ ansible_hostname }} \
     --base-path {{ subspace_node_install_path }}/ \
     --blocks-pruning archive \
@@ -20,7 +18,6 @@ ExecStart={{ subspace_node_binary_name }} run \
     --dsn-listen-on /ip4/0.0.0.0/udp/{{ subspace_node_dsn_port }}/quic-v1 \
     --dsn-listen-on /ip4/0.0.0.0/tcp/{{ subspace_node_dsn_port }} \
     --prometheus-listen-on 0.0.0.0:9080 \
-    --rpc-listen-on 0.0.0.0:9944 \
     --sync full
 
 StandardOutput=append:{{ subspace_node_log_folder }}/{{ subspace_node_log_file }}
