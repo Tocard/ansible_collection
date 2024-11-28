@@ -11,7 +11,7 @@
   ansible.builtin.debug:
     msg: "{{ subspace_farmer_ansible_mounts.ansible_facts.ansible_mounts }}"
 
-- name: Install os binaries requiered by Subspace controller
+- name: Install os binaries requiered by Subspace farmer
   become: true
   ansible.builtin.package:
     name: "{{ subspace_farmer_extra_package }}"
@@ -29,7 +29,7 @@
   notify:
     - subspace_farmer_need_restart
 
-- name: Create subspace controller directory
+- name: Create subspace farmer directory
   become: true
   ansible.builtin.file:
     path: "{{ item.path }}"
@@ -39,7 +39,7 @@
     state: "{{ item.state | default('directory') }}"
   loop: "{{ subspace_farmer_directories }}"
 
-- name: Template Subspace Controller file
+- name: Template Subspace farmer file
   become: true
   ansible.builtin.template:
     src: "{{ item.src }}"
