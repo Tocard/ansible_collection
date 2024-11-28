@@ -1,4 +1,3 @@
-
 [Unit]
 Description="subspace farmer"
 Requires=network-online.target
@@ -9,13 +8,13 @@ User={{ subspace_farmer_user }}
 Group={{ subspace_farmer_group }}
 WorkingDirectory={{ subspace_farmer_install_path }}/
 ExecStart={{ subspace_farmer_binary_name }} cluster \
-        {% for item in subspace_farmer_nats_server %} --nats-server {{ item }} {% endfor %} \
-        --prometheus-listen-on 0.0.0.0:8080 \
-         farmer \
-        {% for disk_info in subspace_farmer_disks %}path={{ disk_info.path }},size={{ disk_info.size }} \
-        {% endfor -%}
-        --reward-address {{ subspace_farmer_reward_adress }}
-
+    {% for item in subspace_farmer_nats_server %} --nats-server {{ item }} {% endfor %} \
+    --prometheus-listen-on {{ subspace_farmer_prometheus_address }} \
+    farmer \
+    {% for disk_info in subspace_farmer_ansible_mounts if disk_info.mount in (subspace_farmer_filesystem_disk | map(attribute='disk')) %}
+    path={{ disk_info.mount }},size={{ disk_info.size_total - (2 * 1024**3) }} \
+    {% endfor %}
+    --reward-address "{{ subspace_farmer_reward_adress }}"
 
 StandardOutput=append:{{ subspace_farmer_log_folder }}/{{ subspace_farmer_log_file }}
 StandardError=append:{{ subspace_farmer_log_folder }}/{{ subspace_farmer_log_file }}

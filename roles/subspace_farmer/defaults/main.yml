@@ -63,6 +63,4 @@ subspace_farmer_node_rpc_url: ws://127.0.0.1:9944
 subspace_farmer_nats_server:
  - nats://127.0.0.1:4222
 
-subspace_farmer_disks:
-  - path: /random/path
-    size: 1G
+subspace_farmer_prometheus_address: http://0.0.0.0:8080

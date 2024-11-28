@@ -66,3 +66,5 @@ subspace_cache_filesystem_disk_mounts:
     path: "{{ subspace_cache_directory }}"
     owner: "{{ subspace_cache_user }}"
     group: "{{ subspace_cache_group }}"
+
+subspace_cache_prometheus_address: http://0.0.0.0:8082
