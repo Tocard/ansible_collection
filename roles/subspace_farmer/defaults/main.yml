@@ -64,4 +64,4 @@ subspace_farmer_nats_server:
  - nats://127.0.0.1:4222
 
 subspace_farmer_prometheus_address: 0.0.0.0:8080
-subspace_farmer_save_go: 10
+subspace_farmer_save_go: 2

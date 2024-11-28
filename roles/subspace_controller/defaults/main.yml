@@ -59,3 +59,5 @@ subspace_controller_nats_server:
  - nats://127.0.0.1:4222
 
 subspace_controller_prometheus_address: 0.0.0.0:8081
+subspace_controller_port: 30533
+subspace_controler_listen_on_addr: "/ip4/0.0.0.0/tcp/{{ subspace_controller_port }}"

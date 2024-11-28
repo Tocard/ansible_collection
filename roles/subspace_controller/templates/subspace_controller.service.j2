@@ -10,6 +10,7 @@ Group={{ subspace_controller_group }}
 WorkingDirectory={{ subspace_controller_install_path }}/
 ExecStart={{ subspace_controller_binary_name }} cluster \
         --prometheus-listen-on {{ subspace_controller_prometheus_address }} \
+        --listen-on {{ subspace_controler_listen_on_addr }}
         {% for item in subspace_controller_nats_server %} --nats-server {{ item }} {% endfor %} \
          controller \
         --cache-group "{{ ansible_hostname }}" \
