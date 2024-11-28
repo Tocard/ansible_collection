@@ -10,12 +10,13 @@ Group={{ subspace_controller_group }}
 WorkingDirectory={{ subspace_controller_install_path }}/
 ExecStart={{ subspace_controller_binary_name }} cluster \
         --prometheus-listen-on {{ subspace_controller_prometheus_address }} \
-        --listen-on {{ subspace_controler_listen_on_addr }}
         {% for item in subspace_controller_nats_server %} --nats-server {{ item }} {% endfor %} \
          controller \
         --cache-group "{{ ansible_hostname }}" \
         --base-path {{ subspace_controller_install_path }} \
-        --node-rpc-url {{ subspace_controller_node_rpc_url }}
+        --node-rpc-url {{ subspace_controller_node_rpc_url }} \
+        --listen-on {{ subspace_controler_listen_on_addr }}
+
 
 
 StandardOutput=append:{{ subspace_controller_log_folder }}/{{ subspace_controller_log_file }}
