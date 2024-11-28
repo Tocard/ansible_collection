@@ -5,9 +5,17 @@
     filter: ansible_mounts
   register: subspace_farmer_ansible_mounts
 
-- name: Show registered disk info
+- name: Show filtered disk info
   ansible.builtin.debug:
-    var: subspace_farmer_ansible_mounts.ansible_facts.ansible_mounts
+    var: filtered_disks
+  vars:
+    filtered_disks: >-
+      {{
+        subspace_farmer_ansible_mounts.ansible_facts.ansible_mounts
+        | selectattr('device', 'in', subspace_farmer_filesystem_disk | map(attribute='disk') | list)
+        | list
+      }}
+
 
 - name: Install os binaries requiered by Subspace controller
   become: true
