@@ -1,21 +1,32 @@
 ---
 
 - name: Gather facts about disks
+  become: true
   ansible.builtin.setup:
     filter: ansible_mounts
   register: subspace_farmer_ansible_mounts
 
+- name: Display disk harvested
+  become: true
+  ansible.builtin.debug:
+    msg: "{{ subspace_farmer_ansible_mounts }}"
+
 - name: Show filtered disk info
+  become: true
   ansible.builtin.debug:
     var: filtered_disks
   vars:
-    filtered_disks: >-
+    subspace_farmer_filtered_disks: >-
       {{
         subspace_farmer_ansible_mounts.ansible_facts.ansible_mounts
         | selectattr('device', 'in', subspace_farmer_filesystem_disk | map(attribute='disk') | list)
         | list
       }}
 
+- name: Display disk filtered
+  become: true
+  ansible.builtin.debug:
+    msg: "{{ subspace_farmer_filtered_disks }}"
 
 - name: Install os binaries requiered by Subspace controller
   become: true
