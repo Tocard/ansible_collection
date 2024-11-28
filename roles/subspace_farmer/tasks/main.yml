@@ -3,10 +3,11 @@
 - name: Gather facts about disks
   ansible.builtin.setup:
     filter: ansible_mounts
+  register: subspace_farmer_ansible_mounts
 
-- name: Show disk info
+- name: Show registered disk info
   ansible.builtin.debug:
-    var: subspace_farmer_ansible_mounts
+    var: subspace_farmer_ansible_mounts.ansible_facts.ansible_mounts
 
 - name: Install os binaries requiered by Subspace controller
   become: true
