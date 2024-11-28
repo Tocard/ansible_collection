@@ -14,7 +14,7 @@ ExecStart={{ subspace_farmer_binary_name }} cluster \
 {% for disk_info in subspace_farmer_ansible_mounts.ansible_facts.ansible_mounts -%}
 {%- for item in subspace_farmer_filesystem_disk -%}
 {% if  '/dev/' ~ item["disk"] == disk_info['device'] -%}
-      path={{ disk_info.mount }},size={{ disk_info.size_total - ({{ subspace_farmer_save_go }} * 1024**3) }} \
+      path={{ disk_info.mount }},size={{ disk_info.size_total }} - ({{ subspace_farmer_save_go }} * 1024**3) }} \
 {% endif -%}
     {%- endfor -%}
     {% endfor -%}
