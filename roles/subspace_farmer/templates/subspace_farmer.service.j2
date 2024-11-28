@@ -11,9 +11,9 @@ ExecStart={{ subspace_farmer_binary_name }} cluster \
     {% for item in subspace_farmer_nats_server %} --nats-server {{ item }} {% endfor %} \
     --prometheus-listen-on {{ subspace_farmer_prometheus_address }} \
     farmer \
-    {% for disk_info in subspace_farmer_ansible_mounts.ansible_facts.ansible_mounts %}
-    {% for item in subspace_farmer_filesystem_disk %}
-    {% if disk_info.device == item.disk %}
+    {% for disk_info in subspace_farmer_ansible_mounts.ansible_facts.ansible_mounts -%}
+    {% for item in subspace_farmer_filesystem_disk -%}
+    {% if disk_info.device == '/dev' ~ item.disk -%}
     path={{ disk_info.mount }},size={{ disk_info.size_total - (2 * 1024**3) }} \
     {% endif %}
     {% endfor %}
