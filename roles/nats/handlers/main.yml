@@ -1,5 +1,7 @@
 ---
 - name: restart nats
+  become: true
+  throttle: 1
   ansible.builtin.systemd:
     name: nats
     state: restarted
