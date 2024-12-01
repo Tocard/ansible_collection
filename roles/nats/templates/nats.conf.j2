@@ -15,7 +15,7 @@ cluster {
   port: 6222
 
   # The URL for other servers to connect to this server
-  listen: "nats://{{ ansible_host }}:6222"
+  listen: "{{ ansible_host }}:6222"
 
   # Routes to other cluster members
   routes: [
