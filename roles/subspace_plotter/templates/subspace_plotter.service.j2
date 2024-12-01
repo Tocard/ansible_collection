@@ -13,6 +13,9 @@ ExecStart={{ subspace_plotter_binary_name }} cluster \
         --prometheus-listen-on 0.0.0.0:8080 \
         {% for item in subspace_plotter_nats_server %} --nats-server {{ item }} {% endfor %} \
         plotter \
+        {% if subspace_plotter_gpu_enabled | default(False) %}
+         --cuda-sector-downloading-concurrency {{ subspace_plotter_cuda_sector | default(12) }}
+        {% endif %}
 
 StandardOutput=append:{{ subspace_plotter_log_folder }}/{{ subspace_plotter_log_file }}
 StandardError=append:{{ subspace_plotter_log_folder }}/{{ subspace_plotter_log_file }}

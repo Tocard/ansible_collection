@@ -6,7 +6,7 @@ subspace_operator_donwload_binary_enabled: true
 subspace_operator_github_url: https://github.com/subspace/subspace/releases/download
 subspace_operator_chain_id: mainnet
 subspace_operator_domain_id: 1
-subspace_operator_snapshot: "{{ subspace_operator_chain_id }}-2024-nov-27"
+subspace_operator_snapshot: "{{ subspace_operator_chain_id }}-2024-nov-28"
 subspace_operator_binary: ubuntu-x86_64-skylake
 
 
