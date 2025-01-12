@@ -200,7 +200,7 @@ subspace_plotter_node_rpc_url: ws://127.0.0.1:9944
 #### Default value
 
 ```YAML
-subspace_plotter_release_date: 2024-nov-28
+subspace_plotter_release_date: 2025-jan-03
 ```
 
 ### subspace_plotter_snapshot

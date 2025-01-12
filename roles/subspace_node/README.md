@@ -230,7 +230,7 @@ subspace_node_prometheus_port: 9615
 #### Default value
 
 ```YAML
-subspace_node_snapshot: '{{ subspace_node_chain_id }}-2024-nov-28'
+subspace_node_snapshot: '{{ subspace_node_chain_id }}-2025-jan-03'
 ```
 
 ### subspace_node_templates

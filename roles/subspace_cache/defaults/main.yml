@@ -6,7 +6,7 @@ subspace_cache_group: subspace_cache
 subspace_cache_directory: /opt/subspace_cache
 subspace_cache_github_url: https://github.com/subspace/subspace/releases/download
 subspace_cache_chain_id: mainnet
-subspace_cache_release_date: 2024-nov-28
+subspace_cache_release_date: 2025-jan-03
 subspace_cache_snapshot: "{{ subspace_cache_chain_id }}-{{ subspace_cache_release_date }}"
 
 #subspace_cache_binary: rocm-ubuntu-x86_64-skylake
