@@ -7,7 +7,7 @@ subspace_node_donwload_binary: true
 
 subspace_node_github_url: https://github.com/subspace/subspace/releases/download
 subspace_node_chain_id: mainnet
-subspace_node_snapshot: "{{ subspace_node_chain_id }}-2025-jan-03"
+subspace_node_snapshot: "{{ subspace_node_chain_id }}-2025-jan-14"
 
 
 subspace_node_binary: ubuntu-x86_64-skylake
@@ -62,3 +62,6 @@ subspace_node_prometheus_port: 9615
 
 subspace_node_p2p_port: 30333
 subspace_node_dsn_port: 30433
+
+subspace_node_rpc_liston_on: 0.0.0.0:9944
+subspace_node_rpc_cors: all
