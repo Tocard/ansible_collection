@@ -19,7 +19,7 @@ ExecStart={{ subspace_node_binary_name }} run \
     --dsn-listen-on /ip4/0.0.0.0/tcp/{{ subspace_node_dsn_port }} \
     --prometheus-listen-on 0.0.0.0:9080 \
     --rpc-listen-on {{ subspace_node_rpc_liston_on }} \
-    --rpc_cors {{ subspace_node_rpc_cors }} \
+    --rpc-cors {{ subspace_node_rpc_cors }} \
     --sync full
 
 StandardOutput=append:{{ subspace_node_log_folder }}/{{ subspace_node_log_file }}
