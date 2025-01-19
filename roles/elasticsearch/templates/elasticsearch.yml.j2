@@ -31,7 +31,7 @@ xpack.security.transport.ssl.key: "{{ elasticsearch_ssl_path }}/fullchain.pem.ke
 xpack.security.transport.ssl.certificate: "{{ elasticsearch_ssl_path }}/fullchain.pem"
 xpack.security.transport.ssl.certificate_authorities:
 {% for ac in elasticsearch_ac_trusted | sort %}
- - {{ host }}
+ - {{ ac }}
 {% endfor %}
 #----------------------- END SECURITY AUTO CONFIGURATION -------------------------
 
