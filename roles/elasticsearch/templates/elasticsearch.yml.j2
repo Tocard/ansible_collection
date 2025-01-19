@@ -6,11 +6,11 @@ network.host: {{ ansible_host }}
 #http.port: 9200-9203
 discovery.seed_hosts:
 {% for host in elasticsearch_other_nodes | sort %}
-- {{ host }}
+ - {{ host }}
 {% endfor %}
 cluster.initial_master_nodes:
 {% for host in elasticsearch_unicast_hosts | sort %}
-- {{ host }}
+ - {{ host }}
 {% endfor %}
 
 node.roles: [ data, master , ingest, transform ]
@@ -23,10 +23,16 @@ xpack.security.http.ssl.enabled: true
 xpack.security.transport.ssl.enabled: true
 xpack.security.http.ssl.key: "{{ elasticsearch_ssl_path }}/fullchain.pem.key"
 xpack.security.http.ssl.certificate: "{{ elasticsearch_ssl_path }}/fullchain.pem"
-xpack.security.http.ssl.certificate_authorities: "{{ elasticsearch_ssl_path }}/chain.pem"
+xpack.security.http.ssl.certificate_authorities:
+{% for ac in elasticsearch_ac_trusted | sort %}
+ - {{ ac }}
+{% endfor %}
 xpack.security.transport.ssl.key: "{{ elasticsearch_ssl_path }}/fullchain.pem.key"
 xpack.security.transport.ssl.certificate: "{{ elasticsearch_ssl_path }}/fullchain.pem"
-xpack.security.transport.ssl.certificate_authorities: "{{ elasticsearch_ssl_path }}/chain.pem"
+xpack.security.transport.ssl.certificate_authorities:
+{% for ac in elasticsearch_ac_trusted | sort %}
+ - {{ host }}
+{% endfor %}
 #----------------------- END SECURITY AUTO CONFIGURATION -------------------------
 
 xpack:

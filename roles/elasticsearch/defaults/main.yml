@@ -110,6 +110,16 @@ elasticsearch_ssl_file:
   - src: /opt/certbot/eden/fullchain.pem.key
     dest: "{{ elasticsearch_ssl_path }}/fullchain.pem.key"
     user: elasticsearch
+  - src: /etc/ssl/certs/ISRG_Root_X2.pem
+    dest: "{{ elasticsearch_ssl_path }}/ISRG_Root_X2.pem"
+    user: elasticsearch
+  - src: /etc/ssl/certs/ISRG_Root_X1.pem
+    dest: "{{ elasticsearch_ssl_path }}/ISRG_Root_X1.pem"
+    user: elasticsearch
+
+elasticsearch_ac_trusted:
+  - "{{ elasticsearch_ssl_path }}/chain.pem"
+  - "{{ elasticsearch_ssl_path }}/chain.pem"
 
 elasticsearch_custom_become_method: sudo
 
