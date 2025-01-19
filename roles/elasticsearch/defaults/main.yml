@@ -23,10 +23,7 @@ elasticsearch_directories:
 elasticsearch_templates:
   - src: elasticsearch.yml.j2
     dest: "{{ elasticsearch_path_config }}/elasticsearch.yml"
-  - src: log4j2.properties.j2
-    dest: "{{ elasticsearch_path_config }}/log4j2.properties"
-  - src: jvm.options.j2
-    dest: "{{ elasticsearch_path_config }}/jvm.options"
+
 
 elasticsearch_other_nodes: "{{ elasticsearch_unicast_hosts | difference(elasticsearch_exclude_node) }}"
 
@@ -51,7 +48,7 @@ elasticsearch_filesystem_lvs_mounts:
     group: "{{ elasticsearch_user }}"
 
 
-elasticsearch_version: 8.13.4
+elasticsearch_version: 8.17.0
 
 elasticsearch_packages:
   - "elasticsearch={{ elasticsearch_version }}"
