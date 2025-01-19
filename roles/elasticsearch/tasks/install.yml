@@ -5,6 +5,7 @@
   ansible.builtin.package:
     name: "{{ elasticsearch_packages }}"
     state: present
+  notify: elasticsearch_need_restart
   
 - name: Create elasticsearch directories
   become: true
