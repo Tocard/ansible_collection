@@ -1,0 +1,28 @@
+galaxy_info:
+  author: Douceur
+  description: this role simply install & configure nfs-server
+  
+  license: BSD-3-Clause
+
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 22
+  
+  galaxy_tags: [nfs]
+
+dependencies:
+  - role: tocard.utils.user
+    user_name: "{{ nfs_server_user }}"
+    user_group: "{{ nfs_server_group }}"
+    user_groups: "{{ nfs_server_groups }}"
+    user_system: true
+
+  - role: tocard.utils.filesystem
+    filesystem_disk_mounts: "{{ nfs_server_exports }}"
+
+
+
+

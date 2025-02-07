@@ -1,0 +1,3 @@
+{% for nfs_server_export in nfs_server_exports %}
+{{ nfs_server_export.path }} {{ nfs_server_export.clients }}({{ nfs_server_export.options }})
+{% endfor %}

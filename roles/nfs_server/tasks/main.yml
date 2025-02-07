@@ -1,0 +1,34 @@
+
+---
+- name: Install nfs_server packages
+  become: true
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ nfs_server_packages }}"
+
+- name: Ensure NFS share directory exists
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: "{{ item.state | default('directory') }}" 
+    owner: "{{ item.owner | default('nobody') }}"
+    group: "{{ item.group | default('nogroup') }}"
+    mode: "0777"
+  loop: "{{ nfs_server_exports }}"
+
+- name: Configure NFS exports
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode | default('0644') }}"
+  loop: "{{ nfs_server_templates }}"
+
+- name: Reload NFS exports
+  ansible.builtin.command: exportfs -ra
+
+- name: Restart NFS service
+  ansible.builtin.systemd:
+    name: nfs-kernel-server
+    state: restarted
+    enabled: true
+
