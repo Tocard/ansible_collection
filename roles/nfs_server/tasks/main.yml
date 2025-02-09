@@ -8,6 +8,7 @@
   loop: "{{ nfs_server_packages }}"
 
 - name: Ensure NFS share directory exists
+  become: true
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: "{{ item.state | default('directory') }}" 
@@ -17,6 +18,7 @@
   loop: "{{ nfs_server_exports }}"
 
 - name: Configure NFS exports
+  become: true
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -24,9 +26,11 @@
   loop: "{{ nfs_server_templates }}"
 
 - name: Reload NFS exports
+  become: true
   ansible.builtin.command: exportfs -ra
 
 - name: Restart NFS service
+  become: true
   ansible.builtin.systemd:
     name: nfs-kernel-server
     state: restarted

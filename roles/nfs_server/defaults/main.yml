@@ -11,6 +11,7 @@ nfs_server_custom_dirs:
 
 nfs_server_packages:
   - nfs-kernel-server
+  - rsync
 
 nfs_server_exports:
   - path: "/mnt/sdb"
@@ -37,22 +38,7 @@ nfs_server_exports:
     disk: sdg
     clients: "192.168.1.0/24(rw,sync,no_root_squash)"
     options: "async,no_subtree_check"
-  - path: "/mnt/sdh"
-    disk: sdh
-    clients: "192.168.1.0/24(rw,sync,no_root_squash)"
-    options: "async,no_subtree_check"
-  - path: "/mnt/sdi"
-    disk: sdi
-    clients: "192.168.1.0/24(rw,sync,no_root_squash)"
-    options: "async,no_subtree_check"
-  - path: "/mnt/sdj"
-    disk: sdj
-    clients: "192.168.1.0/24(rw,sync,no_root_squash)"
-    options: "async,no_subtree_check"
-  - path: "/mnt/sdk"
-    disk: sdk
-    clients: "192.168.1.0/24(rw,sync,no_root_squash)"
-    options: "async,no_subtree_check"
+
 
 nfs_server_templates:
   - src: exports.j2
